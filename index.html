@@ -176,35 +176,47 @@
     .pill.active-orange { background: var(--orange); border-color: var(--orange); color: #fff; }
     .pill.active-green { background: var(--green); border-color: var(--green); color: #fff; }
 
-    /* ─── SECTION HEADER ──────────────────────────────────────── */
+        /* ─── SECTION HEADER ──────────────────────────────────────── */
     .section-head {
+      margin: 44px 0 16px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-head h2 {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin: 32px 0 12px;
+      gap: 9px;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 900;
+      color: var(--blue-dark);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 5px;
     }
     .section-dot {
-      width: 8px; height: 8px;
+      display: inline-block;
+      width: 10px; height: 10px;
       background: var(--orange);
       border-radius: 50%;
       flex-shrink: 0;
     }
-    .section-head h2 {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--blue-dark);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      white-space: nowrap;
+    .section-head-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .section-line { flex: 1; height: 1px; background: var(--border); }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+    }
     .section-count {
       font-size: 11px;
       font-weight: 600;
       color: var(--text-3);
-      white-space: nowrap;
     }
-
     /* ─── CARD ────────────────────────────────────────────────── */
     .card {
       background: var(--surface);
@@ -301,7 +313,7 @@
 
     /* ─── QUICK REF ───────────────────────────────────────────── */
     .quick-ref {
-      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+      background: var(--blue);
       border-radius: var(--radius);
       padding: 20px 20px;
       margin-top: 32px;
@@ -354,7 +366,8 @@
     footer p {
       font-size: 11px;
       color: var(--text-3);
-      line-height: 1.7;
+      line-height: 1.6;
+      margin-bottom: 2px;
     }
 
     /* ─── NO RESULTS ──────────────────────────────────────────── */
@@ -373,6 +386,53 @@
       .card-top { padding: 12px 13px 9px; }
       .card-body { padding: 9px 13px 12px; }
     }
+
+    /* ─── ARCH NOTE TOGGLE ────────────────────────────────────── */
+    .arch-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--blue);
+      padding: 0;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+    .arch-toggle:hover { color: var(--blue-hover); }
+    .arch-toggle .toggle-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px; height: 18px;
+      background: var(--blue-tint);
+      border-radius: 4px;
+      font-size: 9px;
+      flex-shrink: 0;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .arch-toggle.open .toggle-icon {
+      transform: rotate(90deg);
+      background: var(--blue);
+      color: #fff;
+    }
+    .arch-note {
+      display: none;
+      margin-top: 6px;
+      background: var(--bg);
+      border-left: 3px solid var(--silver);
+      padding: 7px 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .arch-note.visible { display: block; }
+    .arch-note strong { color: var(--blue); font-weight: 700; }
   </style>
 </head>
 <body>
@@ -413,10 +473,11 @@
 
   <!-- ══════════════ PART 1 ══════════════ -->
   <div class="section-head" data-section="free">
-    <div class="section-dot"></div>
-    <h2>Part 1 · 100% Free with CUID / Passport</h2>
-    <div class="section-line"></div>
-    <span class="section-count">14 venues</span>
+    <h2><span class="section-dot"></span>100% Free with CUID / Passport</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Part 1</span>
+      <span class="section-count">14 venues</span>
+    </div>
   </div>
 
   <!-- 1 MoMA -->
@@ -437,7 +498,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $0 (valid CUID at desk)</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> NY Residents — Fri 5:30–8:30 PM</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Masterful institutional gallery scaling and modern circulation flow.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Masterful institutional gallery scaling and modern circulation flow.</div>
     </div>
   </div>
 
@@ -459,7 +524,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $0 (CUID priority)</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> Tri-State (NY/NJ/CT) students: Pay-What-You-Wish</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Core case study for macro civic scale and heavy spatial thresholds. Includes all special exhibitions.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Core case study for macro civic scale and heavy spatial thresholds. Includes all special exhibitions.</div>
     </div>
   </div>
 
@@ -481,7 +550,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Same Met policy — Student $0 with CUID</div>
       <div class="detail-row"><span class="lbl">Note:</span> Main Met ticket grants same-day entry here too</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Medieval cloisters reconstruction and framed Hudson views. Great field trip.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Medieval cloisters reconstruction and framed Hudson views. Great field trip.</div>
     </div>
   </div>
 
@@ -502,7 +575,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> $0 for everyone — no ID needed</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Elite adaptive reuse — Romanesque Revival school transformed into raw contemporary art envelope.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Elite adaptive reuse — Romanesque Revival school transformed into raw contemporary art envelope.</div>
     </div>
   </div>
 
@@ -523,7 +600,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Pay-What-You-Can — CUID covers cardholder + 1 guest free</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Museum Mile northern boundary. Platform for Latin American cultural narratives.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Museum Mile northern boundary. Platform for Latin American cultural narratives.</div>
     </div>
   </div>
 
@@ -545,7 +626,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Fully covered via Passport — $0</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> First Friday of each month (general public)</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Elite spatial masterclass — interior/exterior blur, material restraint, and daylight play.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Elite spatial masterclass — interior/exterior blur, material restraint, and daylight play.</div>
     </div>
   </div>
 
@@ -566,7 +651,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Hours:</span> Wed–Sun 12–6 PM · Always $0</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Closest to campus. Sleek contemporary facility by Renzo Piano Building Workshop.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Closest to campus. Sleek contemporary facility by Renzo Piano Building Workshop.</div>
     </div>
   </div>
 
@@ -588,7 +677,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Passport member · Weekday student discount</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> <strong>Free every Saturday</strong></div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Warburg Mansion — outstanding case study for mansion-to-museum layout and historic domestic scale.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Warburg Mansion — outstanding case study for mansion-to-museum layout and historic domestic scale.</div>
     </div>
   </div>
 
@@ -610,7 +703,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $15 / Student $0 with CUID</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> Fridays free</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Japanese-influenced indoor lobby garden and quiet vertical sequence.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Japanese-influenced indoor lobby garden and quiet vertical sequence.</div>
     </div>
   </div>
 
@@ -632,7 +729,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $18 / Student $0 with CUID</div>
       <div class="detail-row"><span class="lbl">Discount:</span> Thu 5–8 PM · $5 reduced</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Architectural photography archives and urban documentation research.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Architectural photography archives and urban documentation research.</div>
     </div>
   </div>
 
@@ -653,7 +754,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult sug. $8 / Student sug. $6 · Pay-What-You-Wish</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Essential — "Panorama of NYC" scale model and World's Fair context.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Essential — "Panorama of NYC" scale model and World's Fair context.</div>
     </div>
   </div>
 
@@ -674,7 +779,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $38 → $0 with valid CUID</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Steel engineering, extreme programmatic zoning, and hangar scale.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Steel engineering, extreme programmatic zoning, and hangar scale.</div>
     </div>
   </div>
 
@@ -696,7 +805,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $15 / Student $0 with CUID</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> First Fridays 5–7 PM monthly</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Crisp wood-and-stone joints and indoor structural water feature.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Crisp wood-and-stone joints and indoor structural water feature.</div>
     </div>
   </div>
 
@@ -717,16 +830,21 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $20 / Student $0 with CUID</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Broadcast frameworks and early telecom infrastructure archives.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Broadcast frameworks and early telecom infrastructure archives.</div>
     </div>
   </div>
 
   <!-- ══════════════ PART 2 ══════════════ -->
   <div class="section-head" data-section="discount">
-    <div class="section-dot"></div>
-    <h2>Part 2 · Student Discounts &amp; PWYW Windows</h2>
-    <div class="section-line"></div>
-    <span class="section-count">10 venues</span>
+    <h2><span class="section-dot"></span>Student Discounts &amp; PWYW Windows</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Part 2</span>
+      <span class="section-count">10 venues</span>
+    </div>
   </div>
 
   <!-- 15 Whitney -->
@@ -747,7 +865,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $24</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> Fri 5–10 PM · <strong>★ Free daily for ages 25 &amp; under</strong></div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Renzo Piano — asymmetrical massing, cantilevered terraces, tight High Line integration.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Renzo Piano — asymmetrical massing, cantilevered terraces, tight High Line integration.</div>
     </div>
   </div>
 
@@ -769,7 +891,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $19 (~37% off)</div>
       <div class="detail-row"><span class="lbl">PWYW:</span> Tue &amp; Sun 4:00–5:30 PM (min $1)</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Frank Lloyd Wright icon — reinforced-concrete spiral ramp and central daylight atrium.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Frank Lloyd Wright icon — reinforced-concrete spiral ramp and central daylight atrium.</div>
     </div>
   </div>
 
@@ -791,7 +917,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $25 / Student $13 (~48% off)</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> Fri 5–8 PM · 1st Sunday monthly</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> McKim's classical vaults vs. Renzo Piano's steel-and-glass atrium — a must-see contrast.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> McKim's classical vaults vs. Renzo Piano's steel-and-glass atrium — a must-see contrast.</div>
     </div>
   </div>
 
@@ -813,7 +943,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $22 / Student $10 (~55% off)</div>
       <div class="detail-row"><span class="lbl">PWYW:</span> Daily 5:00–6:00 PM</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Carnegie Mansion — retrofitting Gilded Age load-bearing envelopes with digital museum tech.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Carnegie Mansion — retrofitting Gilded Age load-bearing envelopes with digital museum tech.</div>
     </div>
   </div>
 
@@ -835,7 +969,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $17</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> Wed 1:30–5:30 PM (PWYW) · First Fridays 5:30–9 PM</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Restored Fifth Ave mansion — domestic spatial loops and integrated classical courtyard.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Restored Fifth Ave mansion — domestic spatial loops and integrated classical courtyard.</div>
     </div>
   </div>
 
@@ -857,7 +995,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $15 / Student $10</div>
       <div class="detail-row"><span class="lbl">PWYW:</span> Mondays &amp; Fridays</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Structural timber lines and iconic rose window light filtering.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Structural timber lines and iconic rose window light filtering.</div>
     </div>
   </div>
 
@@ -879,7 +1021,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $21 / Student $14 · PWYC anytime at desk</div>
       <div class="detail-row"><span class="lbl">Free Windows:</span> First Saturdays 5–10 PM</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> McKim, Mead &amp; White Beaux-Arts civic layout — pair with Prospect Park.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> McKim, Mead &amp; White Beaux-Arts civic layout — pair with Prospect Park.</div>
     </div>
   </div>
 
@@ -901,7 +1047,11 @@
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Suggested $25 / Student $20</div>
       <div class="detail-row"><span class="lbl">PWYW:</span> NY Residents &amp; Tri-State students · CUID may help as student proof; NY residency may require additional ID</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Studio Gang's Richard Gilder Center — fluid shotcrete dynamics and organic daylighting.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Studio Gang's Richard Gilder Center — fluid shotcrete dynamics and organic daylighting.</div>
     </div>
   </div>
 
@@ -922,7 +1072,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Adult $25 / Student $19 · No regular free hours</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> SANAA — stacked aluminum mesh boxes, column-free floorplates, and industrial skin texture.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> SANAA — stacked aluminum mesh boxes, column-free floorplates, and industrial skin texture.</div>
     </div>
   </div>
 
@@ -943,16 +1097,21 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> General $32.50 / Student $17.50 · Book ahead (guided tours only)</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Minimalist pilgrimage — precision structural grid and furniture spacing in Judd's cast-iron SoHo loft.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Minimalist pilgrimage — precision structural grid and furniture spacing in Judd's cast-iron SoHo loft.</div>
     </div>
   </div>
 
   <!-- ══════════════ PART 3 ══════════════ -->
   <div class="section-head" data-section="always-free">
-    <div class="section-dot"></div>
-    <h2>Part 3 · 100% Always Free · No ID Required</h2>
-    <div class="section-line"></div>
-    <span class="section-count">8 venues</span>
+    <h2><span class="section-dot"></span>100% Always Free · No ID Required</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Part 3</span>
+      <span class="section-count">8 venues</span>
+    </div>
   </div>
 
   <!-- 25 Africa Center -->
@@ -972,7 +1131,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Permanently $0 — no ID required</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Urban cultural programs at the intersection of Central Park North and East Harlem.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Urban cultural programs at the intersection of Central Park North and East Harlem.</div>
     </div>
   </div>
 
@@ -993,7 +1156,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Free &amp; Open to All</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Adaptive interior restructuring inside a restored brick firehouse — tight micro-civic footprint.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Adaptive interior restructuring inside a restored brick firehouse — tight micro-civic footprint.</div>
     </div>
   </div>
 
@@ -1014,7 +1181,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Free 365 days · Open 9 AM to sunset</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Post-industrial landscape urbanism — former waterfront landfill reclaimed into open public art lab.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Post-industrial landscape urbanism — former waterfront landfill reclaimed into open public art lab.</div>
     </div>
   </div>
 
@@ -1035,7 +1206,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Main gallery exhibitions free</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Clean Nordic modernism — timber acoustic controls and minimalist detailing on Park Ave.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Clean Nordic modernism — timber acoustic controls and minimalist detailing on Park Ave.</div>
     </div>
   </div>
 
@@ -1056,7 +1231,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Free daily for all public</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Intimate domestic scale, tight vertical pacing near Lincoln Center.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Intimate domestic scale, tight vertical pacing near Lincoln Center.</div>
     </div>
   </div>
 
@@ -1077,7 +1256,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Free 365 days</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Grand Concourse landmark — community-centered architecture and street-front dialogue.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Grand Concourse landmark — community-centered architecture and street-front dialogue.</div>
     </div>
   </div>
 
@@ -1098,7 +1281,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> Exhibitions &amp; design library free</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Global architectural discourse, cross-cultural housing models, media screenings.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Global architectural discourse, cross-cultural housing models, media screenings.</div>
     </div>
   </div>
 
@@ -1119,7 +1306,11 @@
     </div>
     <div class="card-body">
       <div class="detail-row"><span class="lbl">Admission:</span> NYPL research branch — galleries always free</div>
-      <div class="arch-note"><strong>📐 GSAPP:</strong> Climate-controlled archive vaults integrated with neighborhood civic spaces.</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Climate-controlled archive vaults integrated with neighborhood civic spaces.</div>
     </div>
   </div>
 
@@ -1135,14 +1326,19 @@
 </main>
 
 <footer>
-  <p>
-    Unofficial student-made guide<br>
-    Compiled by Seungha You, Columbia GSAPP MSAUD 2026<br>
-    Info checked on May 25, 2026. Please verify official sites before visiting.
-  </p>
+  <p>Unofficial student-made guide</p>
+  <p>Compiled by Seungha You, Columbia GSAPP MSAUD 2026</p>
+  <p>Info checked on May 25, 2026. Please verify official sites before visiting.</p>
 </footer>
 
 <script>
+
+  function toggleArch(btn) {
+    btn.classList.toggle('open');
+    const note = btn.nextElementSibling;
+    note.classList.toggle('visible');
+  }
+
   // ── FILTER PILLS ──────────────────────────────────────
   const pills = document.querySelectorAll('.pill');
   const cards = document.querySelectorAll('.card');
