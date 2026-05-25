@@ -206,16 +206,18 @@
       gap: 10px;
     }
     .section-label {
-      font-size: 14px;
-      font-weight: 800;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 900;
       color: var(--orange);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
     }
     .section-count {
+      display: block;
       font-size: 11px;
       font-weight: 600;
       color: var(--text-3);
+      margin-top: 4px;
     }
     /* ─── CARD ────────────────────────────────────────────────── */
     .card {
@@ -473,11 +475,8 @@
 
   <!-- ══════════════ PART 1 ══════════════ -->
   <div class="section-head" data-section="free">
-    <h2><span class="section-dot"></span>100% Free with CUID / Passport</h2>
-    <div class="section-head-bottom">
-      <span class="section-label">Part 1</span>
-      <span class="section-count">14 venues</span>
-    </div>
+    <h2><span class="section-dot"></span><span class="section-label">Part 1</span> · 100% Free with CUID / Passport</h2>
+    <span class="section-count">14 venues</span>
   </div>
 
   <!-- 1 MoMA -->
@@ -840,11 +839,8 @@
 
   <!-- ══════════════ PART 2 ══════════════ -->
   <div class="section-head" data-section="discount">
-    <h2><span class="section-dot"></span>Student Discounts &amp; PWYW Windows</h2>
-    <div class="section-head-bottom">
-      <span class="section-label">Part 2</span>
-      <span class="section-count">10 venues</span>
-    </div>
+    <h2><span class="section-dot"></span><span class="section-label">Part 2</span> · Student Discounts &amp; PWYW Windows</h2>
+    <span class="section-count">10 venues</span>
   </div>
 
   <!-- 15 Whitney -->
@@ -1107,11 +1103,8 @@
 
   <!-- ══════════════ PART 3 ══════════════ -->
   <div class="section-head" data-section="always-free">
-    <h2><span class="section-dot"></span>100% Always Free · No ID Required</h2>
-    <div class="section-head-bottom">
-      <span class="section-label">Part 3</span>
-      <span class="section-count">8 venues</span>
-    </div>
+    <h2><span class="section-dot"></span><span class="section-label">Part 3</span> · 100% Always Free · No ID Required</h2>
+    <span class="section-count">8 venues</span>
   </div>
 
   <!-- 25 Africa Center -->
