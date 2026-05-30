@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="NYC Museum admission guide for Columbia GSAPP students. Free entry, discounts, and Google Maps links for 32 museums." />
-  <title>NYC Museum Guide · GSAPP 2026</title>
+  <meta name="description" content="Columbia GSAPP student guide to NYC museums, cafés & study spots. Free entry, discounts, and Google Maps links." />
+  <title>GSAPP Student Guide · NYC 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -32,6 +32,52 @@
       --shadow-hover: 0 4px 8px rgba(15,25,80,.1), 0 12px 32px rgba(15,25,80,.1);
       --transition: 0.18s cubic-bezier(.4,0,.2,1);
     }
+
+
+    /* ─── TAB NAV ─────────────────────────────────────────────── */
+    .tab-nav {
+      background: var(--blue);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .tab-nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 16px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 14px 8px 12px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,.5);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: color var(--transition), border-color var(--transition);
+      letter-spacing: .2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .tab-btn svg { opacity: .5; transition: opacity var(--transition); }
+    .tab-btn:hover svg { opacity: .8; }
+    .tab-btn.active svg { opacity: 1; }
+    .tab-btn:hover { color: rgba(255,255,255,.8); }
+    .tab-btn.active {
+      color: #fff;
+      border-bottom-color: var(--orange);
+    }
+
+    /* ─── TAB PANELS ──────────────────────────────────────────── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
     /* ─── RESET ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -443,6 +489,282 @@
     }
     .arch-note.visible { display: block; }
     .arch-note strong { color: var(--blue); font-weight: 700; }
+
+    /* ─── CAFÉ VIBE TAGS ─────────────────────────────────────── */
+    .vibe-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 7px;
+    }
+    .vibe {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+    .vibe-work   { background: #E8EEFB; color: var(--blue); }
+    .vibe-social { background: var(--orange-lt); color: var(--orange); }
+    .vibe-quick  { background: var(--green-lt); color: var(--green); }
+    .vibe-icon   { background: #F3EEFF; color: #7C3AED; }
+    .vibe-late   { background: #FEF9C3; color: #854D0E; }
+
+    .wifi-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-3);
+      font-weight: 600;
+    }
+    .wifi-yes { color: var(--green); }
+    .wifi-no  { color: #94A3B8; text-decoration: line-through; }
+
+    .cafe-section-intro {
+      font-size: 12px;
+      color: var(--text-3);
+      margin: -4px 0 12px;
+      font-style: italic;
+    }
+
+
+    /* ─── STUDIO TRACKER ─────────────────────────────────────── */
+    .studio-wrap { padding: 20px 14px 60px; max-width: 680px; margin: 0 auto; }
+
+    .studio-hero {
+      background: var(--blue);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .studio-hero::after {
+      content: '';
+      position: absolute;
+      right: -20px; bottom: -30px;
+      width: 120px; height: 120px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: .2;
+    }
+    .studio-hero-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .studio-hero h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .studio-hero p {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+    }
+
+    /* countdown badge */
+    .countdown-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,.12);
+      border-radius: 99px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 10px;
+    }
+    .countdown-badge.urgent { background: var(--orange); }
+    .countdown-badge.done { background: var(--green); }
+
+    /* course block */
+    .course-block {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .course-header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--bg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .course-color {
+      width: 4px;
+      border-radius: 99px;
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+    .course-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      flex: 1;
+    }
+    .course-sub {
+      font-size: 11px;
+      color: var(--text-3);
+      display: block;
+      margin-top: 1px;
+      font-weight: 400;
+    }
+
+    /* task item */
+    .task-item {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--bg);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .task-item:last-child { border-bottom: none; }
+    .task-item:hover { background: var(--bg); }
+    .task-item.done { opacity: .5; }
+
+    .task-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: all var(--transition);
+    }
+    .task-item.done .task-check {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .task-body { flex: 1; }
+    .task-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .task-item.done .task-name {
+      text-decoration: line-through;
+      color: var(--text-3);
+    }
+    .task-detail {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+    .task-due {
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .due-date {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+    .due-days {
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+    .due-days.urgent { color: var(--orange); }
+    .due-days.soon   { color: #D97706; }
+    .due-days.ok     { color: var(--green); }
+    .due-days.done-label { color: var(--text-3); }
+
+    /* expandable detail */
+    .task-expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .task-expand.open { max-height: 400px; }
+    .task-expand-inner {
+      padding: 12px 16px 14px 48px;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+    .task-expand-inner ul { padding-left: 14px; }
+    .task-expand-inner li { margin-bottom: 4px; }
+    .task-expand-inner strong { color: var(--text); }
+
+    /* timeline strip */
+    .timeline-strip {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .timeline-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .tl-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tl-label {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .tl-course {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      background: var(--blue-tint);
+      padding: 1px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .tl-date {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+    .tl-item.passed .tl-label { color: var(--text-3); text-decoration: line-through; }
+    .tl-item.passed .tl-dot { background: var(--border) !important; }
+
   </style>
 </head>
 <body>
@@ -451,12 +773,14 @@
 <header>
   <div class="header-inner">
     <div class="header-label">Columbia GSAPP · 2026</div>
-    <h1>NYC Museum<br>Cheat Sheet</h1>
-    <div class="header-sub">32 venues · Free admission, discounts &amp; live map links</div>
+    <h1>GSAPP<br>Student Guide</h1>
+    <div class="header-sub">Museums · Cafés · Study Spots · Live map links</div>
   </div>
 </header>
 
+<div class="tab-nav"><div class="tab-nav-inner"><button class="tab-btn active" onclick="switchTab('museums', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="20" width="20" height="2" rx="1" fill="#C2E2FA"/><rect x="4" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="10.75" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="17.5" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="2" y="7" width="20" height="2" fill="#C2E2FA"/><path d="M12 2L2 7h20L12 2z" fill="#C2E2FA"/></svg> Museums</button><button class="tab-btn" onclick="switchTab('cafes', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="19" width="16" height="2" rx="1" fill="#C2E2FA"/><path d="M5 8h12l-1.5 9H6.5L5 8z" fill="#C2E2FA"/><path d="M17 10.5h1.5a1.5 1.5 0 0 1 0 3H17" stroke="#C2E2FA" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="4" y="7" width="14" height="1.5" rx="0.75" fill="#C2E2FA"/></svg> Cafés</button><button class="tab-btn" onclick="switchTab('studio', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="18" rx="2" fill="#C2E2FA"/><rect x="9" y="2" width="6" height="4" rx="1.5" fill="#C2E2FA"/><rect x="7" y="10" width="10" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="13.5" width="7" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="17" width="8.5" height="1.5" rx="0.75" fill="#1A35C5"/></svg> Assignments</button></div></div>
 <main>
+<div id="tab-museums" class="tab-panel active">
 
   <!-- ALERT -->
   <div class="alert" style="margin-top:20px;">
@@ -1327,6 +1651,727 @@
     <div class="qr-foot">Unofficial student-made guide · Columbia GSAPP Mobile Edition · May 2026</div>
   </div>
 
+</div><!-- end tab-museums -->
+
+<div id="tab-cafes" class="tab-panel">
+  <!-- CAFÉ ALERT -->
+  <div class="alert" style="margin-top:20px;">
+    <div class="alert-title">☕ How to use this guide</div>
+    <p>Hours, discounts & WiFi change often. <strong>Always check Google Maps before visiting.</strong> Ask at the counter — many places offer student discounts even when it's not advertised.</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="cafe-search" type="search" placeholder="Search café, vibe, or neighborhood…" autocomplete="off" />
+  </div>
+
+  <!-- FILTER PILLS -->
+  <div class="filter-row" id="cafe-filters">
+    <span class="pill active" data-cafe-filter="all">All 15</span>
+    <span class="pill" data-cafe-filter="work">Work Mode</span>
+    <span class="pill" data-cafe-filter="social">Social</span>
+    <span class="pill" data-cafe-filter="quick">Quick Stop</span>
+    <span class="pill" data-cafe-filter="inspo">Inspo</span>
+  </div>
+
+  <!-- ══ SECTION 1: DESIGN & FOCUS ══ -->
+  <div class="section-head">
+    <h2>Work Mode · Design &amp; Focus</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Long sessions</span>
+      <span class="section-count">6 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">Best for laptop work, studio readings, and long sessions after crit.</p>
+
+  <!-- 1 Dear Mama -->
+  <div class="card" data-cafe-tags="work inspo manhattanville wifi laptop">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">1. Dear Mama</span>
+          <span class="card-sub">Jerome L. Greene Science Center, 1F — Manhattanville</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Dear+Mama+Coffee+3280+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Manhattanville · 3280 Broadway
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Renzo Piano-designed building, soaring ceilings, full glass facade — the most architecturally impressive café near campus.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Pre/post studio work, laptop sessions, brunch meetings</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Outlets ✓</span>
+        <span class="vibe vibe-icon">🏛 Renzo Piano</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> The Greene Science Center itself is a case study — visit Dear Mama and spend 10 min studying the curtain wall detailing above you.</div>
+    </div>
+  </div>
+
+  <!-- 2 Qahwah House -->
+  <div class="card" data-cafe-tags="work social late wifi broadway">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">2. Qahwah House</span>
+          <span class="card-sub">Yemeni Coffee House</span>
+        </div>
+        <span class="badge badge-free">Late Night</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Qahwah+House+2869+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Broadway &amp; 112th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> NYC's only Yemeni coffee house near campus. Open until <strong>1 AM on Fri/Sat</strong> — the only real late-night option uptown.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Long work sessions, post-deadline hangout, cardamom latte + honeycomb bread</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Outlets ✓</span>
+        <span class="vibe vibe-late">Open til 1 AM</span>
+        <span class="vibe vibe-social">2F window seats</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> The two-floor layout with communal pot service creates a rare shared-social atmosphere — study how it drives longer dwell time vs typical café layouts.</div>
+    </div>
+  </div>
+
+  <!-- 3 Plowshares -->
+  <div class="card" data-cafe-tags="work wifi amsterdam roastery">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">3. Plowshares Coffee Roasters</span>
+          <span class="card-sub">West Harlem Roastery</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Plowshares+Coffee+Roasters+1351+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        West Harlem · 1351 Amsterdam Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> 3,000 sq ft roastery-café. Watch beans roast in a 1940s Probat roaster. Most spacious off-campus work spot on this list.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Full-day reading, thesis writing, quiet solo work</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Lots of seats</span>
+        <span class="vibe vibe-icon">🏭 Live roasting</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> Industrial adaptive reuse — original roasting equipment as program anchor. A micro case study in productive industrial preservation.</div>
+    </div>
+  </div>
+
+  <!-- 4 Sipsteria -->
+  <div class="card" data-cafe-tags="work quiet amsterdam cozy">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">4. Sipsteria</span>
+          <span class="card-sub">The Quiet Neighborhood Spot</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Sipsteria+Amsterdam+Avenue+New+York+Morningside+Heights" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; W 122nd St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Mismatched cushioned couches, dim lighting, grandmother's living room energy. Less chaotic than most campus-adjacent spots.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Solo focus work, getting away from studio energy</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Easy to find seats</span>
+        <span class="vibe vibe-social">Cozy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 Capital One Café -->
+  <div class="card" data-cafe-tags="work wifi outlets midtown laptop">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">5. Capital One Café</span>
+          <span class="card-sub">Midtown — Surprisingly great work spot</span>
+        </div>
+        <span class="badge badge-discount">Card Perk</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Capital+One+Cafe+34th+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Midtown · 34th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Inside a bank — but spacious, outlet-heavy, comfortable, and zero pressure to leave. A hidden gem for Midtown work sessions.</div>
+      <div class="detail-row"><span class="lbl">Discount:</span> Capital One cardholders get <strong>50% off drinks</strong></div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Tons of outlets</span>
+        <span class="vibe vibe-late">Stay as long as you want</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 Max Caffè -->
+  <div class="card" data-cafe-tags="work social amsterdam evening wine">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">6. Max Caffè</span>
+          <span class="card-sub">European-style day-to-night café</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Max+Caffe+1262+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; 122nd St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Vintage sofas, moody lighting. Daytime laptop work → evening wine or beer. Rare "studio critique debrief" energy — relaxed but stimulating.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Post-crit decompression, casual conversations, evening work</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">Wine &amp; Beer ✓</span>
+        <span class="vibe vibe-social">Comfy sofas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: COLUMBIA CLASSICS ══ -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Columbia Classics · Campus Routine</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">On & near campus</span>
+      <span class="section-count">4 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">Legendary or campus-essential. Every Columbia student ends up here.</p>
+
+  <!-- 7 Hungarian Pastry Shop -->
+  <div class="card" data-cafe-tags="quick social classic amsterdam cash">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">7. Hungarian Pastry Shop</span>
+          <span class="card-sub">A Columbia institution since 1961</span>
+        </div>
+        <span class="badge badge-free">Legend</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Hungarian+Pastry+Shop+1030+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; 111th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> No WiFi, no outlets, cash only. Dozens of novels written here. "The anti-café café" — dark, noisy, legendary. Unlimited drip coffee refills for ~$2.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Analog sketching, theory readings, escaping your phone</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-no" style="background:#F1F5F9;color:#64748B;">No WiFi</span>
+        <span class="vibe vibe-no" style="background:#F1F5F9;color:#64748B;">Cash Only</span>
+        <span class="vibe vibe-late">Free refills</span>
+        <span class="vibe vibe-icon">🏆 Since 1961</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 Joe Coffee (campus) -->
+  <div class="card" data-cafe-tags="quick campus cuid joe coffee">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">8. Joe Coffee — Campus</span>
+          <span class="card-sub">4 locations: NoCo · Dodge · Pulitzer · CBS</span>
+        </div>
+        <span class="badge badge-passport">On Campus</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Joe+Coffee+Northwest+Corner+Building+Columbia+University" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        NoCo · 550 W 120th St (CUID required)
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Strong espresso, curtain-wall views at NoCo (Rafael Moneo building). Best quick between-studio option. <strong>CUID required</strong> at some locations.</div>
+      <div class="detail-row"><span class="lbl">Flex:</span> Accepts Columbia Dining Flex at select locations</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-quick">Fastest option</span>
+        <span class="vibe vibe-icon">🏛 NoCo by Moneo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 Nous Espresso -->
+  <div class="card" data-cafe-tags="quick campus grad quiet philosophy">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">9. Nous Espresso Bar</span>
+          <span class="card-sub">Graduate Student Center, Philosophy Hall</span>
+        </div>
+        <span class="badge badge-passport">On Campus</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Nous+Espresso+1150+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Philosophy Hall · 1150 Amsterdam Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Grad student lounge energy. Quiet, calm, and notably less chaotic than NoCo. Good for a focused hour on campus.</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">Quiet</span>
+        <span class="vibe vibe-quick">Grad students only feel</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 Blue Bottle -->
+  <div class="card" data-cafe-tags="quick campus broadway minimal">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">10. Blue Bottle Coffee</span>
+          <span class="card-sub">Minimalist specialty coffee</span>
+        </div>
+        <span class="badge badge-discount">Quick Stop</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Blue+Bottle+Coffee+2901+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Broadway &amp; 115th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Grid-clean white interiors, zero visual noise. Seats are limited and competitive — best as a reset spot, not a long work session.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> New Orleans iced coffee + idea clarity, short mental reset</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-icon">✦ Minimal design</span>
+        <span class="vibe vibe-quick">Best coffee quality</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: SOCIAL / GROUP ══ -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Social · Group Hangout</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">After crit · team hangout</span>
+      <span class="section-count">3 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">Post-final review, studio bonding, or just not wanting to go home yet.</p>
+
+  <!-- 11 Arts and Crafts Beer Parlor -->
+  <div class="card" data-cafe-tags="social beer pub amsterdam post-crit">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">11. Arts &amp; Crafts Beer Parlor</span>
+          <span class="card-sub">Craft beer pub with art on the walls</span>
+        </div>
+        <span class="badge badge-discount">Social</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Arts+and+Crafts+Beer+Parlor+1135+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; 116th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> The GSAPP post-crit spot. Art on the walls, craft beer, not a club — the perfect volume for a real design conversation after a brutal pin-up.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Final review debrief with professors, studio team hangout</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">🍺 Craft beer</span>
+        <span class="vibe vibe-social">Art walls</span>
+        <span class="vibe vibe-icon">Post-crit classic</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 Hex & Co -->
+  <div class="card" data-cafe-tags="social group boardgame morningside">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">12. Hex &amp; Co.</span>
+          <span class="card-sub">Board game café</span>
+        </div>
+        <span class="badge badge-discount">Social</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Hex+and+Company+2756+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Morningside Heights · 2756 Broadway
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Board games, coffee, and no pressure. Popular finals-season decompression spot — Spectator named it a top off-campus study break destination.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Group bonding, stress relief, first-semester icebreakers</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">🎲 Board games</span>
+        <span class="vibe vibe-social">Group-friendly</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 Double Dutch Espresso -->
+  <div class="card" data-cafe-tags="social quick harlem community cozy">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">13. Double Dutch Espresso</span>
+          <span class="card-sub">Harlem community café</span>
+        </div>
+        <span class="badge badge-discount">Social</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Double+Dutch+Espresso+2194+Frederick+Douglass+Blvd+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Frederick Douglass Blvd &amp; 118th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> East side of Morningside Park — "community living room" feel, Counter Culture Coffee. A quick walk through the park makes it a proper escape.</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">Community feel</span>
+        <span class="vibe vibe-icon">🌿 Park walk</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: INSPO TRIPS ══ -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Inspo Trips · Worth the Journey</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Weekend / off-campus</span>
+      <span class="section-count">2 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">When campus feels small and you need a real spatial reset.</p>
+
+  <!-- 14 Devoción DUMBO -->
+  <div class="card" data-cafe-tags="inspo brooklyn skylight plant dumbo">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">14. Devoción</span>
+          <span class="card-sub">DUMBO, Brooklyn — The Skylight Café</span>
+        </div>
+        <span class="badge badge-free">Inspo Trip</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Devocion+Coffee+69+Grand+Street+Brooklyn+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        DUMBO, Brooklyn · 69 Grand St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Floor-to-ceiling skylight, live plants everywhere, Colombian farm-to-cup. One of NYC's most beautiful café interiors — worth making a portfolio visit.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Portfolio research day, weekend work session with spatial inspiration</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-icon">🌿 Skylight + plants</span>
+        <span class="vibe vibe-icon">📐 Must-visit space</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> The skylight and live-plant integration is a textbook study in biophilic design and natural light orchestration. Bring your sketchbook.</div>
+    </div>
+  </div>
+
+  <!-- 15 Kuro Kuma -->
+  <div class="card" data-cafe-tags="quick inspo la-salle minimal outdoor">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">15. Kuro Kuma Espresso</span>
+          <span class="card-sub">Minimalist local café between two campuses</span>
+        </div>
+        <span class="badge badge-discount">Quick Stop</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Kuro+Kuma+Espresso+121+La+Salle+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        121 La Salle St (between campuses)
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Tiny and minimalist inside, but idyllic outdoor seating on quiet La Salle St. Peaceful midpoint between Morningside and Manhattanville.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Takeout, outdoor reading, 20-min break between classes</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-icon">☀️ Outdoor seats</span>
+        <span class="vibe vibe-quick">Counter Culture coffee</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="quick-ref" style="margin-top:32px;">
+    <h3>☕ Café Guide Notes</h3>
+    <div class="qr-item"><strong>Hours &amp; WiFi change often</strong> — always check Google Maps before making the trip.</div>
+    <div class="qr-item"><strong>Student discounts:</strong> Ask at the counter even if not advertised — many local spots offer one.</div>
+    <div class="qr-item"><strong>Cash-only spots:</strong> Hungarian Pastry Shop, Absolute Bagels — keep small bills on you.</div>
+    <div class="qr-foot">Based on Reddit r/columbia, Columbia SIPA blog, Columbia Spectator, and Bwog reviews · May 2026</div>
+  </div>
+</div>
+
+
+<div id="tab-studio" class="tab-panel">
+<div class="studio-wrap">
+
+  <!-- HERO -->
+  <div class="studio-hero">
+    <div class="studio-hero-label">GSAPP MSAUD · Summer 2026</div>
+    <h2>My Coursework</h2>
+    <p>4 courses · tap any task for details</p>
+    <div id="next-due-badge" class="countdown-badge">⏳ Loading...</div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-strip">
+    <div class="timeline-title">📅 All Deadlines</div>
+
+    <div class="tl-item" data-date="2026-06-01">
+      <div class="tl-dot" style="background:#3B82F6"></div>
+      <div class="tl-label"><span class="tl-course" style="display:inline;margin-right:6px;">Studio</span>Urban Fabric Drawing + 2-min presentation</div>
+      <div class="tl-date">Jun 1</div>
+    </div>
+
+    <div class="tl-item" data-date="2026-06-10">
+      <div class="tl-dot" style="background:#8B5CF6"></div>
+      <div class="tl-label"><span class="tl-course" style="display:inline;margin-right:6px;">UDHT</span>Project Proposal</div>
+      <div class="tl-date">Jun 10</div>
+    </div>
+
+    <div class="tl-item" data-date="2026-06-24">
+      <div class="tl-dot" style="background:#8B5CF6"></div>
+      <div class="tl-label"><span class="tl-course" style="display:inline;margin-right:6px;">UDHT</span>Formal Analysis</div>
+      <div class="tl-date">Jun 24</div>
+    </div>
+
+    <div class="tl-item" data-date="2026-07-15">
+      <div class="tl-dot" style="background:#8B5CF6"></div>
+      <div class="tl-label"><span class="tl-course" style="display:inline;margin-right:6px;">UDHT</span>Thick Description</div>
+      <div class="tl-date">Jul 15</div>
+    </div>
+
+    <div class="tl-item" data-date="2026-08-09">
+      <div class="tl-dot" style="background:#8B5CF6"></div>
+      <div class="tl-label"><span class="tl-course" style="display:inline;margin-right:6px;">UDHT</span>Final Project</div>
+      <div class="tl-date">Aug 9</div>
+    </div>
+
+  </div>
+
+  <!-- ── STUDIO ── -->
+  <div class="course-block">
+    <div class="course-header">
+      <div class="course-color" style="background:#3B82F6; min-height:40px;"></div>
+      <div style="flex:1">
+        <div class="course-title">Studio</div>
+        <span class="course-sub">Urban Design Studio · 114 Avery &amp; Fayerweather 206</span>
+      </div>
+    </div>
+
+    <!-- Task 1 -->
+    <div class="task-item" onclick="toggleTask(this)" id="t-studio-1">
+      <div class="task-check">✓</div>
+      <div class="task-body">
+        <div class="task-name">Urban Fabric Drawing</div>
+        <div class="task-detail">20×20" panel + 11×17" sheet + 2-min verbal presentation</div>
+      </div>
+      <div class="task-due">
+        <div class="due-date">Jun 1</div>
+        <div class="due-days" id="days-studio-1"></div>
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-inner">
+        <strong>Process</strong>
+        <ul>
+          <li>Select a location you've lived in and feel connected to</li>
+          <li>Center study/drawing on your home</li>
+          <li>Trace at 1" = 750': street pattern &amp; blocks, building footprints (fill/hatch), parcelization (dashed lines)</li>
+          <li>Measure: typical parcel size, avg lot coverage, avg FAR, street width, block width &amp; length, ROW width</li>
+        </ul>
+        <strong>Deliverables</strong>
+        <ul>
+          <li>20×20" panel: plan drawing (1"=750') + section through center revealing built density &amp; ROW</li>
+          <li>11×17" vertical: name, location, measurements/stats, section at 1"=50'</li>
+          <li>Both plan &amp; section on same print. Long section along bottom, same orientation as cutline</li>
+          <li>Black &amp; white only — use hatches, shading, line weight for hierarchy</li>
+          <li>Prepare short <strong>2-minute verbal presentation</strong> — presented June 1</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── UDHT ── -->
+  <div class="course-block">
+    <div class="course-header">
+      <div class="course-color" style="background:#8B5CF6; min-height:40px;"></div>
+      <div style="flex:1">
+        <div class="course-title">UDHT</div>
+        <span class="course-sub">Urban Design History &amp; Theory</span>
+      </div>
+    </div>
+
+    <!-- Week 2 reading -->
+    <div class="task-item" onclick="toggleTask(this)" id="t-udht-0">
+      <div class="task-check">✓</div>
+      <div class="task-body">
+        <div class="task-name">Week 2 Readings</div>
+        <div class="task-detail">2 readings before Jun 3 class</div>
+      </div>
+      <div class="task-due">
+        <div class="due-date">Jun 3</div>
+        <div class="due-days" id="days-udht-0"></div>
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-inner">
+        <strong>Social and Physical Urban Systems</strong>
+        <ul>
+          <li>Mattern, Shannon — "A City Is Not a Computer" <em>Places Journal</em> (Feb 2017)<br>→ <a href="https://placesjournal.org/article/a-city-is-not-a-computer/" target="_blank" style="color:var(--blue)">placesjournal.org/article/a-city-is-not-a-computer/</a></li>
+          <li>McKittrick, Katherine — "On Plantations, Prisons, and a Black Sense of Place" <em>Social &amp; Cultural Geography</em> 12:8 (2011): 947–63</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Project Proposal -->
+    <div class="task-item" onclick="toggleTask(this)" id="t-udht-1">
+      <div class="task-check">✓</div>
+      <div class="task-body">
+        <div class="task-name">Project Proposal</div>
+        <div class="task-detail">Choose an urban design project/intervention from the past 100 years</div>
+      </div>
+      <div class="task-due">
+        <div class="due-date">Jun 10</div>
+        <div class="due-days" id="days-udht-1"></div>
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-inner">
+        <strong>Semester Assignment — Stage 1</strong>
+        <ul>
+          <li>Select an urban design project/intervention from the past 100 years</li>
+          <li>Begin iterative and recursive writing process</li>
+          <li>Start with a formal analysis of the project</li>
+        </ul>
+        
+      </div>
+    </div>
+
+    <!-- Formal Analysis -->
+    <div class="task-item" onclick="toggleTask(this)" id="t-udht-2">
+      <div class="task-check">✓</div>
+      <div class="task-body">
+        <div class="task-name">Formal Analysis</div>
+        <div class="task-detail">First iteration of semester writing assignment</div>
+      </div>
+      <div class="task-due">
+        <div class="due-date">Jun 24</div>
+        <div class="due-days" id="days-udht-2"></div>
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-inner">
+        <strong>Semester Assignment — Stage 2</strong>
+        <ul>
+          <li>Formal analysis of your chosen urban design project</li>
+          <li>Incorporate feedback from proposal stage</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Thick Description -->
+    <div class="task-item" onclick="toggleTask(this)" id="t-udht-3">
+      <div class="task-check">✓</div>
+      <div class="task-body">
+        <div class="task-name">Thick Description</div>
+        <div class="task-detail">Social, political, economic &amp; aesthetic context of your project</div>
+      </div>
+      <div class="task-due">
+        <div class="due-date">Jul 15</div>
+        <div class="due-days" id="days-udht-3"></div>
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-inner">
+        <strong>Semester Assignment — Stage 3</strong>
+        <ul>
+          <li>"Thick description" of the project's historicity</li>
+          <li>Cover: social, political, economic, and aesthetic contexts in which the project was developed</li>
+          <li>Use research methods discussed in class</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Final Project -->
+    <div class="task-item" onclick="toggleTask(this)" id="t-udht-4">
+      <div class="task-check">✓</div>
+      <div class="task-body">
+        <div class="task-name">Final Project</div>
+        <div class="task-detail">750-word final draft with critical &amp; subjective interpretations</div>
+      </div>
+      <div class="task-due">
+        <div class="due-date">Aug 9</div>
+        <div class="due-days" id="days-udht-4"></div>
+      </div>
+    </div>
+    <div class="task-expand">
+      <div class="task-expand-inner">
+        <strong>Semester Assignment — Final Stage</strong>
+        <ul>
+          <li>750-word final draft</li>
+          <li>Incorporate feedback from 1st and 2nd iterations</li>
+          <li>Demonstrate what you've learned about your chosen project</li>
+          <li>Boldly propose critical and subjective interpretations</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── READING NEW YORK URBANISM ── -->
+  <div class="course-block">
+    <div class="course-header">
+      <div class="course-color" style="background:#F59E0B; min-height:40px;"></div>
+      <div style="flex:1">
+        <div class="course-title">Reading New York Urbanism</div>
+        <span class="course-sub">Site visits &amp; urban analysis · Tuesdays 10AM</span>
+      </div>
+    </div>
+    <div class="task-item" style="cursor:default;">
+      <div class="task-check" style="border-color:var(--border); background:var(--bg); color:var(--text-3); font-size:14px;">–</div>
+      <div class="task-body">
+        <div class="task-name" style="color:var(--text-3); font-weight:500;">No assignments yet</div>
+        <div class="task-detail">Site visit: Jun 2 (10AM–12PM)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DTEQ ── -->
+  <div class="course-block">
+    <div class="course-header">
+      <div class="course-color" style="background:#10B981; min-height:40px;"></div>
+      <div style="flex:1">
+        <div class="course-title">DTEQ</div>
+        <span class="course-sub">114 Avery &amp; Fayerweather 206 · Tuesdays</span>
+      </div>
+    </div>
+    <div class="task-item" style="cursor:default;">
+      <div class="task-check" style="border-color:var(--border); background:var(--bg); color:var(--text-3); font-size:14px;">–</div>
+      <div class="task-body">
+        <div class="task-name" style="color:var(--text-3); font-weight:500;">No assignments yet</div>
+        <div class="task-detail">Classes: 3–5PM (114 Avery) &amp; 5–7PM (Fayerweather 206)</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end studio-wrap -->
+</div><!-- end tab-studio -->
+
 </main>
 
 <footer>
@@ -1337,11 +2382,143 @@
 
 <script>
 
+
+  function switchTab(tab, btn) {
+    // panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    // buttons
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // Café search & filter
+  const cafeSearch = document.getElementById('cafe-search');
+  const cafeCards = document.querySelectorAll('#tab-cafes .card');
+  const cafePills = document.querySelectorAll('[data-cafe-filter]');
+
+  let activeCafeFilter = 'all';
+  let cafeQuery = '';
+
+  function applyCafeFilters() {
+    let visible = 0;
+    cafeCards.forEach(card => {
+      const tags = card.dataset.cafeTags || '';
+      const text = card.innerText.toLowerCase();
+      const matchFilter = activeCafeFilter === 'all' || tags.includes(activeCafeFilter);
+      const matchSearch = !cafeQuery || text.includes(cafeQuery) || tags.includes(cafeQuery);
+      if (matchFilter && matchSearch) { card.removeAttribute('data-hidden'); visible++; }
+      else card.setAttribute('data-hidden', 'true');
+    });
+  }
+
+  if (cafePills) {
+    cafePills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        cafePills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeCafeFilter = pill.dataset.cafeFilter;
+        applyCafeFilters();
+      });
+    });
+  }
+  if (cafeSearch) {
+    cafeSearch.addEventListener('input', e => {
+      cafeQuery = e.target.value.toLowerCase().trim();
+      applyCafeFilters();
+    });
+  }
+
   function toggleArch(btn) {
     btn.classList.toggle('open');
     const note = btn.nextElementSibling;
     note.classList.toggle('visible');
   }
+
+
+  // ── STUDIO TRACKER ───────────────────────────────────────────
+  function toggleTask(item) {
+    const expand = item.nextElementSibling;
+    if (!expand || !expand.classList.contains('task-expand')) return;
+    expand.classList.toggle('open');
+  }
+
+  function getDaysLeft(dateStr) {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const due = new Date(dateStr);
+    due.setHours(0,0,0,0);
+    return Math.round((due - today) / 86400000);
+  }
+
+  function renderDueDays() {
+    const tasks = [
+      { id: 'days-studio-1', date: '2026-06-01' },
+      { id: 'days-udht-0',   date: '2026-06-03' },
+      { id: 'days-udht-1',   date: '2026-06-10' },
+      { id: 'days-udht-2',   date: '2026-06-24' },
+      { id: 'days-udht-3',   date: '2026-07-15' },
+      { id: 'days-udht-4',   date: '2026-08-09' },
+    ];
+    let nextDue = null;
+    let nextDays = Infinity;
+
+    tasks.forEach(t => {
+      const el = document.getElementById(t.id);
+      if (!el) return;
+      const d = getDaysLeft(t.date);
+      if (d < 0) {
+        el.textContent = 'passed';
+        el.className = 'due-days done-label';
+        // mark timeline item as passed
+        const tl = document.querySelector(`.tl-item[data-date="${t.date}"]`);
+        if (tl) tl.classList.add('passed');
+      } else if (d === 0) {
+        el.textContent = 'TODAY';
+        el.className = 'due-days urgent';
+      } else if (d <= 3) {
+        el.textContent = d + 'd left';
+        el.className = 'due-days urgent';
+      } else if (d <= 10) {
+        el.textContent = d + 'd left';
+        el.className = 'due-days soon';
+      } else {
+        el.textContent = d + 'd left';
+        el.className = 'due-days ok';
+      }
+      if (d >= 0 && d < nextDays) {
+        nextDays = d;
+        nextDue = t;
+      }
+    });
+
+    // Update hero badge
+    const badge = document.getElementById('next-due-badge');
+    if (badge && nextDue) {
+      const labels = {
+        'days-studio-1': 'Urban Fabric Drawing',
+        'days-udht-0':   'Week 2 Readings',
+        'days-udht-1':   'Project Proposal',
+        'days-udht-2':   'Formal Analysis',
+        'days-udht-3':   'Thick Description',
+        'days-udht-4':   'Final Project',
+      };
+      const label = labels[nextDue.id] || 'Next deadline';
+      if (nextDays === 0) {
+        badge.textContent = '🔥 ' + label + ' — TODAY';
+        badge.className = 'countdown-badge urgent';
+      } else if (nextDays <= 3) {
+        badge.textContent = '⚡ ' + label + ' — ' + nextDays + ' days left';
+        badge.className = 'countdown-badge urgent';
+      } else {
+        badge.textContent = '⏳ Next: ' + label + ' — ' + nextDays + ' days';
+        badge.className = 'countdown-badge';
+      }
+    }
+  }
+
+  renderDueDays();
 
   // ── FILTER PILLS ──────────────────────────────────────
   const pills = document.querySelectorAll('.pill');
