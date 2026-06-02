@@ -2698,7 +2698,7 @@
 
   function makeUpcomingCard(t, isPast) {
       const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : 'soon';
-      const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days + ' days left';
+      const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days === 1 ? '1 day left' : t.days + ' days left';
       const dateStr = new Date(t.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       const hasDrive = isPast && t.driveUrl;
       const cardStyle = isPast
@@ -2803,13 +2803,13 @@
         el.textContent = 'TODAY';
         el.className = 'due-days urgent';
       } else if (d <= 3) {
-        el.textContent = d + 'd left';
+        el.textContent = d === 1 ? '1d left' : d + 'd left';
         el.className = 'due-days urgent';
       } else if (d <= 10) {
-        el.textContent = d + 'd left';
+        el.textContent = d === 1 ? '1d left' : d + 'd left';
         el.className = 'due-days soon';
       } else {
-        el.textContent = d + 'd left';
+        el.textContent = d === 1 ? '1d left' : d + 'd left';
         el.className = 'due-days ok';
       }
       if (d >= 0 && d < nextDays) {
