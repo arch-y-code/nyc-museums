@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1A35C5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="description" content="GSAPP27 Guide — Museums, Cafés & Assignments for Columbia GSAPP MSAUD students." />
   <title>GSAPP27 Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -89,6 +92,16 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
+    /* iOS safe area — extend blue behind status bar */
+    body::before {
+      content: '';
+      display: block;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: env(safe-area-inset-top);
+      background: var(--blue);
+      z-index: 9999;
+    }
     a { color: inherit; text-decoration: none; }
 
     /* ─── HEADER ──────────────────────────────────────────────── */
@@ -96,7 +109,7 @@
       background: var(--blue);
       position: relative;
       overflow: hidden;
-      padding: 52px 24px 40px;
+      padding: calc(52px + env(safe-area-inset-top)) 24px 40px;
     }
     header::before {
       content: '';
@@ -2396,11 +2409,88 @@
       <div class="course-block">
         <div class="course-header">
           <div class="course-color" style="background:#F59E0B;min-height:40px;"></div>
-          <div style="flex:1"><div class="course-title">Reading New York Urbanism</div><span class="course-sub">Site visits &amp; urban analysis · Tuesdays 10AM</span></div>
+          <div style="flex:1"><div class="course-title">RNYU</div><span class="course-sub">Reading New York Urbanism · Tuesdays 10AM</span></div>
         </div>
-        <div class="task-item" style="cursor:default;">
-          <div class="task-check" style="border-color:var(--border);background:var(--bg);color:var(--text-3);font-size:14px;">-</div>
-          <div class="task-body"><div class="task-name" style="color:var(--text-3);font-weight:500;">No assignments yet</div><div class="task-detail">Site visit: Jun 2 (10AM-12PM)</div></div>
+        
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1Xud-fG2gWj4QeX_Rz9c0Jv7oRqxPmdpG'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 1 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1KJMMr2npZRVZaH5sASmxIkKy4kcVxRO2'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 2 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1m2OURI_rCbfwBv5kJX_if7GpoOux5vup'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 3 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1LnnKa-Ya8_uiVounU3sw8tfOBnYcROW0'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 4 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1pRnp6HSrovkw2fuzapNhwAuz_e6JZDAJ'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 5 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1KHD84pKVmDOVdENiEF-2KozEKSpwjk7i'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 6 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/1JrtE2oQhLoiafivKHyw7_mWqaPRVk0kO'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 7 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+        <div class="task-item" onclick="location.href='https://drive.google.com/drive/folders/17MhD5OygTH0QKF16LExzar-ma5ZtecKy'">
+          <div class="task-check" style="background:var(--blue-tint);border-color:var(--blue);color:var(--blue);font-size:11px;">▶</div>
+          <div class="task-body">
+            <div class="task-name">Week 8 Reading Materials</div>
+            <div class="task-detail">Open in Google Drive</div>
+          </div>
+          <div style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
         </div>
       </div>
     </div>
