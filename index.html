@@ -2552,7 +2552,7 @@
       const dotColor = isPast ? '#F87B1B' : t.color;
       const labelColor = isPast ? '#F87B1B' : 'var(--text-3)';
       const clickAttr = isPast
-        ? (hasDrive ? 'onclick="window.open(\'' + t.driveUrl + '\', \'_blank\')"' : '')
+        ? (hasDrive ? 'onclick="location.href=\'' + t.driveUrl + '\'"' : '')
         : 'onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')"';
       return '<div class="card" style="' + cardStyle + '" ' + clickAttr + '>'
         + '<div class="card-top" style="padding:12px 14px 10px;">'
