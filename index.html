@@ -2767,11 +2767,11 @@
   }
 
   function getDaysLeft(dateStr) {
-    const today = new Date();
-    today.setHours(0,0,0,0);
+    const now = new Date();
     const due = new Date(dateStr);
-    due.setHours(0,0,0,0);
-    return Math.round((due - today) / 86400000);
+    due.setHours(23, 59, 59, 999); // end of due date (midnight)
+    const diffMs = due - now;
+    return Math.ceil(diffMs / 86400000);
   }
 
   function renderDueDays() {
