@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Columbia GSAPP student guide to NYC museums, cafés & study spots. Free entry, discounts, and Google Maps links." />
-  <title>GSAPP Student Guide · NYC 2026</title>
+  <meta name="description" content="GSAPP27 Guide — Museums, Cafés & Assignments for Columbia GSAPP MSAUD students." />
+  <title>GSAPP27 Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -823,8 +823,8 @@
 <header>
   <div class="header-inner">
     <div class="header-label">Columbia GSAPP · 2027</div>
-    <h1>GSAPP<br>Student Guide</h1>
-    <div class="header-sub">Museums · Cafés · Study Spots · Live map links</div>
+    <h1>GSAPP27<br>Guide</h1>
+    <div class="header-sub">Museums · Cafés · Assignments · Live map links</div>
   </div>
 </header>
 
@@ -2198,7 +2198,7 @@
         </div>
         <div class="task-item" id="task-studio-1" onclick="toggleTask(this)">
           <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Urban Fabric Drawing</div><div class="task-detail">20x20" panel + 11x17" sheet + 2-min verbal presentation</div></div>
+          <div class="task-body"><div class="task-name">Urban Fabric Drawing</div><div class="task-detail">20x20" panel + 11x17" + 2-min presentation · Archive due Jun 5</div></div>
           <div class="task-due"><div class="due-date">Jun 1</div><div class="due-days" id="days-studio-1"></div></div>
         </div>
         <div class="task-expand"><div class="task-expand-inner">
@@ -2213,6 +2213,17 @@
           <li>Black &amp; white only — hatches, shading, line weight for hierarchy</li>
           <li><strong>2-minute verbal presentation</strong> — Jun 1</li>
           </ul>
+          <div style="margin-top:10px;padding:10px 12px;background:#FFF0E6;border-left:3px solid #F87B1B;border-radius:0 6px 6px 0;">
+            <div style="font-size:11px;font-weight:800;color:#F87B1B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">📬 Archive Submission</div>
+            <div style="font-size:12px;color:#374170;line-height:1.6;">
+              Submit 20x20" panel + 11x17 as <strong>PDF or JPEG (300dpi)</strong><br>
+              Max file size: <strong>25MB</strong><br>
+              Due: <strong>June 5th at 4PM</strong><br><br>
+              <strong>Naming convention:</strong><br>
+              <code style="font-size:11px;background:#fff;padding:2px 5px;border-radius:3px;">UD_Bhatia_SeunghaYou_SU26_assn0_drawing.pdf</code><br>
+              <code style="font-size:11px;background:#fff;padding:2px 5px;border-radius:3px;">UD_Bhatia_SeunghaYou_SU26_assn0_statistics.pdf</code>
+            </div>
+          </div>
         </div></div>
       </div>
     </div>
@@ -2488,6 +2499,7 @@
 
   const allTasks = [
     { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1' },
+    { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1' },
     { id: 'days-udht-0',   date: '2026-06-03', label: 'Week 2 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Mattern · McKittrick', subTab: 'as-udht', taskId: 'task-udht-0' },
     { id: 'days-udht-1',   date: '2026-06-10', label: 'Project Proposal', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 3 Readings', subTab: 'as-udht', taskId: 'task-udht-1' },
     { id: 'days-udht-w4',  date: '2026-06-17', label: 'Week 4 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Suburbia + Sprawl', subTab: 'as-udht', taskId: 'task-udht-w4' },
@@ -2527,37 +2539,56 @@
     }, 150);
   }
 
-    function buildUpcoming() {
-    const list = document.getElementById('upcoming-list');
-    if (!list) return;
-    const sorted = allTasks
-      .map(t => ({ ...t, days: getDaysLeft(t.date) }))
-      .filter(t => t.days >= 0 && t.days <= 10)
-      .sort((a, b) => a.days - b.days);
-    if (sorted.length === 0) {
-      list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-3);font-size:13px;">All caught up!</div>';
-      return;
-    }
-    list.innerHTML = sorted.map(t => {
-      const urgency = t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : t.days <= 10 ? 'soon' : 'ok';
-      const daysLabel = t.days === 0 ? 'TODAY' : t.days + ' days left';
+    function makeUpcomingCard(t, isPast) {
+      const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : 'soon';
+      const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days + ' days left';
       const dateStr = new Date(t.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      return '<div class="card" style="margin:0 14px 8px;cursor:pointer;" onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')">' 
+      const cardStyle = isPast
+        ? 'margin:0 14px 8px;background:#FFF0E6;border:1.5px solid rgba(248,123,27,.35);'
+        : 'margin:0 14px 8px;cursor:pointer;';
+      const nameColor = isPast ? '#F87B1B' : 'var(--text)';
+      const dotColor = isPast ? '#F87B1B' : t.color;
+      const labelColor = isPast ? '#F87B1B' : 'var(--text-3)';
+      const clickAttr = isPast ? '' : 'onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')"';
+      return '<div class="card" style="' + cardStyle + '" ' + clickAttr + '>'
         + '<div class="card-top" style="padding:12px 14px 10px;">'
         + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">'
         + '<div><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">'
-        + '<span style="width:8px;height:8px;border-radius:50%;background:' + t.color + ';flex-shrink:0;display:inline-block;"></span>'
-        + '<span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;">' + t.course + '</span>'
+        + '<span style="width:8px;height:8px;border-radius:50%;background:' + dotColor + ';flex-shrink:0;display:inline-block;"></span>'
+        + '<span style="font-size:10px;font-weight:800;color:' + labelColor + ';text-transform:uppercase;letter-spacing:.5px;">' + t.course + '</span>'
         + '</div>'
-        + '<div style="font-size:14px;font-weight:700;color:var(--text);">' + t.label + '</div>'
+        + '<div style="font-size:14px;font-weight:700;color:' + nameColor + ';">' + t.label + '</div>'
         + '<div style="font-size:11px;color:var(--text-3);margin-top:2px;">' + t.detail + '</div>'
         + '</div>'
         + '<div style="text-align:right;flex-shrink:0;">'
         + '<div style="font-size:12px;font-weight:700;color:var(--text-2);">' + dateStr + '</div>'
         + '<div class="due-days ' + urgency + '" style="font-size:11px;font-weight:700;margin-top:2px;">' + daysLabel + '</div>'
         + '</div></div></div></div>';
-    }).join('');
-  }
+    }
+
+    function buildUpcoming() {
+      const list = document.getElementById('upcoming-list');
+      if (!list) return;
+      const all = allTasks.map(t => ({ ...t, days: getDaysLeft(t.date) }));
+      const upcoming = all.filter(t => t.days >= 0 && t.days <= 10).sort((a, b) => a.days - b.days);
+      const past = all.filter(t => t.days < 0).sort((a, b) => b.days - a.days);
+
+      let out = '';
+      if (upcoming.length === 0) {
+        out += '<div style="text-align:center;padding:32px 24px 8px;color:var(--text-3);font-size:13px;">No deadlines in the next 10 days 🎉</div>';
+      } else {
+        out += upcoming.map(t => makeUpcomingCard(t, false)).join('');
+      }
+      if (past.length > 0) {
+        out += '<div style="margin:20px 14px 12px;display:flex;align-items:center;gap:10px;">'
+          + '<div style="flex:1;height:1px;background:#F87B1B;opacity:.25;"></div>'
+          + '<span style="font-size:10px;font-weight:800;color:#F87B1B;opacity:.7;text-transform:uppercase;letter-spacing:1px;">Completed</span>'
+          + '<div style="flex:1;height:1px;background:#F87B1B;opacity:.25;"></div>'
+          + '</div>';
+        out += past.map(t => makeUpcomingCard(t, true)).join('');
+      }
+      list.innerHTML = out;
+    }
 
   buildUpcoming();
 
@@ -2585,6 +2616,15 @@
 
   function renderDueDays() {
     const tasks = allTasks;
+    // Also render archive deadline badge
+    const archiveEl = document.getElementById('days-studio-2');
+    if (archiveEl) {
+      const d = getDaysLeft('2026-06-05');
+      if (d < 0) { archiveEl.textContent = 'passed'; archiveEl.className = 'due-days done-label'; }
+      else if (d === 0) { archiveEl.textContent = 'TODAY 4PM'; archiveEl.className = 'due-days urgent'; }
+      else if (d <= 3) { archiveEl.textContent = d + 'd left'; archiveEl.className = 'due-days urgent'; }
+      else { archiveEl.textContent = d + 'd left'; archiveEl.className = 'due-days ok'; }
+    }
     let nextDue = null;
     let nextDays = Infinity;
 
