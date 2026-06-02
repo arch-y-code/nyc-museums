@@ -2499,8 +2499,8 @@
   }
 
   const allTasks = [
-    { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1' },
-    { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1' },
+    { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
+    { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
     { id: 'days-udht-0',   date: '2026-06-03', label: 'Week 2 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Mattern · McKittrick', subTab: 'as-udht', taskId: 'task-udht-0' },
     { id: 'days-udht-1',   date: '2026-06-10', label: 'Project Proposal', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 3 Readings', subTab: 'as-udht', taskId: 'task-udht-1' },
     { id: 'days-udht-w4',  date: '2026-06-17', label: 'Week 4 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Suburbia + Sprawl', subTab: 'as-udht', taskId: 'task-udht-w4' },
@@ -2544,13 +2544,16 @@
       const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : 'soon';
       const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days + ' days left';
       const dateStr = new Date(t.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const hasDrive = isPast && t.driveUrl;
       const cardStyle = isPast
-        ? 'margin:0 14px 8px;background:#FFF0E6;border:1.5px solid rgba(248,123,27,.35);'
+        ? 'margin:0 14px 8px;background:#FFF0E6;border:1.5px solid rgba(248,123,27,.35);' + (hasDrive ? 'cursor:pointer;' : '')
         : 'margin:0 14px 8px;cursor:pointer;';
       const nameColor = isPast ? '#F87B1B' : 'var(--text)';
       const dotColor = isPast ? '#F87B1B' : t.color;
       const labelColor = isPast ? '#F87B1B' : 'var(--text-3)';
-      const clickAttr = isPast ? '' : 'onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')"';
+      const clickAttr = isPast
+        ? (hasDrive ? 'onclick="window.open(\'' + t.driveUrl + '\', \'_blank\')"' : '')
+        : 'onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')"';
       return '<div class="card" style="' + cardStyle + '" ' + clickAttr + '>'
         + '<div class="card-top" style="padding:12px 14px 10px;">'
         + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">'
