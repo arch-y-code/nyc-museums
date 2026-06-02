@@ -1,30 +1,2737 @@
-# NYC Museum Cheat Sheet · GSAPP 2026
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GSAPP27 Guide — Museums, Cafés & Assignments for Columbia GSAPP MSAUD students." />
+  <title>GSAPP27 Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --blue:       #1A35C5;
+      --blue-hover: #1529A8;
+      --blue-dark:  #0C1A70;
+      --blue-tint:  #EEF1FB;
+      --orange:     #F56500;
+      --orange-lt:  #FFF0E6;
+      --green:      #15803D;
+      --green-lt:   #DCFCE7;
+      --silver:     #94A3B8;
+      --white:      #FFFFFF;
+      --bg:         #F4F6FC;
+      --surface:    #FFFFFF;
+      --border:     #E2E8F4;
+      --text:       #0D1433;
+      --text-2:     #374170;
+      --text-3:     #6B77A8;
+      --radius:     12px;
+      --shadow:     0 1px 3px rgba(15,25,80,.07), 0 4px 16px rgba(15,25,80,.05);
+      --shadow-hover: 0 4px 8px rgba(15,25,80,.1), 0 12px 32px rgba(15,25,80,.1);
+      --transition: 0.18s cubic-bezier(.4,0,.2,1);
+    }
 
-A mobile-friendly web guide to free and discounted NYC museum admission for Columbia GSAPP students.
 
-**32 venues** · CUID free entry · Passport partners · Student discounts · Live Google Maps links
+    /* ─── TAB NAV ─────────────────────────────────────────────── */
+    .tab-nav {
+      background: var(--blue);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .tab-nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 16px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 14px 8px 12px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,.5);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: color var(--transition), border-color var(--transition);
+      letter-spacing: .2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .tab-btn svg { opacity: .5; transition: opacity var(--transition); }
+    .tab-btn:hover svg { opacity: .8; }
+    .tab-btn.active svg { opacity: 1; }
+    .tab-btn:hover { color: rgba(255,255,255,.8); }
+    .tab-btn.active {
+      color: #fff;
+      border-bottom-color: var(--orange);
+    }
 
----
+    /* ─── TAB PANELS ──────────────────────────────────────────── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
-## 🚀 Deploy to GitHub Pages
+    /* ─── RESET ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
 
-1. Create a new GitHub repository (e.g. `nyc-museums`)
-2. Upload `index.html` to the root of the repo
-3. Go to **Settings → Pages → Source → Deploy from branch → main → / (root)**
-4. Your site will be live at `https://[your-username].github.io/nyc-museums`
+    /* ─── HEADER ──────────────────────────────────────────────── */
+    header {
+      background: var(--blue);
+      position: relative;
+      overflow: hidden;
+      padding: 52px 24px 40px;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      right: -48px; bottom: -64px;
+      width: 260px; height: 260px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: .85;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      right: 100px; bottom: -100px;
+      width: 180px; height: 180px;
+      background: #C8D8FF;
+      border-radius: 50%;
+      opacity: .18;
+    }
+    .header-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+    .header-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+      opacity: .95;
+    }
+    header h1 {
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+    .header-sub {
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+      font-weight: 500;
+    }
 
-That's it — no build step, no dependencies.
+    /* ─── MAIN CONTAINER ──────────────────────────────────────── */
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
 
----
+    /* ─── ALERT ───────────────────────────────────────────────── */
+    .alert {
+      background: var(--surface);
+      border-left: 4px solid var(--orange);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .alert-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 4px;
+    }
+    .alert p { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+    .alert strong { color: var(--blue); font-weight: 700; }
 
-## 📱 Features
+    /* ─── SEARCH ──────────────────────────────────────────────── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      pointer-events: none;
+      font-size: 15px;
+    }
+    #search {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--surface);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    #search:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,53,197,.12);
+    }
+    #search::placeholder { color: var(--text-3); }
 
-- **Search** — filter by museum name, neighborhood, or keyword
-- **Filter pills** — CUID Free / Passport / Discounts / Always Free
-- **Google Maps links** — tap any address to open in Maps
-- **Responsive** — optimized for iPhone and desktop
-- **GSAPP Architecture notes** — curatorial context for each venue
+    /* ─── FILTER PILLS ────────────────────────────────────────── */
 
----
+    .pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+      white-space: nowrap;
+    }
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .pill:hover { border-color: var(--blue); color: var(--blue); }
+    .pill.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .pill.active-orange { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .pill.active-green { background: var(--green); border-color: var(--green); color: #fff; }
 
-*Unofficial student-made guide. Info checked May 2026. Please verify official sites before visiting.*
+        /* ─── SECTION HEADER ──────────────────────────────────────── */
+    .section-head {
+      margin: 44px 0 16px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-head h2 {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 900;
+      color: var(--blue-dark);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 5px;
+    }
+    .section-dot {
+      display: none;
+    }
+    .section-head-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label {
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+    }
+    .section-count {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-3);
+      margin-top: 4px;
+    }
+    .section-title-sub {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+    /* ─── CARD ────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+      transition: box-shadow var(--transition), transform var(--transition);
+      border: 1px solid transparent;
+      overflow: hidden;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+      border-color: var(--blue-tint);
+    }
+    .card[data-hidden="true"] { display: none; }
+
+    .card-top {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--bg);
+    }
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .card-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .card-sub {
+      display: block;
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* ─── BADGES ──────────────────────────────────────────────── */
+    .badge {
+      flex-shrink: 0;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 4px 9px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      white-space: nowrap;
+    }
+    .badge-free     { background: var(--green-lt);  color: var(--green); }
+    .badge-passport { background: var(--blue-tint);  color: var(--blue); }
+    .badge-discount { background: var(--orange-lt); color: var(--orange); }
+
+    /* ─── MAP LINK ────────────────────────────────────────────── */
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue);
+      background: var(--blue-tint);
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition);
+    }
+    .map-link:hover { background: var(--blue); color: #fff; }
+    .map-link svg { flex-shrink: 0; }
+
+    /* ─── CARD BODY ───────────────────────────────────────────── */
+    .card-body { padding: 10px 16px 14px; }
+    .detail-row {
+      font-size: 12.5px;
+      color: var(--text-2);
+      margin-bottom: 4px;
+      line-height: 1.45;
+    }
+    .detail-row .lbl { font-weight: 700; color: var(--text); }
+    .arch-note {
+      margin-top: 8px;
+      background: var(--bg);
+      border-left: 3px solid var(--silver);
+      padding: 7px 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.45;
+    }
+    .arch-note strong { color: var(--blue); font-weight: 700; }
+
+    /* ─── QUICK REF ───────────────────────────────────────────── */
+    .quick-ref {
+      background: var(--blue);
+      border-radius: var(--radius);
+      padding: 20px 20px;
+      margin-top: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .quick-ref::before {
+      content: '';
+      position: absolute;
+      right: -30px; top: -30px;
+      width: 140px; height: 140px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: .15;
+    }
+    .quick-ref h3 {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      position: relative;
+    }
+    .qr-item {
+      margin-bottom: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255,255,255,.8);
+      position: relative;
+    }
+    .qr-item strong { color: #fff; }
+    .qr-foot {
+      margin-top: 14px;
+      font-size: 11px;
+      color: rgba(255,255,255,.35);
+      font-style: italic;
+      position: relative;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+      text-align: right;
+    }
+    footer p {
+      font-size: 11px;
+      color: var(--text-3);
+      line-height: 1.6;
+      margin-bottom: 2px;
+    }
+
+    /* ─── NO RESULTS ──────────────────────────────────────────── */
+    #no-results {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-3);
+      font-size: 14px;
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      header { padding: 40px 18px 34px; }
+      main { padding: 16px 12px 48px; }
+      .card-top { padding: 12px 13px 9px; }
+      .card-body { padding: 9px 13px 12px; }
+    }
+
+    /* ─── ARCH NOTE TOGGLE ────────────────────────────────────── */
+    .arch-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--blue);
+      padding: 0;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+    .arch-toggle:hover { color: var(--blue-hover); }
+    .arch-toggle .toggle-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px; height: 18px;
+      background: var(--blue-tint);
+      border-radius: 4px;
+      font-size: 9px;
+      flex-shrink: 0;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .arch-toggle.open .toggle-icon {
+      transform: rotate(90deg);
+      background: var(--blue);
+      color: #fff;
+    }
+    .arch-note {
+      display: none;
+      margin-top: 6px;
+      background: var(--bg);
+      border-left: 3px solid var(--silver);
+      padding: 7px 10px;
+      border-radius: 0 6px 6px 0;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .arch-note.visible { display: block; }
+    .arch-note strong { color: var(--blue); font-weight: 700; }
+
+    /* ─── CAFÉ VIBE TAGS ─────────────────────────────────────── */
+    .vibe-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 7px;
+    }
+    .vibe {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+    .vibe-work   { background: #E8EEFB; color: var(--blue); }
+    .vibe-social { background: var(--orange-lt); color: var(--orange); }
+    .vibe-quick  { background: var(--green-lt); color: var(--green); }
+    .vibe-icon   { background: #F3EEFF; color: #7C3AED; }
+    .vibe-late   { background: #FEF9C3; color: #854D0E; }
+
+    .wifi-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-3);
+      font-weight: 600;
+    }
+    .wifi-yes { color: var(--green); }
+    .wifi-no  { color: #94A3B8; text-decoration: line-through; }
+
+    .cafe-section-intro {
+      font-size: 12px;
+      color: var(--text-3);
+      margin: -4px 0 12px;
+      font-style: italic;
+    }
+
+
+    /* ─── STUDIO TRACKER ─────────────────────────────────────── */
+    .studio-wrap { padding: 20px 14px 60px; max-width: 680px; margin: 0 auto; }
+
+    .studio-hero {
+      background: var(--blue);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .studio-hero::after {
+      content: '';
+      position: absolute;
+      right: -20px; bottom: -30px;
+      width: 120px; height: 120px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: .2;
+    }
+    .studio-hero-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .studio-hero h2 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .studio-hero p {
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+    }
+
+    /* countdown badge */
+    .countdown-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,.12);
+      border-radius: 99px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 10px;
+    }
+    .countdown-badge.urgent { background: var(--orange); }
+    .countdown-badge.done { background: var(--green); }
+
+    /* course block */
+    .course-block {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .course-header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--bg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .course-color {
+      width: 4px;
+      border-radius: 99px;
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+    .course-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      flex: 1;
+    }
+    .course-sub {
+      font-size: 11px;
+      color: var(--text-3);
+      display: block;
+      margin-top: 1px;
+      font-weight: 400;
+    }
+
+    /* task item */
+    .task-item {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--bg);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .task-item:last-child { border-bottom: none; }
+    .task-item:hover { background: var(--bg); }
+    .task-item.done { opacity: .5; }
+
+    .task-check {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: all var(--transition);
+    }
+    .task-item.done .task-check {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .task-body { flex: 1; }
+    .task-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .task-item.done .task-name {
+      text-decoration: line-through;
+      color: var(--text-3);
+    }
+    .task-detail {
+      font-size: 11px;
+      color: var(--text-3);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+    .task-due {
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .due-date {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+    .due-days {
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+    .due-days.urgent { color: var(--orange); }
+    .due-days.soon   { color: #D97706; }
+    .due-days.ok     { color: var(--green); }
+    .due-days.done-label { color: var(--text-3); }
+
+    /* expandable detail */
+    .task-expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .task-expand.open { max-height: 400px; }
+    .task-expand-inner {
+      padding: 12px 16px 14px 48px;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+    .task-expand-inner ul { padding-left: 14px; }
+    .task-expand-inner li { margin-bottom: 4px; }
+    .task-expand-inner strong { color: var(--text); }
+
+    /* timeline strip */
+    .timeline-strip {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .timeline-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .tl-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tl-label {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .tl-course {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      background: var(--blue-tint);
+      padding: 1px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .tl-date {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-2);
+      white-space: nowrap;
+    }
+    .tl-item.passed .tl-label { color: var(--text-3); text-decoration: line-through; }
+    .tl-item.passed .tl-dot { background: var(--border) !important; }
+
+
+    /* --- ASSIGNMENT SUB-TABS --- */
+    .sub-tab-nav {
+      display: flex;
+      gap: 6px;
+      padding: 16px 14px 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sub-tab-nav::-webkit-scrollbar { display: none; }
+    .sub-tab-btn {
+      flex-shrink: 0;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .sub-tab-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .sub-tab-btn.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .sub-tab-btn.active.upcoming { background: var(--orange); border-color: var(--orange); }
+    .sub-panel { display: none; }
+    .sub-panel.active { display: block; }
+
+
+    /* ─── DRIVE LINK BUTTON ──────────────────────────────────── */
+    .drive-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 7px 12px;
+      background: var(--blue-tint);
+      color: var(--blue);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition);
+    }
+    .drive-btn:hover { background: var(--blue); color: #fff; }
+    .drive-btn svg { flex-shrink: 0; }
+
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="header-label">Columbia GSAPP · 2027</div>
+    <h1>GSAPP27<br>Guide</h1>
+    <div class="header-sub">Museums · Cafés · Assignments · Live map links</div>
+  </div>
+</header>
+
+<div class="tab-nav"><div class="tab-nav-inner"><button class="tab-btn active" onclick="switchTab('museums', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="20" width="20" height="2" rx="1" fill="#C2E2FA"/><rect x="4" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="10.75" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="17.5" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="2" y="7" width="20" height="2" fill="#C2E2FA"/><path d="M12 2L2 7h20L12 2z" fill="#C2E2FA"/></svg> Museums</button><button class="tab-btn" onclick="switchTab('cafes', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="19" width="16" height="2" rx="1" fill="#C2E2FA"/><path d="M5 8h12l-1.5 9H6.5L5 8z" fill="#C2E2FA"/><path d="M17 10.5h1.5a1.5 1.5 0 0 1 0 3H17" stroke="#C2E2FA" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="4" y="7" width="14" height="1.5" rx="0.75" fill="#C2E2FA"/></svg> Cafés</button><button class="tab-btn" onclick="switchTab('studio', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="18" rx="2" fill="#C2E2FA"/><rect x="9" y="2" width="6" height="4" rx="1.5" fill="#C2E2FA"/><rect x="7" y="10" width="10" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="13.5" width="7" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="17" width="8.5" height="1.5" rx="0.75" fill="#1A35C5"/></svg> Assignments</button></div></div>
+<main>
+<div id="tab-museums" class="tab-panel active">
+
+  <!-- ALERT -->
+  <div class="alert" style="margin-top:20px;">
+    <div class="alert-title">⚠ CUID Sticker Required</div>
+    <p>Free admission requires a <strong>current semester's validation sticker</strong> on your CUID. Pick it up at the <strong>Student Service Center / ID Center in Kent Hall</strong>.</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="search" placeholder="Search museum, neighborhood, or keyword…" autocomplete="off" />
+  </div>
+
+  <!-- FILTER PILLS -->
+  <div class="filter-row">
+    <span class="pill active" data-filter="all">All 32</span>
+    <span class="pill" data-filter="free">CUID Free</span>
+    <span class="pill" data-filter="passport">Passport</span>
+    <span class="pill" data-filter="discount">Discounts</span>
+    <span class="pill" data-filter="always-free">Always Free</span>
+  </div>
+
+  <div id="no-results">No museums match your search. Try a different keyword.</div>
+
+  <!-- ══════════════ PART 1 ══════════════ -->
+  <div class="section-head" data-section="free">
+    <h2><span class="section-dot"></span><span class="section-label">Part 1</span></h2>
+    <div class="section-title-sub">100% Free with CUID / Passport</div>
+    <span class="section-count">14 venues</span>
+  </div>
+
+  <!-- 1 MoMA -->
+  <div class="card" data-tags="free cuid midtown modern art">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">1. MoMA</span>
+          <span class="card-sub">The Museum of Modern Art</span>
+        </div>
+        <span class="badge badge-free">CUID Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Museum+of+Modern+Art+11+W+53rd+St+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Midtown · 11 W 53rd St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $0 (valid CUID at desk)</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> NY Residents — Fri 5:30–8:30 PM</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Masterful institutional gallery scaling and modern circulation flow.</div>
+    </div>
+  </div>
+
+  <!-- 2 Met Fifth Ave -->
+  <div class="card" data-tags="free cuid upper east side met metropolitan">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">2. The Met Fifth Avenue</span>
+          <span class="card-sub">The Metropolitan Museum of Art</span>
+        </div>
+        <span class="badge badge-free">CUID Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Metropolitan+Museum+of+Art+1000+Fifth+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper East Side · 1000 5th Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $0 (CUID priority)</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> Tri-State (NY/NJ/CT) students: Pay-What-You-Wish</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Core case study for macro civic scale and heavy spatial thresholds. Includes all special exhibitions.</div>
+    </div>
+  </div>
+
+  <!-- 3 Met Cloisters -->
+  <div class="card" data-tags="free cuid washington heights met cloisters medieval">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">3. The Met Cloisters</span>
+          <span class="card-sub">The Metropolitan Museum of Art</span>
+        </div>
+        <span class="badge badge-free">CUID Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=The+Met+Cloisters+99+Margaret+Corbin+Drive+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Washington Heights · 99 Margaret Corbin Dr
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Same Met policy — Student $0 with CUID</div>
+      <div class="detail-row"><span class="lbl">Note:</span> Main Met ticket grants same-day entry here too</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Medieval cloisters reconstruction and framed Hudson views. Great field trip.</div>
+    </div>
+  </div>
+
+  <!-- 4 MoMA PS1 -->
+  <div class="card" data-tags="free always queens contemporary adaptive reuse">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">4. MoMA PS1</span>
+          <span class="card-sub">MoMA PS1 Contemporary Art Center</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=MoMA+PS1+22-25+Jackson+Avenue+Long+Island+City+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Long Island City, Queens · 22-25 Jackson Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> $0 for everyone — no ID needed</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Elite adaptive reuse — Romanesque Revival school transformed into raw contemporary art envelope.</div>
+    </div>
+  </div>
+
+  <!-- 5 El Museo -->
+  <div class="card" data-tags="free cuid east harlem latin american">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">5. El Museo del Barrio</span>
+          <span class="card-sub">El Museo del Barrio</span>
+        </div>
+        <span class="badge badge-free">CUID + 1 Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=El+Museo+del+Barrio+1230+Fifth+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        East Harlem · 1230 5th Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Pay-What-You-Can — CUID covers cardholder + 1 guest free</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Museum Mile northern boundary. Platform for Latin American cultural narratives.</div>
+    </div>
+  </div>
+
+  <!-- 6 Noguchi -->
+  <div class="card" data-tags="free passport queens noguchi sculpture garden">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">6. The Noguchi Museum</span>
+          <span class="card-sub">Isamu Noguchi Foundation and Garden Museum</span>
+        </div>
+        <span class="badge badge-free">CUID Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Noguchi+Museum+9-01+33rd+Road+Astoria+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Astoria, Queens · 9-01 33rd Rd
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Fully covered via Passport — $0</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> First Friday of each month (general public)</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Elite spatial masterclass — interior/exterior blur, material restraint, and daylight play.</div>
+    </div>
+  </div>
+
+  <!-- 7 Wallach -->
+  <div class="card" data-tags="free always columbia manhattanville renzo piano">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">7. Wallach Art Gallery</span>
+          <span class="card-sub">Columbia University</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Wallach+Art+Gallery+615+West+129th+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Manhattanville · 615 W 129th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Hours:</span> Wed–Sun 12–6 PM · Always $0</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Closest to campus. Sleek contemporary facility by Renzo Piano Building Workshop.</div>
+    </div>
+  </div>
+
+  <!-- 8 Jewish Museum -->
+  <div class="card" data-tags="passport free saturday upper east side warburg">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">8. The Jewish Museum</span>
+          <span class="card-sub">The Jewish Museum</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Jewish+Museum+1109+Fifth+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper East Side · 1109 5th Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Passport member · Weekday student discount</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> <strong>Free every Saturday</strong></div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Warburg Mansion — outstanding case study for mansion-to-museum layout and historic domestic scale.</div>
+    </div>
+  </div>
+
+  <!-- 9 Asia Society -->
+  <div class="card" data-tags="passport free friday upper east side japanese garden">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">9. Asia Society Museum</span>
+          <span class="card-sub">Asia Society Museum</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Asia+Society+Museum+725+Park+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper East Side · 725 Park Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $15 / Student $0 with CUID</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> Fridays free</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Japanese-influenced indoor lobby garden and quiet vertical sequence.</div>
+    </div>
+  </div>
+
+  <!-- 10 ICP -->
+  <div class="card" data-tags="passport lower east side photography">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">10. ICP</span>
+          <span class="card-sub">International Center of Photography</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=International+Center+of+Photography+79+Essex+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Lower East Side · 79 Essex St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $18 / Student $0 with CUID</div>
+      <div class="detail-row"><span class="lbl">Discount:</span> Thu 5–8 PM · $5 reduced</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Architectural photography archives and urban documentation research.</div>
+    </div>
+  </div>
+
+  <!-- 11 Queens Museum -->
+  <div class="card" data-tags="passport queens flushing panorama worlds fair">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">11. Queens Museum</span>
+          <span class="card-sub">Queens Museum of Art</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Queens+Museum+Flushing+Meadows+Corona+Park+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Flushing Meadows Corona Park, Queens
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult sug. $8 / Student sug. $6 · Pay-What-You-Wish</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Essential — "Panorama of NYC" scale model and World's Fair context.</div>
+    </div>
+  </div>
+
+  <!-- 12 Intrepid -->
+  <div class="card" data-tags="passport hells kitchen pier aircraft carrier infrastructure">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">12. Intrepid Museum</span>
+          <span class="card-sub">Intrepid Sea, Air &amp; Space Museum</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Intrepid+Sea+Air+Space+Museum+Pier+86+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Hell's Kitchen · Pier 86, W 46th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $38 → $0 with valid CUID</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Steel engineering, extreme programmatic zoning, and hangar scale.</div>
+    </div>
+  </div>
+
+  <!-- 13 Japan Society -->
+  <div class="card" data-tags="passport midtown east japan modernist">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">13. Japan Society Gallery</span>
+          <span class="card-sub">Japan Society Gallery</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Japan+Society+333+East+47th+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Midtown East · 333 E 47th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $15 / Student $0 with CUID</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> First Fridays 5–7 PM monthly</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Crisp wood-and-stone joints and indoor structural water feature.</div>
+    </div>
+  </div>
+
+  <!-- 14 Paley -->
+  <div class="card" data-tags="passport midtown media broadcast">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">14. The Paley Museum</span>
+          <span class="card-sub">The Paley Center for Media</span>
+        </div>
+        <span class="badge badge-passport">Passport</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Paley+Center+for+Media+25+West+52nd+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Midtown · 25 W 52nd St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $20 / Student $0 with CUID</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Broadcast frameworks and early telecom infrastructure archives.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PART 2 ══════════════ -->
+  <div class="section-head" data-section="discount">
+    <h2><span class="section-dot"></span><span class="section-label">Part 2</span></h2>
+    <div class="section-title-sub">Student Discounts &amp; PWYW Windows</div>
+    <span class="section-count">10 venues</span>
+  </div>
+
+  <!-- 15 Whitney -->
+  <div class="card" data-tags="discount meatpacking renzo piano high line">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">15. Whitney Museum</span>
+          <span class="card-sub">Whitney Museum of American Art</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Whitney+Museum+of+American+Art+99+Gansevoort+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Meatpacking District · 99 Gansevoort St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $24</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> Fri 5–10 PM · 2nd Sunday monthly · <strong>★ Free daily for ages 25 &amp; under</strong></div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Renzo Piano — asymmetrical massing, cantilevered terraces, tight High Line integration.</div>
+    </div>
+  </div>
+
+  <!-- 16 Guggenheim -->
+  <div class="card" data-tags="discount upper east side frank lloyd wright spiral">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">16. Guggenheim Museum</span>
+          <span class="card-sub">Solomon R. Guggenheim Museum</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Solomon+R+Guggenheim+Museum+1071+Fifth+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper East Side · 1071 5th Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $19 (~37% off)</div>
+      <div class="detail-row"><span class="lbl">PWYW:</span> Mon &amp; Sat 4:00–5:30 PM (min $1)</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Frank Lloyd Wright icon — reinforced-concrete spiral ramp and central daylight atrium.</div>
+    </div>
+  </div>
+
+  <!-- 17 Morgan -->
+  <div class="card" data-tags="discount murray hill morgan library renzo piano mckim">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">17. The Morgan Library</span>
+          <span class="card-sub">The Morgan Library &amp; Museum</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Morgan+Library+Museum+225+Madison+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Murray Hill · 225 Madison Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $25 / Student $13 (~48% off)</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> Fri 5–8 PM · 1st Sunday monthly (college students free w/ ID)</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> McKim's classical vaults vs. Renzo Piano's steel-and-glass atrium — a must-see contrast.</div>
+    </div>
+  </div>
+
+  <!-- 18 Cooper Hewitt -->
+  <div class="card" data-tags="discount upper east side design carnegie mansion smithsonian">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">18. Cooper Hewitt</span>
+          <span class="card-sub">Smithsonian Design Museum</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Cooper+Hewitt+Smithsonian+Design+Museum+2+East+91st+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper East Side · 2 E 91st St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $22 / Student $10 (~55% off)</div>
+      <div class="detail-row"><span class="lbl">PWYW:</span> Daily 5:00–6:00 PM</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Carnegie Mansion — retrofitting Gilded Age load-bearing envelopes with digital museum tech.</div>
+    </div>
+  </div>
+
+  <!-- 19 Frick -->
+  <div class="card" data-tags="discount upper east side frick mansion courtyard">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">19. The Frick Collection</span>
+          <span class="card-sub">The Frick Collection</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Frick+Collection+1+East+70th+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper East Side · 1 East 70th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $30 / Student $17</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> Wed 1:30–5:30 PM (PWYW) · First Fridays 5:30–9 PM</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Restored Fifth Ave mansion — domestic spatial loops and integrated classical courtyard.</div>
+    </div>
+  </div>
+
+  <!-- 20 Eldridge Street -->
+  <div class="card" data-tags="discount chinatown synagogue restoration timber">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">20. Museum at Eldridge Street</span>
+          <span class="card-sub">Eldridge Street Synagogue</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Museum+at+Eldridge+Street+12+Eldridge+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Chinatown · 12 Eldridge St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $15 / Student $10</div>
+      <div class="detail-row"><span class="lbl">PWYW:</span> Mondays &amp; Fridays</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Structural timber lines and iconic rose window light filtering.</div>
+    </div>
+  </div>
+
+  <!-- 21 Brooklyn Museum -->
+  <div class="card" data-tags="discount brooklyn beaux arts mckim mead white prospect">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">21. Brooklyn Museum</span>
+          <span class="card-sub">Brooklyn Museum</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Brooklyn+Museum+200+Eastern+Parkway+Brooklyn+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Prospect Heights, Brooklyn · 200 Eastern Pkwy
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $21 / Student $14 · PWYC anytime at desk</div>
+      <div class="detail-row"><span class="lbl">Free Windows:</span> First Saturdays 5–10 PM</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> McKim, Mead &amp; White Beaux-Arts civic layout — pair with Prospect Park.</div>
+    </div>
+  </div>
+
+  <!-- 22 AMNH -->
+  <div class="card" data-tags="discount upper west side natural history studio gang gilder">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">22. AMNH</span>
+          <span class="card-sub">American Museum of Natural History</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=American+Museum+of+Natural+History+200+Central+Park+West+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper West Side · 200 Central Park West
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Suggested $25 / Student $20</div>
+      <div class="detail-row"><span class="lbl">PWYW:</span> NY Residents &amp; Tri-State students · CUID may help as student proof; NY residency may require additional ID</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Studio Gang's Richard Gilder Center — fluid shotcrete dynamics and organic daylighting.</div>
+    </div>
+  </div>
+
+  <!-- 23 New Museum -->
+  <div class="card" data-tags="discount bowery sanaa aluminum contemporary oma">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">23. New Museum</span>
+          <span class="card-sub">New Museum of Contemporary Art</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=New+Museum+235+Bowery+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Bowery · 235 Bowery
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Adult $25 / Student $19 · No regular free hours</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> SANAA — stacked aluminum mesh boxes, column-free floorplates, and industrial skin texture.</div>
+    </div>
+  </div>
+
+  <!-- 24 Judd -->
+  <div class="card" data-tags="discount soho judd minimalist cast iron loft">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">24. Judd Foundation</span>
+          <span class="card-sub">101 Spring Street · Guided tours only</span>
+        </div>
+        <span class="badge badge-discount">Discount / PWYW</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Judd+Foundation+101+Spring+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        SoHo · 101 Spring St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> General $32.50 / Student $17.50 · Book ahead (guided tours only)</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Minimalist pilgrimage — precision structural grid and furniture spacing in Judd's cast-iron SoHo loft.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PART 3 ══════════════ -->
+  <div class="section-head" data-section="always-free">
+    <h2><span class="section-dot"></span><span class="section-label">Part 3</span></h2>
+    <div class="section-title-sub">100% Always Free · No ID Required</div>
+    <span class="section-count">8 venues</span>
+  </div>
+
+  <!-- 25 Africa Center -->
+  <div class="card" data-tags="always-free east harlem central park north">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">25. The Africa Center</span>
+          <span class="card-sub">The Africa Center</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=The+Africa+Center+1280+Fifth+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        East Harlem · 1280 5th Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Permanently $0 — no ID required</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Urban cultural programs at the intersection of Central Park North and East Harlem.</div>
+    </div>
+  </div>
+
+  <!-- 26 CCCADI -->
+  <div class="card" data-tags="always-free harlem firehouse adaptive reuse caribbean diaspora">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">26. CCCADI</span>
+          <span class="card-sub">Caribbean Cultural Center African Diaspora Institute</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=CCCADI+212+East+125th+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        East Harlem · 212 E 125th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Free &amp; Open to All</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Adaptive interior restructuring inside a restored brick firehouse — tight micro-civic footprint.</div>
+    </div>
+  </div>
+
+  <!-- 27 Socrates -->
+  <div class="card" data-tags="always-free queens long island city sculpture outdoor waterfront">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">27. Socrates Sculpture Park</span>
+          <span class="card-sub">Socrates Sculpture Park</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Socrates+Sculpture+Park+32-01+Vernon+Boulevard+Long+Island+City+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Long Island City · 32-01 Vernon Blvd
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Free 365 days · Open 9 AM to sunset</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Post-industrial landscape urbanism — former waterfront landfill reclaimed into open public art lab.</div>
+    </div>
+  </div>
+
+  <!-- 28 Scandinavia House -->
+  <div class="card" data-tags="always-free union square gramercy nordic scandinavian">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">28. Scandinavia House</span>
+          <span class="card-sub">The Nordic Center in America</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Scandinavia+House+58+Park+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Union Square / Gramercy · 58 Park Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Main gallery exhibitions free</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Clean Nordic modernism — timber acoustic controls and minimalist detailing on Park Ave.</div>
+    </div>
+  </div>
+
+  <!-- 29 Folk Art -->
+  <div class="card" data-tags="always-free upper west side lincoln center folk art">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">29. American Folk Art Museum</span>
+          <span class="card-sub">American Folk Art Museum</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=American+Folk+Art+Museum+2+Lincoln+Square+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Upper West Side · 2 Lincoln Square
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Free daily for all public</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Intimate domestic scale, tight vertical pacing near Lincoln Center.</div>
+    </div>
+  </div>
+
+  <!-- 30 Bronx Museum -->
+  <div class="card" data-tags="always-free bronx grand concourse community">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">30. The Bronx Museum</span>
+          <span class="card-sub">The Bronx Museum of the Arts</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Bronx+Museum+of+the+Arts+1040+Grand+Concourse+Bronx+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Grand Concourse, The Bronx · 1040 Grand Concourse
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Free 365 days</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Grand Concourse landmark — community-centered architecture and street-front dialogue.</div>
+    </div>
+  </div>
+
+  <!-- 31 Goethe -->
+  <div class="card" data-tags="always-free union square gramercy german design library">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">31. Goethe-Institut New York</span>
+          <span class="card-sub">Goethe-Institut New York</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Goethe-Institut+New+York+30+Irving+Place+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Union Square / Gramercy · 30 Irving Pl
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> Exhibitions &amp; design library free</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Global architectural discourse, cross-cultural housing models, media screenings.</div>
+    </div>
+  </div>
+
+  <!-- 32 Schomburg -->
+  <div class="card" data-tags="always-free harlem research black culture nypl archive">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">32. Schomburg Center</span>
+          <span class="card-sub">Schomburg Center for Research in Black Culture</span>
+        </div>
+        <span class="badge badge-free">Always Free</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Schomburg+Center+for+Research+in+Black+Culture+515+Malcolm+X+Blvd+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Harlem · 515 Malcolm X Blvd
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Admission:</span> NYPL research branch — galleries always free</div>
+      <button class="arch-toggle" onclick="toggleArch(this)">
+      <span class="toggle-icon">▶</span>
+      📐 GSAPP note
+    </button>
+    <div class="arch-note"><strong>📐 GSAPP:</strong> Climate-controlled archive vaults integrated with neighborhood civic spaces.</div>
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="quick-ref">
+    <h3>📐 GSAPP Architecture Focus</h3>
+    <div class="qr-item"><strong>Structural Icons:</strong> Guggenheim (Wright), New Museum (SANAA), Whitney (Piano), Wallach (Piano), MoMA PS1</div>
+    <div class="qr-item"><strong>Materiality &amp; Serenity:</strong> Noguchi, Met Cloisters, Morgan Library, Japan Society, Cooper Hewitt, Judd Foundation</div>
+    <div class="qr-item"><strong>Urban Systems &amp; Macro:</strong> Queens Museum (NYC Panorama), Intrepid, Brooklyn Museum, AMNH (Studio Gang)</div>
+    <div class="qr-foot">Unofficial student-made guide · Columbia GSAPP Mobile Edition · May 2026</div>
+  </div>
+
+</div><!-- end tab-museums -->
+
+<div id="tab-cafes" class="tab-panel">
+  <!-- CAFÉ ALERT -->
+  <div class="alert" style="margin-top:20px;">
+    <div class="alert-title">☕ How to use this guide</div>
+    <p>Hours, discounts & WiFi change often. <strong>Always check Google Maps before visiting.</strong> Ask at the counter — many places offer student discounts even when it's not advertised.</p>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="cafe-search" type="search" placeholder="Search café, vibe, or neighborhood…" autocomplete="off" />
+  </div>
+
+  <!-- FILTER PILLS -->
+  <div class="filter-row" id="cafe-filters">
+    <span class="pill active" data-cafe-filter="all">All 15</span>
+    <span class="pill" data-cafe-filter="work">Work Mode</span>
+    <span class="pill" data-cafe-filter="social">Social</span>
+    <span class="pill" data-cafe-filter="quick">Quick Stop</span>
+    <span class="pill" data-cafe-filter="inspo">Inspo</span>
+  </div>
+
+  <!-- ══ SECTION 1: DESIGN & FOCUS ══ -->
+  <div class="section-head">
+    <h2>Work Mode · Design &amp; Focus</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Long sessions</span>
+      <span class="section-count">6 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">Best for laptop work, studio readings, and long sessions after crit.</p>
+
+  <!-- 1 Dear Mama -->
+  <div class="card" data-cafe-tags="work inspo manhattanville wifi laptop">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">1. Dear Mama</span>
+          <span class="card-sub">Jerome L. Greene Science Center, 1F — Manhattanville</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Dear+Mama+Coffee+3280+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Manhattanville · 3280 Broadway
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Renzo Piano-designed building, soaring ceilings, full glass facade — the most architecturally impressive café near campus.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Pre/post studio work, laptop sessions, brunch meetings</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Outlets ✓</span>
+        <span class="vibe vibe-icon">🏛 Renzo Piano</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> The Greene Science Center itself is a case study — visit Dear Mama and spend 10 min studying the curtain wall detailing above you.</div>
+    </div>
+  </div>
+
+  <!-- 2 Qahwah House -->
+  <div class="card" data-cafe-tags="work social late wifi broadway">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">2. Qahwah House</span>
+          <span class="card-sub">Yemeni Coffee House</span>
+        </div>
+        <span class="badge badge-free">Late Night</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Qahwah+House+2869+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Broadway &amp; 112th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> NYC's only Yemeni coffee house near campus. Open until <strong>1 AM on Fri/Sat</strong> — the only real late-night option uptown.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Long work sessions, post-deadline hangout, cardamom latte + honeycomb bread</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Outlets ✓</span>
+        <span class="vibe vibe-late">Open til 1 AM</span>
+        <span class="vibe vibe-social">2F window seats</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> The two-floor layout with communal pot service creates a rare shared-social atmosphere — study how it drives longer dwell time vs typical café layouts.</div>
+    </div>
+  </div>
+
+  <!-- 3 Plowshares -->
+  <div class="card" data-cafe-tags="work wifi amsterdam roastery">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">3. Plowshares Coffee Roasters</span>
+          <span class="card-sub">West Harlem Roastery</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Plowshares+Coffee+Roasters+1351+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        West Harlem · 1351 Amsterdam Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> 3,000 sq ft roastery-café. Watch beans roast in a 1940s Probat roaster. Most spacious off-campus work spot on this list.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Full-day reading, thesis writing, quiet solo work</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Lots of seats</span>
+        <span class="vibe vibe-icon">🏭 Live roasting</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> Industrial adaptive reuse — original roasting equipment as program anchor. A micro case study in productive industrial preservation.</div>
+    </div>
+  </div>
+
+  <!-- 4 Sipsteria -->
+  <div class="card" data-cafe-tags="work quiet amsterdam cozy">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">4. Sipsteria</span>
+          <span class="card-sub">The Quiet Neighborhood Spot</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Sipsteria+Amsterdam+Avenue+New+York+Morningside+Heights" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; W 122nd St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Mismatched cushioned couches, dim lighting, grandmother's living room energy. Less chaotic than most campus-adjacent spots.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Solo focus work, getting away from studio energy</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Easy to find seats</span>
+        <span class="vibe vibe-social">Cozy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 Capital One Café -->
+  <div class="card" data-cafe-tags="work wifi outlets midtown laptop">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">5. Capital One Café</span>
+          <span class="card-sub">Midtown — Surprisingly great work spot</span>
+        </div>
+        <span class="badge badge-discount">Card Perk</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Capital+One+Cafe+34th+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Midtown · 34th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Inside a bank — but spacious, outlet-heavy, comfortable, and zero pressure to leave. A hidden gem for Midtown work sessions.</div>
+      <div class="detail-row"><span class="lbl">Discount:</span> Capital One cardholders get <strong>50% off drinks</strong></div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-work">Tons of outlets</span>
+        <span class="vibe vibe-late">Stay as long as you want</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 Max Caffè -->
+  <div class="card" data-cafe-tags="work social amsterdam evening wine">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">6. Max Caffè</span>
+          <span class="card-sub">European-style day-to-night café</span>
+        </div>
+        <span class="badge badge-passport">Work Mode</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Max+Caffe+1262+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; 122nd St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Vintage sofas, moody lighting. Daytime laptop work → evening wine or beer. Rare "studio critique debrief" energy — relaxed but stimulating.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Post-crit decompression, casual conversations, evening work</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">Wine &amp; Beer ✓</span>
+        <span class="vibe vibe-social">Comfy sofas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: COLUMBIA CLASSICS ══ -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Columbia Classics · Campus Routine</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">On & near campus</span>
+      <span class="section-count">4 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">Legendary or campus-essential. Every Columbia student ends up here.</p>
+
+  <!-- 7 Hungarian Pastry Shop -->
+  <div class="card" data-cafe-tags="quick social classic amsterdam cash">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">7. Hungarian Pastry Shop</span>
+          <span class="card-sub">A Columbia institution since 1961</span>
+        </div>
+        <span class="badge badge-free">Legend</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Hungarian+Pastry+Shop+1030+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; 111th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> No WiFi, no outlets, cash only. Dozens of novels written here. "The anti-café café" — dark, noisy, legendary. Unlimited drip coffee refills for ~$2.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Analog sketching, theory readings, escaping your phone</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-no" style="background:#F1F5F9;color:#64748B;">No WiFi</span>
+        <span class="vibe vibe-no" style="background:#F1F5F9;color:#64748B;">Cash Only</span>
+        <span class="vibe vibe-late">Free refills</span>
+        <span class="vibe vibe-icon">🏆 Since 1961</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 Joe Coffee (campus) -->
+  <div class="card" data-cafe-tags="quick campus cuid joe coffee">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">8. Joe Coffee — Campus</span>
+          <span class="card-sub">4 locations: NoCo · Dodge · Pulitzer · CBS</span>
+        </div>
+        <span class="badge badge-passport">On Campus</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Joe+Coffee+Northwest+Corner+Building+Columbia+University" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        NoCo · 550 W 120th St (CUID required)
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Strong espresso, curtain-wall views at NoCo (Rafael Moneo building). Best quick between-studio option. <strong>CUID required</strong> at some locations.</div>
+      <div class="detail-row"><span class="lbl">Flex:</span> Accepts Columbia Dining Flex at select locations</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-quick">Fastest option</span>
+        <span class="vibe vibe-icon">🏛 NoCo by Moneo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 Nous Espresso -->
+  <div class="card" data-cafe-tags="quick campus grad quiet philosophy">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">9. Nous Espresso Bar</span>
+          <span class="card-sub">Graduate Student Center, Philosophy Hall</span>
+        </div>
+        <span class="badge badge-passport">On Campus</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Nous+Espresso+1150+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Philosophy Hall · 1150 Amsterdam Ave
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Grad student lounge energy. Quiet, calm, and notably less chaotic than NoCo. Good for a focused hour on campus.</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">Quiet</span>
+        <span class="vibe vibe-quick">Grad students only feel</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 Blue Bottle -->
+  <div class="card" data-cafe-tags="quick campus broadway minimal">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">10. Blue Bottle Coffee</span>
+          <span class="card-sub">Minimalist specialty coffee</span>
+        </div>
+        <span class="badge badge-discount">Quick Stop</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Blue+Bottle+Coffee+2901+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Broadway &amp; 115th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Grid-clean white interiors, zero visual noise. Seats are limited and competitive — best as a reset spot, not a long work session.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> New Orleans iced coffee + idea clarity, short mental reset</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-icon">✦ Minimal design</span>
+        <span class="vibe vibe-quick">Best coffee quality</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: SOCIAL / GROUP ══ -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Social · Group Hangout</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">After crit · team hangout</span>
+      <span class="section-count">3 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">Post-final review, studio bonding, or just not wanting to go home yet.</p>
+
+  <!-- 11 Arts and Crafts Beer Parlor -->
+  <div class="card" data-cafe-tags="social beer pub amsterdam post-crit">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">11. Arts &amp; Crafts Beer Parlor</span>
+          <span class="card-sub">Craft beer pub with art on the walls</span>
+        </div>
+        <span class="badge badge-discount">Social</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Arts+and+Crafts+Beer+Parlor+1135+Amsterdam+Avenue+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Amsterdam Ave &amp; 116th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> The GSAPP post-crit spot. Art on the walls, craft beer, not a club — the perfect volume for a real design conversation after a brutal pin-up.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Final review debrief with professors, studio team hangout</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">🍺 Craft beer</span>
+        <span class="vibe vibe-social">Art walls</span>
+        <span class="vibe vibe-icon">Post-crit classic</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 Hex & Co -->
+  <div class="card" data-cafe-tags="social group boardgame morningside">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">12. Hex &amp; Co.</span>
+          <span class="card-sub">Board game café</span>
+        </div>
+        <span class="badge badge-discount">Social</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Hex+and+Company+2756+Broadway+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Morningside Heights · 2756 Broadway
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Board games, coffee, and no pressure. Popular finals-season decompression spot — Spectator named it a top off-campus study break destination.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Group bonding, stress relief, first-semester icebreakers</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">🎲 Board games</span>
+        <span class="vibe vibe-social">Group-friendly</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 Double Dutch Espresso -->
+  <div class="card" data-cafe-tags="social quick harlem community cozy">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">13. Double Dutch Espresso</span>
+          <span class="card-sub">Harlem community café</span>
+        </div>
+        <span class="badge badge-discount">Social</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Double+Dutch+Espresso+2194+Frederick+Douglass+Blvd+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        Frederick Douglass Blvd &amp; 118th St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> East side of Morningside Park — "community living room" feel, Counter Culture Coffee. A quick walk through the park makes it a proper escape.</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-social">Community feel</span>
+        <span class="vibe vibe-icon">🌿 Park walk</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: INSPO TRIPS ══ -->
+  <div class="section-head" style="margin-top:40px;">
+    <h2>Inspo Trips · Worth the Journey</h2>
+    <div class="section-head-bottom">
+      <span class="section-label">Weekend / off-campus</span>
+      <span class="section-count">2 spots</span>
+    </div>
+  </div>
+  <p class="cafe-section-intro" style="padding: 0 14px;">When campus feels small and you need a real spatial reset.</p>
+
+  <!-- 14 Devoción DUMBO -->
+  <div class="card" data-cafe-tags="inspo brooklyn skylight plant dumbo">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">14. Devoción</span>
+          <span class="card-sub">DUMBO, Brooklyn — The Skylight Café</span>
+        </div>
+        <span class="badge badge-free">Inspo Trip</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Devocion+Coffee+69+Grand+Street+Brooklyn+NY" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        DUMBO, Brooklyn · 69 Grand St
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Floor-to-ceiling skylight, live plants everywhere, Colombian farm-to-cup. One of NYC's most beautiful café interiors — worth making a portfolio visit.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Portfolio research day, weekend work session with spatial inspiration</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-icon">🌿 Skylight + plants</span>
+        <span class="vibe vibe-icon">📐 Must-visit space</span>
+      </div>
+      <div class="arch-note"><strong>📐 GSAPP:</strong> The skylight and live-plant integration is a textbook study in biophilic design and natural light orchestration. Bring your sketchbook.</div>
+    </div>
+  </div>
+
+  <!-- 15 Kuro Kuma -->
+  <div class="card" data-cafe-tags="quick inspo la-salle minimal outdoor">
+    <div class="card-top">
+      <div class="card-title-row">
+        <div>
+          <span class="card-name">15. Kuro Kuma Espresso</span>
+          <span class="card-sub">Minimalist local café between two campuses</span>
+        </div>
+        <span class="badge badge-discount">Quick Stop</span>
+      </div>
+      <a class="map-link" href="https://maps.google.com/?q=Kuro+Kuma+Espresso+121+La+Salle+Street+New+York" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        121 La Salle St (between campuses)
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="detail-row"><span class="lbl">Vibe:</span> Tiny and minimalist inside, but idyllic outdoor seating on quiet La Salle St. Peaceful midpoint between Morningside and Manhattanville.</div>
+      <div class="detail-row"><span class="lbl">Best for:</span> Takeout, outdoor reading, 20-min break between classes</div>
+      <div class="vibe-row">
+        <span class="vibe vibe-work">WiFi ✓</span>
+        <span class="vibe vibe-icon">☀️ Outdoor seats</span>
+        <span class="vibe vibe-quick">Counter Culture coffee</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="quick-ref" style="margin-top:32px;">
+    <h3>☕ Café Guide Notes</h3>
+    <div class="qr-item"><strong>Hours &amp; WiFi change often</strong> — always check Google Maps before making the trip.</div>
+    <div class="qr-item"><strong>Student discounts:</strong> Ask at the counter even if not advertised — many local spots offer one.</div>
+    <div class="qr-item"><strong>Cash-only spots:</strong> Hungarian Pastry Shop, Absolute Bagels — keep small bills on you.</div>
+    <div class="qr-foot">Based on Reddit r/columbia, Columbia SIPA blog, Columbia Spectator, and Bwog reviews · May 2026</div>
+  </div>
+</div>
+
+
+<div id="tab-studio" class="tab-panel">
+<div class="studio-wrap">
+
+  <div class="studio-hero">
+    <div class="studio-hero-label">GSAPP MSAUD · Summer 2026</div>
+    <h2>Assignments</h2>
+    <p>4 courses · tap any task for details</p>
+    <div id="next-due-badge" class="countdown-badge">Loading...</div>
+  </div>
+
+  <div class="sub-tab-nav">
+    <button class="sub-tab-btn active upcoming" onclick="switchSubTab('upcoming', this)">Upcoming</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('as-studio', this)">Studio</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('as-udht', this)">UDHT</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('as-rny', this)">RNYU</button>
+    <button class="sub-tab-btn" onclick="switchSubTab('as-dteq', this)">DTEQ</button>
+  </div>
+
+  <!-- UPCOMING -->
+  <div id="sub-upcoming" class="sub-panel active">
+    <div id="upcoming-list" style="padding:12px 0 60px;"></div>
+  </div>
+
+  <!-- STUDIO -->
+  <div id="sub-as-studio" class="sub-panel">
+    <div style="padding:12px 0 60px;">
+      <div class="course-block">
+        <div class="course-header">
+          <div class="course-color" style="background:#3B82F6;min-height:40px;"></div>
+          <div style="flex:1"><div class="course-title">Studio</div><span class="course-sub">Urban Design Studio · 114 Avery &amp; Fayerweather 206</span></div>
+        </div>
+        <div class="task-item" id="task-studio-1" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Urban Fabric Drawing</div><div class="task-detail">20x20" panel + 11x17" + 2-min presentation · Archive due Jun 5</div></div>
+          <div class="task-due"><div class="due-date">Jun 1</div><div class="due-days" id="days-studio-1"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Process</strong><ul>
+          <li>Select a location you have lived in and feel connected to</li>
+          <li>Trace at 1" = 750': street pattern &amp; blocks, building footprints, parcelization (dashed lines)</li>
+          <li>Measure: parcel size, lot coverage, FAR, street width, block dimensions, ROW width</li>
+          </ul>
+          <strong>Deliverables</strong><ul>
+          <li>20x20" panel: plan (1"=750') + section through center revealing built density &amp; ROW</li>
+          <li>11x17" vertical: name, location, measurements, section at 1"=50'</li>
+          <li>Black &amp; white only — hatches, shading, line weight for hierarchy</li>
+          <li><strong>2-minute verbal presentation</strong> — Jun 1</li>
+          </ul>
+          <div style="margin-top:10px;padding:10px 12px;background:#FFF0E6;border-left:3px solid #F87B1B;border-radius:0 6px 6px 0;">
+            <div style="font-size:11px;font-weight:800;color:#F87B1B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;">📬 Archive Submission</div>
+            <div style="font-size:12px;color:#374170;line-height:1.6;">
+              Submit 20x20" panel + 11x17 as <strong>PDF or JPEG (300dpi)</strong><br>
+              Max file size: <strong>25MB</strong><br>
+              Due: <strong>June 5th at 4PM</strong><br><br>
+              <strong>Naming convention:</strong><br>
+              <code style="font-size:11px;background:#fff;padding:2px 5px;border-radius:3px;">UD_Bhatia_SeunghaYou_SU26_assn0_drawing.pdf</code><br>
+              <code style="font-size:11px;background:#fff;padding:2px 5px;border-radius:3px;">UD_Bhatia_SeunghaYou_SU26_assn0_statistics.pdf</code>
+            </div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UDHT -->
+  <div id="sub-as-udht" class="sub-panel">
+    <div style="padding:12px 0 60px;">
+      <div class="course-block">
+        <div class="course-header">
+          <div class="course-color" style="background:#8B5CF6;min-height:40px;"></div>
+          <div style="flex:1"><div class="course-title">UDHT</div><span class="course-sub">Urban Design History &amp; Theory</span></div>
+        </div>
+
+        <div class="task-item" id="task-udht-0" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 2 Readings</div><div class="task-detail">Social and Physical Urban Systems</div></div>
+          <div class="task-due"><div class="due-date">Jun 3</div><div class="due-days" id="days-udht-0"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner"><ul>
+          <li>Mattern, Shannon — "A City Is Not a Computer" <em>Places Journal</em> (Feb 2017) &rarr; <a href="https://placesjournal.org/article/a-city-is-not-a-computer/" target="_blank" style="color:var(--blue)">link</a></li>
+          <li>McKittrick, Katherine — "On Plantations, Prisons, and a Black Sense of Place" 12:8 (2011): 947-63</li>
+        </ul>
+        <a class="drive-btn" href="https://drive.google.com/drive/folders/1w7FHPN6nSynGwrTPGNaqd15Ye0WC5hfe" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Week 2 Reading Materials</a>
+        </div></div>
+
+        <div class="task-item" id="task-udht-1" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Project Proposal</div><div class="task-detail">+ Week 3 Readings — 19th Century Modernism</div></div>
+          <div class="task-due"><div class="due-date">Jun 10</div><div class="due-days" id="days-udht-1"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Project Proposal</strong> — Choose an urban design project from past 100 years. Begin formal analysis.<br><br>
+          <strong>Week 3 Readings:</strong><ul>
+          <li>Benjamin — "Paris: Capital of the Nineteenth Century" pp. 146-62</li>
+          <li>Engels — "The Great Towns" pp. 47-55</li>
+          <li>Howard — "Introduction" Garden Cities of To-Morrow pp. 2-19</li>
+          <li>Harvey — "The Political Economy of Public Space" pp. 17-34</li>
+          </ul><em>Projects: E. Howard Garden City</em><br>
+        <a class="drive-btn" href="https://drive.google.com/drive/folders/1_AhbOM_hiPH4OYATXyEf8Pzpr1M2SBhP" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Week 3 Reading Materials</a>
+        </div></div>
+
+        <div class="task-item" id="task-udht-w4" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 4 Readings</div><div class="task-detail">Suburbia + Sprawl [Pedro Ramos Lecture]</div></div>
+          <div class="task-due"><div class="due-date">Jun 17</div><div class="due-days" id="days-udht-w4"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <em>Projects: FLW Broadacre City · Llewellyn Park NJ · Levittown NY · Radburn NJ · Lafayette Park Detroit</em><br><br>
+          <ul>
+          <li>Gans — "An Anatomy of Suburbia" pp. 137-59</li>
+          <li>Taylor — "Homeowner's Business" pp. 1-24</li>
+          <li>Jackson — Crabgrass Frontier, introduction</li>
+          <li>Fishman — Bourgeois Utopias pp. 18-102</li>
+          <li>Glazer — "Why City Planning is Obsolete" pp. 96-98</li>
+          <li>Harris — Little White Houses pp. 1-25</li>
+          </ul>
+        <a class="drive-btn" href="https://drive.google.com/drive/folders/1sL2rFgjZevUc1pGQoRycx5Jns0CSyigc" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Week 4 Reading Materials</a>
+        </div></div>
+
+        <div class="task-item" id="task-udht-2" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Formal Analysis</div><div class="task-detail">+ Week 5 Readings — Ethical Shift of Postwar Urbanism</div></div>
+          <div class="task-due"><div class="due-date">Jun 24</div><div class="due-days" id="days-udht-2"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Formal Analysis</strong> — First iteration incorporating proposal feedback.<br><br>
+          <ul>
+          <li>Pevsner — "Visual Planning and the Picturesque" pp. 169-77</li>
+          <li>Sert — "The Heart of the City" pp. 2-10</li>
+          <li>Smithson — "Connection Allows Scatter" pp. 42-63</li>
+          <li>Team 10 — "Doorn Manifesto" [1954]</li>
+          <li>Geddes — "Education for Town Planning" selections</li>
+          </ul>
+        <a class="drive-btn" href="https://drive.google.com/drive/folders/1sL2rFgjZevUc1pGQoRycx5Jns0CSyigc" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Week 5 Reading Materials</a>
+        </div></div>
+
+        <div class="task-item" id="task-udht-w6" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 6 Readings</div><div class="task-detail">Systems, Supports, Self-Organized Urbanism [Samantha Saona]</div></div>
+          <div class="task-due"><div class="due-date">Jul 1</div><div class="due-days" id="days-udht-w6"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <em>Projects: Turner Lima · PREVI · Doshi Aranya · Fathy New Gourna · Habraken · Lynch City Images</em><br><br>
+          <ul>
+          <li>Doxiadis — "Ekistics" Science 170 (1970): 393-404</li>
+          <li>Lynch — "The City Image and its Elements" pp. 50-55</li>
+          <li>Barthes — "Semiology and Urbanism" pp. 191-201</li>
+          <li>Habraken — Supports pp. 59-91</li>
+          </ul>
+        </div></div>
+
+        <div class="task-item" id="task-udht-w7" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 7 Readings</div><div class="task-detail">Climate Justice and the City</div></div>
+          <div class="task-due"><div class="due-date">Jul 8</div><div class="due-days" id="days-udht-w7"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <em>Projects: New Orleans/Katrina · Curitiba · MVRDV Metacity · Quito Papers · Masdar City · Cox's Bazaar</em><br><br>
+          <ul>
+          <li>Bullard — "Environmentalism and Social Justice" Dumping in Dixie pp. 1-20</li>
+          <li>Goh — "Planet at the End of the City" pp. 240-258</li>
+          <li>McHarg — "The Place of Nature in the City of Man" pp. 15-46</li>
+          <li>Campanella — "A Katrina Lexicon" Places (Jul 2015)</li>
+          <li>Kolbert — "The Siege of Miami" New Yorker (Dec 2015)</li>
+          </ul>
+        </div></div>
+
+        <div class="task-item" id="task-udht-3" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Thick Description</div><div class="task-detail">+ Week 8 Readings — How New is "New Urbanism"?</div></div>
+          <div class="task-due"><div class="due-date">Jul 15</div><div class="due-days" id="days-udht-3"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Thick Description</strong> — Social, political, economic &amp; aesthetic context of project.<br><br>
+          <ul>
+          <li>Duany &amp; Plater-Zyberk — "The Second Coming of the American Small Town" pp. 19-48</li>
+          <li>Talen — "The Social Goals of New Urbanism" pp. 165-88</li>
+          <li>Williamson — "Urban Design Tactics for Suburban Retrofitting" pp. 103-21</li>
+          <li>Somol — "Indifferent Urbanism" pp. 326-31</li>
+          </ul>
+          <em>Projects: Seaside FL · Celebration FL · Sidewalk Labs · Euralille · Pujiang New Town</em>
+        </div></div>
+
+        <div class="task-item" id="task-udht-w9" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 9 Readings</div><div class="task-detail">The City in Crisis</div></div>
+          <div class="task-due"><div class="due-date">Jul 22</div><div class="due-days" id="days-udht-w9"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul>
+          <li>Maynard — "Hunted and Banned" Boston Review (Mar 2026) &rarr; <a href="https://www.bostonreview.net/articles/hunted-and-banned/" target="_blank" style="color:var(--blue)">link</a></li>
+          <li>Minton — "The Price of Regeneration" Places (Sep 2018)</li>
+          <li>Appadurai — "The Production of Locality" pp. 178-99</li>
+          <li>Deleuze &amp; Guattari — "Introduction: Rhizome" pp. 3-25</li>
+          <li>Gilroy — "The Status of Difference" pp. 198-209</li>
+          </ul>
+        </div></div>
+
+        <div class="task-item" id="task-udht-w10" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Individual Meetings</div><div class="task-detail">Discussion Leaders re: Final Projects</div></div>
+          <div class="task-due"><div class="due-date">Aug 5</div><div class="due-days" id="days-udht-w10"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          Individual meetings with Discussion Leaders. Be prepared to discuss argument, sources, and writing choices without AI.
+        </div></div>
+
+        <div class="task-item" id="task-udht-4" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Final Paper</div><div class="task-detail">750-word final draft</div></div>
+          <div class="task-due"><div class="due-date">Aug 10</div><div class="due-days" id="days-udht-4"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul>
+          <li>750-word final draft incorporating all feedback</li>
+          <li>Boldly propose critical and subjective interpretations</li>
+          <li>Include 2-3 sentence note on AI tool usage</li>
+          </ul>
+        </div></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- READING NY -->
+  <div id="sub-as-rny" class="sub-panel">
+    <div style="padding:12px 0 60px;">
+      <div class="course-block">
+        <div class="course-header">
+          <div class="course-color" style="background:#F59E0B;min-height:40px;"></div>
+          <div style="flex:1"><div class="course-title">Reading New York Urbanism</div><span class="course-sub">Site visits &amp; urban analysis · Tuesdays 10AM</span></div>
+        </div>
+        <div class="task-item" style="cursor:default;">
+          <div class="task-check" style="border-color:var(--border);background:var(--bg);color:var(--text-3);font-size:14px;">-</div>
+          <div class="task-body"><div class="task-name" style="color:var(--text-3);font-weight:500;">No assignments yet</div><div class="task-detail">Site visit: Jun 2 (10AM-12PM)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DTEQ -->
+  <div id="sub-as-dteq" class="sub-panel">
+    <div style="padding:12px 0 60px;">
+      <div class="course-block">
+        <div class="course-header">
+          <div class="course-color" style="background:#10B981;min-height:40px;"></div>
+          <div style="flex:1"><div class="course-title">DTEQ</div><span class="course-sub">114 Avery &amp; Fayerweather 206 · Tuesdays</span></div>
+        </div>
+        <div class="task-item" style="cursor:default;">
+          <div class="task-check" style="border-color:var(--border);background:var(--bg);color:var(--text-3);font-size:14px;">-</div>
+          <div class="task-body"><div class="task-name" style="color:var(--text-3);font-weight:500;">No assignments yet</div><div class="task-detail">Classes: 3-5PM (114 Avery) &amp; 5-7PM (Fayerweather 206)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end studio-wrap -->
+</div><!-- end tab-studio -->
+
+</main>
+
+<footer>
+  <p>Unofficial student-made guide</p>
+  <p>Compiled by Seungha You, Columbia GSAPP MSAUD 2026</p>
+  <p>Info checked on May 25, 2026. Please verify official sites before visiting.</p>
+</footer>
+
+<script>
+
+
+  function switchTab(tab, btn) {
+    // panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    // buttons
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  // Café search & filter
+  const cafeSearch = document.getElementById('cafe-search');
+  const cafeCards = document.querySelectorAll('#tab-cafes .card');
+  const cafePills = document.querySelectorAll('[data-cafe-filter]');
+
+  let activeCafeFilter = 'all';
+  let cafeQuery = '';
+
+  function applyCafeFilters() {
+    let visible = 0;
+    cafeCards.forEach(card => {
+      const tags = card.dataset.cafeTags || '';
+      const text = card.innerText.toLowerCase();
+      const matchFilter = activeCafeFilter === 'all' || tags.includes(activeCafeFilter);
+      const matchSearch = !cafeQuery || text.includes(cafeQuery) || tags.includes(cafeQuery);
+      if (matchFilter && matchSearch) { card.removeAttribute('data-hidden'); visible++; }
+      else card.setAttribute('data-hidden', 'true');
+    });
+  }
+
+  if (cafePills) {
+    cafePills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        cafePills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeCafeFilter = pill.dataset.cafeFilter;
+        applyCafeFilters();
+      });
+    });
+  }
+  if (cafeSearch) {
+    cafeSearch.addEventListener('input', e => {
+      cafeQuery = e.target.value.toLowerCase().trim();
+      applyCafeFilters();
+    });
+  }
+
+  function toggleArch(btn) {
+    btn.classList.toggle('open');
+    const note = btn.nextElementSibling;
+    note.classList.toggle('visible');
+  }
+
+
+
+  function switchSubTab(id, btn) {
+    document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sub-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  const allTasks = [
+    { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1' },
+    { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1' },
+    { id: 'days-udht-0',   date: '2026-06-03', label: 'Week 2 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Mattern · McKittrick', subTab: 'as-udht', taskId: 'task-udht-0' },
+    { id: 'days-udht-1',   date: '2026-06-10', label: 'Project Proposal', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 3 Readings', subTab: 'as-udht', taskId: 'task-udht-1' },
+    { id: 'days-udht-w4',  date: '2026-06-17', label: 'Week 4 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Suburbia + Sprawl', subTab: 'as-udht', taskId: 'task-udht-w4' },
+    { id: 'days-udht-2',   date: '2026-06-24', label: 'Formal Analysis', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 5 Readings', subTab: 'as-udht', taskId: 'task-udht-2' },
+    { id: 'days-udht-w6',  date: '2026-07-01', label: 'Week 6 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Systems & Self-Organized Urbanism', subTab: 'as-udht', taskId: 'task-udht-w6' },
+    { id: 'days-udht-w7',  date: '2026-07-08', label: 'Week 7 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Climate Justice and the City', subTab: 'as-udht', taskId: 'task-udht-w7' },
+    { id: 'days-udht-3',   date: '2026-07-15', label: 'Thick Description', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 8 Readings', subTab: 'as-udht', taskId: 'task-udht-3' },
+    { id: 'days-udht-w9',  date: '2026-07-22', label: 'Week 9 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'The City in Crisis', subTab: 'as-udht', taskId: 'task-udht-w9' },
+    { id: 'days-udht-w10', date: '2026-08-05', label: 'Individual Meetings', course: 'UDHT', color: '#8B5CF6', detail: 'Discussion Leaders re: Final Projects', subTab: 'as-udht', taskId: 'task-udht-w10' },
+    { id: 'days-udht-4',   date: '2026-08-10', label: 'Final Paper', course: 'UDHT', color: '#8B5CF6', detail: '750-word final draft', subTab: 'as-udht', taskId: 'task-udht-4' },
+  ];
+
+  function goToTask(subTab, taskId) {
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    var studioPanel = document.getElementById('tab-studio');
+    if (studioPanel) studioPanel.classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').indexOf('studio') > -1) b.classList.add('active');
+    });
+    document.querySelectorAll('.sub-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.sub-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    var targetPanel = document.getElementById('sub-' + subTab);
+    if (targetPanel) targetPanel.classList.add('active');
+    document.querySelectorAll('.sub-tab-btn').forEach(function(b) {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').indexOf(subTab) > -1) b.classList.add('active');
+    });
+    setTimeout(function() {
+      var task = document.getElementById(taskId);
+      if (task) {
+        task.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var expand = task.nextElementSibling;
+        if (expand && expand.classList.contains('task-expand') && !expand.classList.contains('open')) {
+          toggleTask(task);
+        }
+      }
+    }, 150);
+  }
+
+    function makeUpcomingCard(t, isPast) {
+      const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : 'soon';
+      const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days + ' days left';
+      const dateStr = new Date(t.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const cardStyle = isPast
+        ? 'margin:0 14px 8px;background:#FFF0E6;border:1.5px solid rgba(248,123,27,.35);'
+        : 'margin:0 14px 8px;cursor:pointer;';
+      const nameColor = isPast ? '#F87B1B' : 'var(--text)';
+      const dotColor = isPast ? '#F87B1B' : t.color;
+      const labelColor = isPast ? '#F87B1B' : 'var(--text-3)';
+      const clickAttr = isPast ? '' : 'onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')"';
+      return '<div class="card" style="' + cardStyle + '" ' + clickAttr + '>'
+        + '<div class="card-top" style="padding:12px 14px 10px;">'
+        + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">'
+        + '<div><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">'
+        + '<span style="width:8px;height:8px;border-radius:50%;background:' + dotColor + ';flex-shrink:0;display:inline-block;"></span>'
+        + '<span style="font-size:10px;font-weight:800;color:' + labelColor + ';text-transform:uppercase;letter-spacing:.5px;">' + t.course + '</span>'
+        + '</div>'
+        + '<div style="font-size:14px;font-weight:700;color:' + nameColor + ';">' + t.label + '</div>'
+        + '<div style="font-size:11px;color:var(--text-3);margin-top:2px;">' + t.detail + '</div>'
+        + '</div>'
+        + '<div style="text-align:right;flex-shrink:0;">'
+        + '<div style="font-size:12px;font-weight:700;color:var(--text-2);">' + dateStr + '</div>'
+        + '<div class="due-days ' + urgency + '" style="font-size:11px;font-weight:700;margin-top:2px;">' + daysLabel + '</div>'
+        + '</div></div></div></div>';
+    }
+
+    function buildUpcoming() {
+      const list = document.getElementById('upcoming-list');
+      if (!list) return;
+      const all = allTasks.map(t => ({ ...t, days: getDaysLeft(t.date) }));
+      const upcoming = all.filter(t => t.days >= 0 && t.days <= 10).sort((a, b) => a.days - b.days);
+      const past = all.filter(t => t.days < 0).sort((a, b) => b.days - a.days);
+
+      let out = '';
+      if (upcoming.length === 0) {
+        out += '<div style="text-align:center;padding:32px 24px 8px;color:var(--text-3);font-size:13px;">No deadlines in the next 10 days 🎉</div>';
+      } else {
+        out += upcoming.map(t => makeUpcomingCard(t, false)).join('');
+      }
+      if (past.length > 0) {
+        out += '<div style="margin:20px 14px 12px;display:flex;align-items:center;gap:10px;">'
+          + '<div style="flex:1;height:1px;background:#F87B1B;opacity:.25;"></div>'
+          + '<span style="font-size:10px;font-weight:800;color:#F87B1B;opacity:.7;text-transform:uppercase;letter-spacing:1px;">Completed</span>'
+          + '<div style="flex:1;height:1px;background:#F87B1B;opacity:.25;"></div>'
+          + '</div>';
+        out += past.map(t => makeUpcomingCard(t, true)).join('');
+      }
+      list.innerHTML = out;
+    }
+
+  buildUpcoming();
+
+  // ── STUDIO TRACKER ───────────────────────────────────────────
+  function toggleTask(item) {
+    const expand = item.nextElementSibling;
+    if (!expand || !expand.classList.contains('task-expand')) return;
+    const isOpen = expand.classList.contains('open');
+    // close all others in the same course-block
+    const block = item.closest('.course-block, .sub-panel, #sub-upcoming');
+    if (block) {
+      block.querySelectorAll('.task-expand.open').forEach(e => e.classList.remove('open'));
+    }
+    // toggle current
+    if (!isOpen) expand.classList.add('open');
+  }
+
+  function getDaysLeft(dateStr) {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const due = new Date(dateStr);
+    due.setHours(0,0,0,0);
+    return Math.round((due - today) / 86400000);
+  }
+
+  function renderDueDays() {
+    const tasks = allTasks;
+    // Also render archive deadline badge
+    const archiveEl = document.getElementById('days-studio-2');
+    if (archiveEl) {
+      const d = getDaysLeft('2026-06-05');
+      if (d < 0) { archiveEl.textContent = 'passed'; archiveEl.className = 'due-days done-label'; }
+      else if (d === 0) { archiveEl.textContent = 'TODAY 4PM'; archiveEl.className = 'due-days urgent'; }
+      else if (d <= 3) { archiveEl.textContent = d + 'd left'; archiveEl.className = 'due-days urgent'; }
+      else { archiveEl.textContent = d + 'd left'; archiveEl.className = 'due-days ok'; }
+    }
+    let nextDue = null;
+    let nextDays = Infinity;
+
+    tasks.forEach(t => {
+      const el = document.getElementById(t.id);
+      if (!el) return;
+      const d = getDaysLeft(t.date);
+      if (d < 0) {
+        el.textContent = 'passed';
+        el.className = 'due-days done-label';
+        // mark timeline item as passed
+        const tl = document.querySelector(`.tl-item[data-date="${t.date}"]`);
+        if (tl) tl.classList.add('passed');
+      } else if (d === 0) {
+        el.textContent = 'TODAY';
+        el.className = 'due-days urgent';
+      } else if (d <= 3) {
+        el.textContent = d + 'd left';
+        el.className = 'due-days urgent';
+      } else if (d <= 10) {
+        el.textContent = d + 'd left';
+        el.className = 'due-days soon';
+      } else {
+        el.textContent = d + 'd left';
+        el.className = 'due-days ok';
+      }
+      if (d >= 0 && d < nextDays) {
+        nextDays = d;
+        nextDue = t;
+      }
+    });
+
+    // Update hero badge
+    const badge = document.getElementById('next-due-badge');
+    if (badge && nextDue) {
+      const label = nextDue.label || 'Next deadline';
+      if (nextDays === 0) {
+        badge.textContent = '🔥 ' + label + ' — TODAY';
+        badge.className = 'countdown-badge urgent';
+      } else if (nextDays <= 3) {
+        badge.textContent = '⚡ ' + label + ' — ' + nextDays + ' days left';
+        badge.className = 'countdown-badge urgent';
+      } else {
+        badge.textContent = '⏳ Next: ' + label + ' — ' + nextDays + ' days';
+        badge.className = 'countdown-badge';
+      }
+    }
+  }
+
+  renderDueDays();
+
+  // ── FILTER PILLS ──────────────────────────────────────
+  const pills = document.querySelectorAll('.pill');
+  const cards = document.querySelectorAll('.card');
+  const searchInput = document.getElementById('search');
+  const noResults = document.getElementById('no-results');
+
+  let activeFilter = 'all';
+  let searchQuery = '';
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach(card => {
+      const tags = card.dataset.tags || '';
+      const text = card.innerText.toLowerCase();
+      const matchFilter =
+        activeFilter === 'all' ||
+        (activeFilter === 'free' && tags.includes('cuid')) ||
+        (activeFilter === 'passport' && tags.includes('passport')) ||
+        (activeFilter === 'discount' && tags.includes('discount')) ||
+        (activeFilter === 'always-free' && tags.includes('always-free'));
+      const matchSearch = !searchQuery || text.includes(searchQuery) || tags.includes(searchQuery);
+
+      if (matchFilter && matchSearch) {
+        card.removeAttribute('data-hidden');
+        visible++;
+      } else {
+        card.setAttribute('data-hidden', 'true');
+      }
+    });
+
+    // Show/hide section headers based on visible cards below them
+    document.querySelectorAll('.section-head').forEach(sh => {
+      const section = sh.dataset.section;
+      const hasVisible = [...cards].some(c =>
+        !c.hasAttribute('data-hidden') && (c.dataset.tags || '').includes(section === 'free' ? 'cuid' : section === 'discount' ? 'discount' : 'always-free')
+      );
+      sh.style.display = (section && !hasVisible && activeFilter !== 'all') ? 'none' : '';
+    });
+
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeFilter = pill.dataset.filter;
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    applyFilters();
+  });
+</script>
+
+</body>
+</html>
