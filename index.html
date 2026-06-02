@@ -2662,7 +2662,7 @@
     }, 150);
   }
 
-    function makeUpcomingCard(t, isPast) {
+  function makeUpcomingCard(t, isPast) {
       const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : 'soon';
       const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days + ' days left';
       const dateStr = new Date(t.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -2692,7 +2692,7 @@
         + '</div></div></div></div>';
     }
 
-    function buildUpcoming() {
+  function buildUpcoming() {
       const list = document.getElementById('upcoming-list');
       if (!list) return;
       const all = allTasks.map(t => ({ ...t, days: getDaysLeft(t.date) }));
