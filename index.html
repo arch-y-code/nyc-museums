@@ -2517,20 +2517,8 @@
         </div>
         <div id="rnyu-schedule">
 
-        <!-- Next upcoming class -->
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Jun 11 · Week 3 — New Domino, Brooklyn</div>
-            <div class="task-detail">Site Visit · <span style="color:#F59E0B;font-weight:700;">Thursday this week</span></div>
-          </div>
-          <div class="task-due"><div class="due-date">Jun 11</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">
-          <strong>The Invention of a Neighborhood</strong><br>
-          ⚠ <strong>Thursday Jun 11, not Tuesday</strong> — one-time change<br>
-          Site visit to New Domino, Brooklyn
-        </div></div>
+        <!-- Next upcoming class — rendered by JS -->
+        <div id="rnyu-next-class-card"></div>
 
         <!-- Full schedule toggle -->
         <div class="task-item" onclick="toggleFullSchedule(this)" style="cursor:pointer;">
@@ -3140,6 +3128,44 @@
     searchQuery = e.target.value.toLowerCase().trim();
     applyFilters();
   });
+
+  // ── RNYU NEXT CLASS ───────────────────────────────────────
+  const rnyu_classes = [
+    { date: '2026-05-26', label: 'May 26 · Week 1 — Shipping, Slavery, Industry', detail: 'Castello Plan, New Amsterdam, Domino & Navy Yard' },
+    { date: '2026-06-02', label: 'Jun 2 · Week 2 — Site Visit', detail: 'Seaport & Financial District · 10AM (not 11)' },
+    { date: '2026-06-11', label: 'Jun 11 · Week 3 — New Domino, Brooklyn', detail: 'Site Visit · ⚠ Thursday (not Tuesday) next week', highlight: true },
+    { date: '2026-06-16', label: 'Jun 16 · Week 4 — Zoning & Gentrification', detail: 'Discussion Session 2–3PM' },
+    { date: '2026-06-23', label: 'Jun 23 · Week 5 — Columbus Circle & Lincoln Center', detail: 'Site Visit · Big Plans, Part I' },
+    { date: '2026-06-30', label: 'Jun 30 · Week 6 — Hudson Yards', detail: 'Site Visit · Big Plans, Part II' },
+    { date: '2026-07-07', label: 'Jul 7 · Week 7 — The Grid, Street & Public Space', detail: 'Discussion Session 2–3PM' },
+    { date: '2026-07-14', label: 'Jul 14 · Week 8 — Nostalgia & Future Lust', detail: 'Discussion Session 2–3PM' },
+    { date: '2026-07-21', label: 'Jul 21 · Week 9 — Long Island City & Hunters Point', detail: 'Site Visit' },
+    { date: '2026-07-28', label: 'Jul 28 · Week 10 — Hudson Square', detail: 'Site Visit · Pier 45, Google, Disney' },
+    { date: '2026-08-04', label: 'Aug 4 · Week 11 — Washington Heights', detail: 'Site Visit · WHIN Charter, Sugar Hill, High Bridge' },
+  ];
+
+  function renderRNYUNextClass() {
+    const card = document.getElementById('rnyu-next-class-card');
+    if (!card) return;
+    const next = rnyu_classes.find(c => getDaysLeft(c.date) >= 0);
+    if (!next) { card.innerHTML = ''; return; }
+    const days = getDaysLeft(next.date);
+    const daysLabel = days === 0 ? 'TODAY' : days === 1 ? '1 day left' : days + ' days left';
+    const urgency = days <= 3 ? 'var(--orange)' : 'var(--green)';
+    card.innerHTML =
+      '<div class="task-item" style="cursor:default;">' +
+      '<div class="task-check">✓</div>' +
+      '<div class="task-body">' +
+      '<div class="task-name">' + next.label + '</div>' +
+      '<div class="task-detail">' + next.detail + '</div>' +
+      '</div>' +
+      '<div class="task-due">' +
+      '<div style="font-size:11px;font-weight:700;color:' + urgency + ';">' + daysLabel + '</div>' +
+      '</div>' +
+      '</div>';
+  }
+  renderRNYUNextClass();
+
 </script>
 
 </body>
