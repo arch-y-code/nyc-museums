@@ -5451,5 +5451,134 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v9: force-visible OPS Printing Price Quick Guide in Notices -->
+<style id="gsapp27-v9-ops-force-style">
+  .ops-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 10px;
+    font-size: 12px;
+  }
+
+  .ops-price-table td {
+    padding: 7px 0;
+    border-bottom: 1px solid var(--bg);
+  }
+
+  .ops-price-table td:first-child {
+    color: var(--text-2);
+    font-weight: 700;
+  }
+
+  .ops-price-table td:last-child {
+    color: var(--blue);
+    font-weight: 900;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .ops-quick-lines {
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+
+  .ops-quick-lines strong {
+    color: var(--text);
+  }
+</style>
+
+<script id="gsapp27-v9-ops-force-script">
+(function () {
+  'use strict';
+
+  const OPS_BODY =
+    '<table class="ops-price-table">' +
+      '<tr><td>Bond</td><td>$4 / ft</td></tr>' +
+      '<tr><td>Heavyweight Bond</td><td>$6 / ft</td></tr>' +
+      '<tr><td>Mylar Matte Film</td><td>$9 / ft</td></tr>' +
+      '<tr><td>Satin Gloss Photo Paper</td><td>$9 / ft</td></tr>' +
+    '</table>' +
+    '<div class="ops-quick-lines">' +
+      '<strong>Payment:</strong> Flex Account only<br>' +
+      '<strong>File name:</strong> UNI - SIZE - PAPER TYPE<br>' +
+      '<strong>Max plot width:</strong> 36 inches<br>' +
+      '<strong>Flex refill:</strong> green fill station near OPS, or SSOL online refill. Online refill may take up to 48 hours.' +
+    '</div>';
+
+  function makeOpsNoticeCard() {
+    return '<div class="notice-card card" id="notice-ops">' +
+      '<button class="notice-card-main" onclick="toggleNotice(this)" type="button">' +
+        '<span class="notice-dot" style="background:var(--orange);"></span>' +
+        '<span class="notice-copy">' +
+          '<span class="notice-type">OUTPUT SHOP · OPS</span>' +
+          '<span class="notice-title">Printing Price Quick Guide</span>' +
+          '<span class="notice-subtitle">Bond $4/ft · Heavyweight $6/ft · Mylar/Satin Gloss $9/ft</span>' +
+        '</span>' +
+        '<span class="notice-date">' +
+          '<span>Ongoing</span>' +
+          '<span class="due-days ok">Always check</span>' +
+        '</span>' +
+      '</button>' +
+      '<div class="notice-expand open">' +
+        '<div class="notice-expand-inner">' + OPS_BODY + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function forceOpsNotice() {
+    const list = document.getElementById('notice-list');
+    if (!list) return;
+
+    /* Remove the older extra OPS card if it exists, so only one OPS price guide remains. */
+    const oldExtra = document.getElementById('ops-info-card');
+    if (oldExtra) oldExtra.remove();
+
+    let ops = document.getElementById('notice-ops');
+
+    if (!ops) {
+      list.insertAdjacentHTML('afterbegin', makeOpsNoticeCard());
+      return;
+    }
+
+    const type = ops.querySelector('.notice-type');
+    const title = ops.querySelector('.notice-title');
+    const subtitle = ops.querySelector('.notice-subtitle');
+    const dot = ops.querySelector('.notice-dot');
+    const dateTop = ops.querySelector('.notice-date span:first-child');
+    const dateBottom = ops.querySelector('.notice-date .due-days');
+    const expand = ops.querySelector('.notice-expand');
+    const inner = ops.querySelector('.notice-expand-inner');
+
+    if (type) type.textContent = 'OUTPUT SHOP · OPS';
+    if (title) title.textContent = 'Printing Price Quick Guide';
+    if (subtitle) subtitle.textContent = 'Bond $4/ft · Heavyweight $6/ft · Mylar/Satin Gloss $9/ft';
+    if (dot) dot.style.background = 'var(--orange)';
+    if (dateTop) dateTop.textContent = 'Ongoing';
+    if (dateBottom) {
+      dateBottom.textContent = 'Always check';
+      dateBottom.className = 'due-days ok';
+    }
+    if (inner) inner.innerHTML = OPS_BODY;
+    if (expand) expand.classList.add('open');
+
+    /* Move OPS to the top of Notices for visibility. */
+    list.prepend(ops);
+  }
+
+  function runPatch() {
+    forceOpsNotice();
+    setTimeout(forceOpsNotice, 250);
+    setTimeout(forceOpsNotice, 800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
