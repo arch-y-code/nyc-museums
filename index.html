@@ -6,6 +6,9 @@
   <meta name="theme-color" content="#1A35C5" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="GSAPP27" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzFBMzVDNSIvPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzQwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsSW50ZXIsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyODAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HPC90ZXh0Pgo8L3N2Zz4=" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzFBMzVDNSIvPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzQwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsSW50ZXIsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyODAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HPC90ZXh0Pgo8L3N2Zz4=" />
   <meta name="description" content="GSAPP27 Guide — Museums, Cafés & Assignments for Columbia GSAPP MSAUD students." />
   <title>GSAPP27 Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -2411,13 +2414,53 @@
           <div class="course-color" style="background:#F59E0B;min-height:40px;"></div>
           <div style="flex:1"><div class="course-title">RNYU</div><span class="course-sub">Reading New York Urbanism · Tuesdays 10AM · 114 Avery</span></div>
         </div>
-        
-        <!-- Site Visit Card -->
+
+        <!-- ── ASSIGNMENTS ── -->
+        <div style="padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);">
+          <span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;">📋 Assignments</span>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this)" id="rnyu-a1">
+          <div class="task-check">✓</div>
+          <div class="task-body">
+            <div class="task-name">Assignment 1</div>
+            <div class="task-detail">Due Mon Jun 8 at 5PM</div>
+          </div>
+          <div class="task-due">
+            <div class="due-date">Jun 8</div>
+            <div class="due-days" id="days-rnyu-a1"></div>
+          </div>
+        </div>
+        <div class="task-expand">
+          <div class="task-expand-inner">
+            <strong>Instructions</strong>
+            <ul>
+              <li>Review the syllabus for full instructions</li>
+              <li>Use the <strong>InDesign template</strong> in the Assignments folder on Google Drive</li>
+              <li>Export as PDF and submit to the appropriate folder on Drive</li>
+            </ul>
+            <a class="drive-btn" href="https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20" target="_blank" rel="noopener">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg>
+              Open RNYU Drive Folder
+            </a>
+          </div>
+        </div>
+
+        <!-- ── CLASS SCHEDULE ── -->
+        <div style="padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);margin-top:4px;">
+          <span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;">📅 Class Schedule</span>
+        </div>
+
+        <!-- Site Visit — South Street Seaport -->
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-sv1" style="border-left:3px solid #F59E0B;">
-          <div class="task-check" style="background:#FFF0E6;border-color:#F59E0B;color:#F59E0B;">!</div>
+          <div class="task-check" style="background:#FFF0E6;border-color:#F59E0B;color:#F59E0B;font-size:12px;">!</div>
           <div class="task-body">
             <div class="task-name" style="color:#F59E0B;">Site Visit — South Street Seaport</div>
             <div class="task-detail">Tue Jun 3 · 10AM · Bleachers between Pier 16 &amp; Tin Building</div>
+          </div>
+          <div class="task-due">
+            <div class="due-date">Jun 3</div>
+            <div class="due-days" id="days-rnyu-sv1"></div>
           </div>
         </div>
         <div class="task-expand">
@@ -2431,124 +2474,156 @@
             </a>
             <br><br>
             <strong>Getting there from Columbia</strong><br>
-            Take the No. 1 downtown (South Ferry) → transfer to 2 or 3 at 96th St → get off at Fulton St → 5-min walk
+            No. 1 downtown (South Ferry) → transfer to 2 or 3 at 96th St → Fulton St → 5-min walk
             <br><br>
             <strong>Come prepared to discuss</strong>
             <ul>
               <li>Walt Whitman, "Mannahatta" (Week 1 reading)</li>
-              <li>"The Lading of a Ship," Harper's New Monthly Magazine, Vol. LV, No. 328 (Sep 1877), pp. 481–493</li>
-              <li>Berenice Abbott, <em>Fulton Dock</em> (1935) — have it accessible on your phone. Find the same point of view and compare to today.</li>
+              <li>"The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 328 (Sep 1877) pp. 481–493</li>
+              <li>Berenice Abbott, <em>Fulton Dock</em> (1935) — have it on your phone, find the same point of view</li>
             </ul>
-            <strong>Notes</strong><br>
-            Class begins on site · ~2 mile walk · ~2 hours on feet · Wear comfortable shoes<br>
-            <span style="color:#F59E0B;font-weight:700;">⚠ Check email Monday in case weather changes</span>
+            <span style="color:#F59E0B;font-weight:700;">⚠ Wear comfortable shoes · ~2 mile walk · Check email Monday if weather changes</span>
           </div>
+        </div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 2 — Regular Class</div><div class="task-detail">Tue Jun 10 · 10AM · 114 Avery</div></div>
+          <div class="task-due"><div class="due-date">Jun 10</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Regular class session. Come with readings done.</div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 3 — Regular Class</div><div class="task-detail">Tue Jun 16 · 10AM · 114 Avery</div></div>
+          <div class="task-due"><div class="due-date">Jun 16</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Site Visit — Columbus Circle / Lincoln Center</div><div class="task-detail">Tue Jun 23 · 10AM</div></div>
+          <div class="task-due"><div class="due-date">Jun 23</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Site visit to Columbus Circle / Lincoln Center area.</div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Site Visit — Hudson Yards</div><div class="task-detail">Tue Jun 30 · 10AM</div></div>
+          <div class="task-due"><div class="due-date">Jun 30</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Site visit to Hudson Yards.</div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 6 — Regular Class</div><div class="task-detail">Tue Jul 7 · 10AM</div></div>
+          <div class="task-due"><div class="due-date">Jul 7</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 7 — Regular Class</div><div class="task-detail">Tue Jul 16 · 10AM</div></div>
+          <div class="task-due"><div class="due-date">Jul 16</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Week 8 — Regular Class</div><div class="task-detail">Tue Jul 21 · 10AM</div></div>
+          <div class="task-due"><div class="due-date">Jul 21</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+
+        <!-- ── READING MATERIALS ── -->
+        <div style="padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);margin-top:4px;">
+          <span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;">📚 Reading Materials</span>
         </div>
 
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-1">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 1</div>
-            <div class="task-detail" style="color:var(--text-2);">Walt Whitman, "Mannahatta" (1860 version)</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 1</div><div class="task-detail">Walt Whitman, "Mannahatta" (1860 version)</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">Walt Whitman, "Mannahatta" (1860 version)</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1Xud-fG2gWj4QeX_Rz9c0Jv7oRqxPmdpG" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 1 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul><li>Walt Whitman, "Mannahatta" (1860 version)</li></ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1Xud-fG2gWj4QeX_Rz9c0Jv7oRqxPmdpG" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 1 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-2">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 2</div>
-            <div class="task-detail" style="color:var(--text-2);">"The Lading of a Ship" — Harper's New Monthly Magazine Vol. LV No. 32</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 2</div><div class="task-detail">"The Lading of a Ship" — Harper's New Monthly Magazine Vol. LV No. 32</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">"The Lading of a Ship" — Harper's New Monthly Magazine Vol. LV No. 32</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1KJMMr2npZRVZaH5sASmxIkKy4kcVxRO2" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 2 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul><li>"The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 32</li></ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1KJMMr2npZRVZaH5sASmxIkKy4kcVxRO2" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 2 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-3">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 3</div>
-            <div class="task-detail" style="color:var(--text-3);">(No readings uploaded yet)</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 3</div><div class="task-detail" style="color:var(--text-3);">(No readings uploaded yet)</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">(No readings uploaded yet)</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1m2OURI_rCbfwBv5kJX_if7GpoOux5vup" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 3 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1m2OURI_rCbfwBv5kJX_if7GpoOux5vup" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 3 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-4">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 4</div>
-            <div class="task-detail" style="color:var(--text-2);">Lance Freeman, "The Ghetto in the Twenty-First Century" in A Haven and a Hell +3 more</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 4</div><div class="task-detail">Lance Freeman · Nikole Hannah-Jones · Jacob Anbinder +1</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">Lance Freeman, "The Ghetto in the Twenty-First Century" in A Haven and a Hell</li><li style="margin-bottom:3px;">Lance Freeman, "Conclusion" in A Haven and a Hell</li><li style="margin-bottom:3px;">Nikole Hannah-Jones, "Choosing a School for My Daughter in a Segregated City"</li><li style="margin-bottom:3px;">Jacob Anbinder, "Power to the Neighborhoods! New York City Gro..."</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1LnnKa-Ya8_uiVounU3sw8tfOBnYcROW0" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 4 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul>
+            <li>Lance Freeman, "The Ghetto in the Twenty-First Century" in <em>A Haven and a Hell</em></li>
+            <li>Lance Freeman, "Conclusion" in <em>A Haven and a Hell</em></li>
+            <li>Nikole Hannah-Jones, "Choosing a School for My Daughter in a Segregated City"</li>
+            <li>Jacob Anbinder, "Power to the Neighborhoods! New York City Gro..."</li>
+          </ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1LnnKa-Ya8_uiVounU3sw8tfOBnYcROW0" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 4 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-5">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 5</div>
-            <div class="task-detail" style="color:var(--text-2);">Committee on Slum Clearance, Preliminary Report, Lincoln Square</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 5</div><div class="task-detail">Committee on Slum Clearance, Preliminary Report, Lincoln Square</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">Committee on Slum Clearance, Preliminary Report, Lincoln Square</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1pRnp6HSrovkw2fuzapNhwAuz_e6JZDAJ" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 5 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul><li>Committee on Slum Clearance, Preliminary Report, Lincoln Square</li></ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1pRnp6HSrovkw2fuzapNhwAuz_e6JZDAJ" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 5 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-6">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 6</div>
-            <div class="task-detail" style="color:var(--text-2);">Daniel Doctoroff, "Manhattan's Last Frontier" in Greater Than Ever +2 more</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 6</div><div class="task-detail">Doctoroff · Audrey Wachs · Justin Davidson</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">Daniel Doctoroff, "Manhattan's Last Frontier" in Greater Than Ever</li><li style="margin-bottom:3px;">Audrey Wachs, "I Knew the Vessel Was Going to Have a Suicide Pr..."</li><li style="margin-bottom:3px;">Justin Davidson, "I Have a Feeling We're Not In New York Anymore"</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1KHD84pKVmDOVdENiEF-2KozEKSpwjk7i" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 6 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul>
+            <li>Daniel Doctoroff, "Manhattan's Last Frontier" in <em>Greater Than Ever</em></li>
+            <li>Audrey Wachs, "I Knew the Vessel Was Going to Have a Suicide Pr..."</li>
+            <li>Justin Davidson, "I Have a Feeling We're Not In New York Anymore"</li>
+          </ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1KHD84pKVmDOVdENiEF-2KozEKSpwjk7i" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 6 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-7">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 7</div>
-            <div class="task-detail" style="color:var(--text-2);">"From the Winter of Despair to the Summer of Euphoria" in Setha... +2 more</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 7</div><div class="task-detail">Walt Whitman (2) · "From the Winter of Despair..."</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">"From the Winter of Despair to the Summer of Euphoria" in Setha...</li><li style="margin-bottom:3px;">Walt Whitman, "Give Me the Silent, Splendid Sun," Leaves of Grass</li><li style="margin-bottom:3px;">Walt Whitman, "Omnibus Jaunts and Drivers," from Specimen Days</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1JrtE2oQhLoiafivKHyw7_mWqaPRVk0kO" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 7 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul>
+            <li>"From the Winter of Despair to the Summer of Euphoria" in Setha...</li>
+            <li>Walt Whitman, "Give Me the Silent, Splendid Sun," <em>Leaves of Grass</em></li>
+            <li>Walt Whitman, "Omnibus Jaunts and Drivers," from <em>Specimen Days</em></li>
+          </ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1JrtE2oQhLoiafivKHyw7_mWqaPRVk0kO" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 7 in Drive</a>
+        </div></div>
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-8">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Week 8</div>
-            <div class="task-detail" style="color:var(--text-2);">E.B. White, This is New York (1949)</div>
-          </div>
+          <div class="task-body"><div class="task-name">Week 8</div><div class="task-detail">E.B. White, This is New York (1949)</div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <ul style="margin-bottom:10px;"><li style="margin-bottom:3px;">E.B. White, This is New York (1949)</li></ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/17MhD5OygTH0QKF16LExzar-ma5ZtecKy" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 8 in Drive</a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <ul><li>E.B. White, <em>This is New York</em> (1949)</li></ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/17MhD5OygTH0QKF16LExzar-ma5ZtecKy" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 8 in Drive</a>
+        </div></div>
+
       </div>
     </div>
   </div>
@@ -2656,7 +2731,7 @@
     { id: 'days-rnyu-5',  date: '2026-06-30', label: 'RNYU Week 5 — Site Visit', course: 'RNYU', color: '#F59E0B', detail: 'Hudson Yards · Committee on Slum Clearance', subTab: 'as-rny', taskId: 'rnyu-week-5', driveUrl: 'https://drive.google.com/drive/folders/1pRnp6HSrovkw2fuzapNhwAuz_e6JZDAJ' },
     { id: 'days-rnyu-6',  date: '2026-07-07', label: 'RNYU Week 6', course: 'RNYU', color: '#F59E0B', detail: 'Doctoroff · Audrey Wachs · Justin Davidson', subTab: 'as-rny', taskId: 'rnyu-week-6', driveUrl: 'https://drive.google.com/drive/folders/1KHD84pKVmDOVdENiEF-2KozEKSpwjk7i' },
     { id: 'days-rnyu-7',  date: '2026-07-16', label: 'RNYU Week 7', course: 'RNYU', color: '#F59E0B', detail: 'Walt Whitman (2) · "From the Winter of Despair..."', subTab: 'as-rny', taskId: 'rnyu-week-7', driveUrl: 'https://drive.google.com/drive/folders/1JrtE2oQhLoiafivKHyw7_mWqaPRVk0kO' },
-    { id: 'days-rnyu-a1', date: '2026-06-08', label: 'RNYU Assignment 1', course: 'RNYU', color: '#F59E0B', detail: 'Due at 5PM · Reading New York Assignment 1', subTab: 'as-rny', taskId: 'rnyu-week-1' },
+    { id: 'days-rnyu-a1', date: '2026-06-08', label: 'RNYU Assignment 1', course: 'RNYU', color: '#F59E0B', detail: 'Due Mon Jun 8 at 5PM · InDesign template on Drive', subTab: 'as-rny', taskId: 'rnyu-sv1', driveUrl: 'https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20' },
     { id: 'days-rnyu-8',  date: '2026-07-21', label: 'RNYU Week 8', course: 'RNYU', color: '#F59E0B', detail: 'E.B. White, This is New York (1949)', subTab: 'as-rny', taskId: 'rnyu-week-8', driveUrl: 'https://drive.google.com/drive/folders/17MhD5OygTH0QKF16LExzar-ma5ZtecKy' },
     { id: 'days-udht-1',   date: '2026-06-10', label: 'Project Proposal', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 3 Readings', subTab: 'as-udht', taskId: 'task-udht-1' },
     { id: 'days-udht-w4',  date: '2026-06-17', label: 'Week 4 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Suburbia + Sprawl', subTab: 'as-udht', taskId: 'task-udht-w4' },
