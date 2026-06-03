@@ -2894,6 +2894,11 @@
 
 
 
+  function toggleGsappNotice() {
+    const el = document.getElementById('gsapp-notice-expand');
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
   function toggleSection(id, header) {
     const el = document.getElementById(id);
     const icon = document.getElementById(id + '-icon');
@@ -2922,6 +2927,7 @@
     { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
     { id: 'days-studio-archive', date: '2026-06-04', label: 'Archive Visit — Avery Drawings', course: 'Studio', color: '#F59E0B', detail: 'Wed Jun 4 · 2–4PM · Arrive at your allotted time slot', subTab: 'as-studio', taskId: 'task-studio-1' },
     { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
+    { id: 'days-gsapp-council', date: '2026-06-12', label: 'UD Student Rep Election', course: 'GSAPP', color: '#1A35C5', detail: 'Apply by Fri Jun 12 · 10AM · Subject: Council_Yourname', subTab: 'upcoming', taskId: '' },
     { id: 'days-udht-0',   date: '2026-06-03', label: 'Week 2 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Mattern · McKittrick', subTab: 'as-udht', taskId: 'task-udht-0' },
     { id: 'days-rnyu-sv1', date: '2026-06-02', label: 'RNYU Site Visit — South Street Seaport', course: 'RNYU', color: '#F59E0B', detail: 'Tue 10AM · Bleachers between Pier 16 & Tin Building', subTab: 'as-rny', taskId: 'rnyu-week-1', driveUrl: 'https://maps.app.goo.gl/gunuDRz5nbyzX1hUA' },
     { id: 'days-rnyu-1',  date: '2026-05-26', label: 'RNYU Week 1', course: 'RNYU', color: '#F59E0B', detail: 'Walt Whitman, "Mannahatta" (1860)', subTab: 'as-rny', taskId: 'rnyu-week-1', driveUrl: 'https://drive.google.com/drive/folders/1Xud-fG2gWj4QeX_Rz9c0Jv7oRqxPmdpG' },
@@ -3024,7 +3030,43 @@
           + '</div>';
         out += past.map(t => makeUpcomingCard(t, true)).join('');
       }
-      list.innerHTML = out;
+      // Prepend GSAPP-wide notices
+      const councilDays = getDaysLeft('2026-06-12');
+      let noticeHtml = '';
+      if (councilDays >= 0) {
+        noticeHtml = '<div class="card" style="margin:0 14px 8px;border:1.5px solid var(--blue);cursor:pointer;" onclick="toggleGsappNotice()">'
+          + '<div class="card-top" style="padding:12px 14px 10px;">'
+          + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">'
+          + '<div><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">'
+          + '<span style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;display:inline-block;"></span>'
+          + '<span style="font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;">📢 GSAPP NOTICE</span>'
+          + '</div>'
+          + '<div style="font-size:14px;font-weight:700;color:var(--text);">UD Student Rep Election 26-27 <span class="new-badge" onclick="removeNew(this);event.stopPropagation()">NEW</span></div>'
+          + '<div style="font-size:11px;color:var(--text-3);margin-top:2px;">Apply by Fri Jun 12 · 10AM</div>'
+          + '</div>'
+          + '<div style="text-align:right;flex-shrink:0;">'
+          + '<div style="font-size:12px;font-weight:700;color:var(--text-2);">Jun 12</div>'
+          + '<div class="due-days ' + (councilDays <= 3 ? 'urgent' : 'soon') + '" style="font-size:11px;font-weight:700;margin-top:2px;">' + (councilDays === 0 ? 'TODAY' : councilDays === 1 ? '1 day left' : councilDays + ' days left') + '</div>'
+          + '</div></div></div>'
+          + '<div id="gsapp-notice-expand" style="display:none;padding:0 14px 12px;font-size:12px;line-height:1.7;color:var(--text-2);">'
+          + '<strong>Urban Design Student Representative Elections 26-27</strong><br><br>'
+          + 'GSAPP is selecting program representatives for the Student Council for the 2026-27 academic year. Being a council rep is a <strong>voluntary whole-year commitment</strong>.<br><br>'
+          + '<strong>What the council does:</strong>'
+          + '<ul style="margin:6px 0 10px;padding-left:18px;">'
+          + '<li>Meets every two weeks with GSAPP admins</li>'
+          + '<li>Committees: Budget, Alumni Relations, Orientation, Student Life, Health & Wellness</li>'
+          + '<li>As UD rep, coordinate with Urban Design staff and advocate for cohort needs</li>'
+          + '</ul>'
+          + '<strong>To apply — email with subject line <code style="background:var(--bg);padding:1px 4px;border-radius:3px;">Council_Yourname</code>:</strong>'
+          + '<ul style="margin:6px 0 10px;padding-left:18px;">'
+          + '<li>Your name</li>'
+          + '<li>Short paragraph: why you should be the AUD Representative</li>'
+          + '</ul>'
+          + '<strong style="color:var(--orange);">Deadline: Friday June 12th @ 10AM</strong>'
+          + '</div>'
+          + '</div>';
+      }
+      list.innerHTML = noticeHtml + out;
     }
 
   buildUpcoming();
