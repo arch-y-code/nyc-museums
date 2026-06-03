@@ -5701,5 +5701,260 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v11: move OPS card to bottom and fix expand toggle -->
+<style id="gsapp27-v11-ops-bottom-toggle-style">
+  /* OPS must stay folded by default, but expand correctly when open */
+  #notice-ops .notice-expand {
+    display: none !important;
+  }
+
+  #notice-ops .notice-expand.open {
+    display: block !important;
+  }
+
+  #notice-ops .notice-card-main {
+    cursor: pointer;
+  }
+
+  #notice-ops .notice-subtitle::after {
+    content: " · tap to view details";
+    color: var(--text-3);
+    font-weight: 500;
+  }
+</style>
+
+<script id="gsapp27-v11-ops-bottom-toggle-script">
+(function () {
+  'use strict';
+
+  const OPS_BODY_V11 =
+    '<table class="ops-price-table">' +
+      '<tr><td>Bond</td><td>$4 / ft</td></tr>' +
+      '<tr><td>Heavyweight Bond</td><td>$6 / ft</td></tr>' +
+      '<tr><td>Mylar Matte Film</td><td>$9 / ft</td></tr>' +
+      '<tr><td>Satin Gloss Photo Paper</td><td>$9 / ft</td></tr>' +
+    '</table>' +
+    '<div class="ops-quick-lines">' +
+      '<strong>Payment:</strong> Flex Account only<br>' +
+      '<strong>File name:</strong> UNI - SIZE - PAPER TYPE<br>' +
+      '<strong>Max plot width:</strong> 36 inches<br>' +
+      '<strong>Flex refill:</strong> green fill station near OPS, or SSOL online refill. Online refill may take up to 48 hours.' +
+    '</div>';
+
+  function repairOpsCard() {
+    const list = document.getElementById('notice-list');
+    const ops = document.getElementById('notice-ops');
+    if (!list || !ops) return;
+
+    const oldExtra = document.getElementById('ops-info-card');
+    if (oldExtra) oldExtra.remove();
+
+    const type = ops.querySelector('.notice-type');
+    const title = ops.querySelector('.notice-title');
+    const subtitle = ops.querySelector('.notice-subtitle');
+    const dot = ops.querySelector('.notice-dot');
+    const dateTop = ops.querySelector('.notice-date span:first-child');
+    const dateBottom = ops.querySelector('.notice-date .due-days');
+    const expand = ops.querySelector('.notice-expand');
+    const inner = ops.querySelector('.notice-expand-inner');
+
+    if (type) type.textContent = 'OUTPUT SHOP · OPS';
+    if (title) title.textContent = 'Printing Price Quick Guide';
+    if (subtitle) subtitle.textContent = 'Bond $4/ft · Heavyweight $6/ft · Mylar/Satin Gloss $9/ft';
+    if (dot) dot.style.background = 'var(--orange)';
+    if (dateTop) dateTop.textContent = 'Ongoing';
+    if (dateBottom) {
+      dateBottom.textContent = 'Tap to open';
+      dateBottom.className = 'due-days soon';
+    }
+    if (inner) inner.innerHTML = OPS_BODY_V11;
+    if (expand) expand.classList.remove('open');
+
+    /* Remove older inline onclick/listeners by replacing the button */
+    const oldButton = ops.querySelector('.notice-card-main');
+    if (oldButton && oldButton.dataset.v11Fixed !== 'true') {
+      const newButton = oldButton.cloneNode(true);
+      newButton.removeAttribute('onclick');
+      newButton.dataset.v11Fixed = 'true';
+
+      newButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const panel = ops.querySelector('.notice-expand');
+        const bottom = ops.querySelector('.notice-date .due-days');
+        if (!panel) return;
+
+        const nowOpen = panel.classList.toggle('open');
+        if (bottom) {
+          bottom.textContent = nowOpen ? 'Open' : 'Tap to open';
+          bottom.className = nowOpen ? 'due-days ok' : 'due-days soon';
+        }
+      });
+
+      oldButton.replaceWith(newButton);
+    }
+
+    /* Move OPS price guide to the very bottom of Notices */
+    list.appendChild(ops);
+  }
+
+  function runPatch() {
+    /* Earlier patches also touch OPS, so run after them. */
+    setTimeout(repairOpsCard, 1100);
+    setTimeout(repairOpsCard, 1700);
+    setTimeout(repairOpsCard, 2500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v12: keep Upcoming past items collapsed by default -->
+<style id="gsapp27-v12-upcoming-past-style">
+  #upcoming-past-collapsed {
+    display: none;
+  }
+
+  #upcoming-past-collapsed.open {
+    display: block;
+  }
+
+  .upcoming-past-toggle {
+    width: calc(100% - 28px);
+    margin: 14px 14px 8px;
+    padding: 8px 10px;
+    border: 1px solid #E2E8F4;
+    border-radius: 10px;
+    background: #F8F9FA;
+    color: #9AA3BF;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .upcoming-past-toggle:hover {
+    background: #EEF1FB;
+    color: var(--blue);
+  }
+
+  .upcoming-past-toggle .count {
+    font-size: 10px;
+    font-weight: 800;
+    margin-left: 4px;
+    opacity: .75;
+  }
+
+  #upcoming-past-collapsed .past-separator {
+    display: none !important;
+  }
+</style>
+
+<script id="gsapp27-v12-upcoming-past-script">
+(function () {
+  'use strict';
+
+  function isPastUpcomingCard(node) {
+    if (!node || node.nodeType !== 1) return false;
+
+    const text = node.textContent || '';
+    return node.classList.contains('assignment-past-card') ||
+      node.classList.contains('past') ||
+      /Completed|passed|Past/i.test(text);
+  }
+
+  function collapseUpcomingPast() {
+    const list = document.getElementById('upcoming-list');
+    if (!list) return;
+
+    /* Remove old wrapper/toggle if a previous patch created one, then rebuild cleanly. */
+    const oldToggle = list.querySelector('.upcoming-past-toggle');
+    const oldWrap = list.querySelector('#upcoming-past-collapsed');
+
+    if (oldWrap) {
+      Array.from(oldWrap.children).forEach(function (child) {
+        list.appendChild(child);
+      });
+      oldWrap.remove();
+    }
+
+    if (oldToggle) oldToggle.remove();
+
+    const separator = list.querySelector('.past-separator');
+    let pastNodes = [];
+
+    if (separator) {
+      let node = separator.nextElementSibling;
+      while (node) {
+        const next = node.nextElementSibling;
+        if (node.id !== 'upcoming-past-collapsed' && !node.classList.contains('upcoming-past-toggle')) {
+          pastNodes.push(node);
+        }
+        node = next;
+      }
+      separator.remove();
+    } else {
+      pastNodes = Array.from(list.children).filter(function (node) {
+        return isPastUpcomingCard(node) &&
+          !node.classList.contains('upcoming-past-toggle') &&
+          node.id !== 'upcoming-past-collapsed';
+      });
+    }
+
+    /* Avoid accidentally hiding the empty-state message. */
+    pastNodes = pastNodes.filter(function (node) {
+      const text = node.textContent || '';
+      return !/No deadlines in the next 10 days/i.test(text);
+    });
+
+    if (!pastNodes.length) return;
+
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'upcoming-past-toggle';
+    toggle.innerHTML = '+ Completed / Past <span class="count">(' + pastNodes.length + ')</span>';
+
+    const wrap = document.createElement('div');
+    wrap.id = 'upcoming-past-collapsed';
+
+    pastNodes.forEach(function (node) {
+      wrap.appendChild(node);
+    });
+
+    toggle.addEventListener('click', function () {
+      const open = wrap.classList.toggle('open');
+      toggle.innerHTML = open
+        ? '− Hide Completed / Past <span class="count">(' + pastNodes.length + ')</span>'
+        : '+ Completed / Past <span class="count">(' + pastNodes.length + ')</span>';
+    });
+
+    list.appendChild(toggle);
+    list.appendChild(wrap);
+  }
+
+  function runPatch() {
+    /* Earlier scripts sometimes rebuild Upcoming after DOM ready, so run a few times. */
+    setTimeout(collapseUpcomingPast, 400);
+    setTimeout(collapseUpcomingPast, 1000);
+    setTimeout(collapseUpcomingPast, 1800);
+    setTimeout(collapseUpcomingPast, 3000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
