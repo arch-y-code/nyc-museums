@@ -5016,5 +5016,440 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v7: OPS notices + minimal show-more + collapsible past + tab underline only -->
+<style id="gsapp27-v7-ui-ops-style">
+  /* Top tabs: active state should be orange underline only */
+  .tab-btn,
+  .tab-btn.active {
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .tab-btn::before,
+  .tab-btn::after,
+  .tab-btn.active::before,
+  .tab-btn.active::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .tab-btn.active {
+    color: #fff !important;
+    border-bottom-color: var(--orange) !important;
+  }
+
+  /* Make all show-more buttons lower, slimmer, and more minimal */
+  .course-more-toggle,
+  .udht-more-toggle {
+    width: auto !important;
+    display: block !important;
+    margin: 4px 16px 8px !important;
+    padding: 5px 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--blue) !important;
+    font-size: 10.5px !important;
+    font-weight: 800 !important;
+    text-align: left !important;
+    line-height: 1.2 !important;
+    box-shadow: none !important;
+  }
+
+  .course-more-toggle:hover,
+  .udht-more-toggle:hover {
+    background: transparent !important;
+    color: var(--blue-hover) !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    font-size: 11px !important;
+    margin-right: 4px !important;
+    transform: none !important;
+  }
+
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    transform: rotate(45deg) !important;
+  }
+
+  /* Collapsible completed/past area in Upcoming */
+  .past-collapse-toggle {
+    width: calc(100% - 28px);
+    margin: 14px 14px 8px;
+    padding: 8px 10px;
+    border: 1px solid #E2E8F4;
+    border-radius: 10px;
+    background: #F8F9FA;
+    color: #9AA3BF;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .past-collapse-toggle:hover {
+    background: #EEF1FB;
+    color: var(--blue);
+  }
+
+  .past-collapse-list {
+    display: none;
+  }
+
+  .past-collapse-list.open {
+    display: block;
+  }
+
+  .past-collapse-count {
+    font-size: 10px;
+    font-weight: 800;
+    margin-left: 4px;
+    opacity: .75;
+  }
+
+  /* OPS notice card */
+  .ops-info-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 2px solid var(--orange);
+    margin: 14px 0;
+    overflow: hidden;
+  }
+
+  .ops-info-top {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--bg);
+  }
+
+  .ops-info-kicker {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 6px;
+  }
+
+  .ops-info-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.25;
+  }
+
+  .ops-info-sub {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-top: 5px;
+    line-height: 1.45;
+  }
+
+  .ops-price-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    padding: 4px 18px 12px;
+  }
+
+  .ops-price-row {
+    display: contents;
+  }
+
+  .ops-price-name,
+  .ops-price-cost {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--bg);
+    font-size: 12px;
+  }
+
+  .ops-price-name {
+    color: var(--text-2);
+    font-weight: 700;
+  }
+
+  .ops-price-cost {
+    color: var(--blue);
+    font-weight: 900;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .ops-info-notes {
+    padding: 0 18px 16px;
+    font-size: 11.5px;
+    color: var(--text-3);
+    line-height: 1.55;
+  }
+
+  .ops-info-notes strong {
+    color: var(--text);
+  }
+</style>
+
+<script id="gsapp27-v7-ui-ops-script">
+(function () {
+  'use strict';
+
+  function addOPSNotice() {
+    var noticeList = document.getElementById('notice-list');
+    if (!noticeList || document.getElementById('ops-info-card')) return;
+
+    var card = document.createElement('div');
+    card.id = 'ops-info-card';
+    card.className = 'ops-info-card';
+    card.innerHTML =
+      '<div class="ops-info-top">' +
+        '<div class="ops-info-kicker">Output Shop · OPS</div>' +
+        '<div class="ops-info-title">Printing Price Quick Guide</div>' +
+        '<div class="ops-info-sub">Plots are priced by linear foot. Payment is by Flex Account only.</div>' +
+      '</div>' +
+      '<div class="ops-price-grid">' +
+        '<div class="ops-price-row"><div class="ops-price-name">Lightweight Bond</div><div class="ops-price-cost">$4 / ft</div></div>' +
+        '<div class="ops-price-row"><div class="ops-price-name">Heavyweight Bond</div><div class="ops-price-cost">$6 / ft</div></div>' +
+        '<div class="ops-price-row"><div class="ops-price-name">Mylar Matte Film</div><div class="ops-price-cost">$9 / ft</div></div>' +
+        '<div class="ops-price-row"><div class="ops-price-name">Satin Gloss Photo Paper</div><div class="ops-price-cost">$9 / ft</div></div>' +
+      '</div>' +
+      '<div class="ops-info-notes">' +
+        '<strong>File name:</strong> UNI - SIZE - PAPER TYPE<br>' +
+        '<strong>Max plot width:</strong> 36 inches<br>' +
+        '<strong>Flex refill:</strong> green fill station near OPS, or SSOL online refill. Online refill may take up to 48 hours.' +
+      '</div>';
+
+    noticeList.prepend(card);
+  }
+
+  function collapseUpcomingPast() {
+    var list = document.getElementById('upcoming-list');
+    if (!list || list.dataset.pastCollapsed === 'true') return;
+
+    var separator = list.querySelector('.past-separator');
+    if (!separator) return;
+
+    var pastNodes = [];
+    var node = separator.nextElementSibling;
+    while (node) {
+      var next = node.nextElementSibling;
+      pastNodes.push(node);
+      node = next;
+    }
+
+    if (!pastNodes.length) return;
+
+    separator.style.display = 'none';
+
+    var toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'past-collapse-toggle';
+    toggle.innerHTML = '+ Completed / Past <span class="past-collapse-count">(' + pastNodes.length + ')</span>';
+
+    var wrap = document.createElement('div');
+    wrap.className = 'past-collapse-list';
+    wrap.id = 'upcoming-past-collapse-list';
+
+    pastNodes.forEach(function (item) {
+      wrap.appendChild(item);
+    });
+
+    toggle.addEventListener('click', function () {
+      var open = wrap.classList.toggle('open');
+      toggle.innerHTML = open
+        ? '− Hide Completed / Past <span class="past-collapse-count">(' + pastNodes.length + ')</span>'
+        : '+ Completed / Past <span class="past-collapse-count">(' + pastNodes.length + ')</span>';
+    });
+
+    list.appendChild(toggle);
+    list.appendChild(wrap);
+    list.dataset.pastCollapsed = 'true';
+  }
+
+  function standardizeMoreButtons() {
+    document.querySelectorAll('.course-more-toggle, .udht-more-toggle').forEach(function (btn) {
+      btn.innerHTML = btn.innerHTML
+        .replace(/Show\s+(\d+)\s+more\s+/i, '<span class="plus">+</span> More ')
+        .replace(/Hide\s+extra\s+/i, '<span class="plus">+</span> Hide ');
+    });
+  }
+
+  function runPatch() {
+    addOPSNotice();
+    collapseUpcomingPast();
+    standardizeMoreButtons();
+
+    /* Re-run once because some panels are rendered by earlier scripts after DOM ready */
+    setTimeout(function () {
+      addOPSNotice();
+      collapseUpcomingPast();
+      standardizeMoreButtons();
+    }, 250);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v8: move past dated course items below upcoming and keep them collapsed -->
+<style id="gsapp27-v8-past-sort-style">
+  .course-past-toggle {
+    width: auto !important;
+    display: block !important;
+    margin: 4px 16px 8px !important;
+    padding: 5px 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #9AA3BF !important;
+    font-family: inherit;
+    font-size: 10.5px !important;
+    font-weight: 800 !important;
+    text-align: left !important;
+    line-height: 1.2 !important;
+    cursor: pointer;
+  }
+
+  .course-past-toggle:hover {
+    color: var(--blue) !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .course-past-list {
+    display: none;
+  }
+
+  .course-past-list.open {
+    display: block;
+  }
+
+  .course-past-toggle .plus {
+    display: inline-block;
+    font-size: 11px;
+    margin-right: 4px;
+  }
+
+  .course-past-toggle.open .plus {
+    transform: rotate(45deg);
+  }
+</style>
+
+<script id="gsapp27-v8-past-sort-script">
+(function () {
+  'use strict';
+
+  function getNextPair(node) {
+    var expand = node && node.nextElementSibling && node.nextElementSibling.classList.contains('task-expand')
+      ? node.nextElementSibling
+      : null;
+    return { item: node, expand: expand };
+  }
+
+  function isPastTask(item) {
+    if (!item) return false;
+    var text = item.textContent || '';
+    return /\bpassed\b/i.test(text) || /\bcompleted\b/i.test(text);
+  }
+
+  function processCourseSection(sectionHead) {
+    var sectionBodyStart = sectionHead.nextElementSibling;
+    if (!sectionBodyStart) return;
+
+    var nodes = [];
+    var node = sectionBodyStart;
+
+    while (node && !node.classList.contains('course-section-head')) {
+      var next = node.nextElementSibling;
+      nodes.push(node);
+      node = next;
+    }
+
+    if (!nodes.length) return;
+
+    var taskPairs = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].classList && nodes[i].classList.contains('task-item')) {
+        var pair = getNextPair(nodes[i]);
+        taskPairs.push(pair);
+        if (pair.expand) i += 1;
+      }
+    }
+
+    var pastPairs = taskPairs.filter(function (pair) {
+      return isPastTask(pair.item);
+    });
+
+    if (!pastPairs.length) return;
+
+    var sectionId = 'course-past-' + Math.random().toString(36).slice(2);
+    var toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'course-past-toggle';
+    toggle.innerHTML = '<span class="plus">+</span> Past items (' + pastPairs.length + ')';
+
+    var wrap = document.createElement('div');
+    wrap.className = 'course-past-list';
+    wrap.id = sectionId;
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = wrap.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.innerHTML = open
+        ? '<span class="plus">+</span> Hide past items'
+        : '<span class="plus">+</span> Past items (' + pastPairs.length + ')';
+    });
+
+    pastPairs.forEach(function (pair) {
+      wrap.appendChild(pair.item);
+      if (pair.expand) wrap.appendChild(pair.expand);
+    });
+
+    var insertBefore = node;
+    sectionHead.parentNode.insertBefore(toggle, insertBefore);
+    sectionHead.parentNode.insertBefore(wrap, insertBefore);
+  }
+
+  function movePastItemsDown() {
+    document.querySelectorAll('.course-section-head').forEach(function (head) {
+      var label = head.textContent || '';
+      if (!/Class Schedule|Assignments/i.test(label)) return;
+      if (head.dataset.pastProcessed === 'true') return;
+      head.dataset.pastProcessed = 'true';
+      processCourseSection(head);
+    });
+
+    /* Keep first visible item + more button behavior after past items are moved */
+    document.querySelectorAll('.course-more-toggle, .udht-more-toggle').forEach(function (btn) {
+      btn.innerHTML = btn.innerHTML
+        .replace(/Show\s+(\d+)\s+more\s+/i, '<span class="plus">+</span> More ')
+        .replace(/\+\s+\+\s+More/i, '<span class="plus">+</span> More')
+        .replace(/Hide\s+extra\s+/i, '<span class="plus">+</span> Hide ');
+    });
+  }
+
+  function runPatch() {
+    setTimeout(movePastItemsDown, 300);
+    setTimeout(movePastItemsDown, 700);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
