@@ -886,9 +886,27 @@
   </div>
 </header>
 
-<div class="tab-nav"><div class="tab-nav-inner"><button class="tab-btn active" onclick="switchTab('museums', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="20" width="20" height="2" rx="1" fill="#C2E2FA"/><rect x="4" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="10.75" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="17.5" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="2" y="7" width="20" height="2" fill="#C2E2FA"/><path d="M12 2L2 7h20L12 2z" fill="#C2E2FA"/></svg> Museums</button><button class="tab-btn" onclick="switchTab('cafes', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="19" width="16" height="2" rx="1" fill="#C2E2FA"/><path d="M5 8h12l-1.5 9H6.5L5 8z" fill="#C2E2FA"/><path d="M17 10.5h1.5a1.5 1.5 0 0 1 0 3H17" stroke="#C2E2FA" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="4" y="7" width="14" height="1.5" rx="0.75" fill="#C2E2FA"/></svg> Cafés</button><button class="tab-btn" onclick="switchTab('studio', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="18" rx="2" fill="#C2E2FA"/><rect x="9" y="2" width="6" height="4" rx="1.5" fill="#C2E2FA"/><rect x="7" y="10" width="10" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="13.5" width="7" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="17" width="8.5" height="1.5" rx="0.75" fill="#1A35C5"/></svg> Assignments</button></div></div>
+<div class="tab-nav"><div class="tab-nav-inner"><button class="tab-btn active" onclick="switchTab('schedule', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="18" rx="2" fill="#C2E2FA"/><rect x="3" y="9" width="18" height="1.5" fill="#1A35C5"/><rect x="8" y="2" width="2" height="4" rx="1" fill="#C2E2FA"/><rect x="14" y="2" width="2" height="4" rx="1" fill="#C2E2FA"/></svg> Schedule</button><button class="tab-btn" onclick="switchTab('studio', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="18" rx="2" fill="#C2E2FA"/><rect x="9" y="2" width="6" height="4" rx="1.5" fill="#C2E2FA"/><rect x="7" y="10" width="10" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="13.5" width="7" height="1.5" rx="0.75" fill="#1A35C5"/><rect x="7" y="17" width="8.5" height="1.5" rx="0.75" fill="#1A35C5"/></svg> Assignments</button><button class="tab-btn" onclick="switchTab('cafes', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="19" width="16" height="2" rx="1" fill="#C2E2FA"/><path d="M5 8h12l-1.5 9H6.5L5 8z" fill="#C2E2FA"/><path d="M17 10.5h1.5a1.5 1.5 0 0 1 0 3H17" stroke="#C2E2FA" stroke-width="2" stroke-linecap="round" fill="none"/><rect x="4" y="7" width="14" height="1.5" rx="0.75" fill="#C2E2FA"/></svg> Cafés</button><button class="tab-btn" onclick="switchTab('museums', this)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="20" width="20" height="2" rx="1" fill="#C2E2FA"/><rect x="4" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="10.75" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="17.5" y="9" width="2.5" height="11" fill="#C2E2FA"/><rect x="2" y="7" width="20" height="2" fill="#C2E2FA"/><path d="M12 2L2 7h20L12 2z" fill="#C2E2FA"/></svg> Museums</button></div></div>
 <main>
-<div id="tab-museums" class="tab-panel active">
+  <!-- SCHEDULE TAB -->
+  <div id="tab-schedule" class="tab-panel active">
+    <div style="padding:20px 16px 60px;">
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+        <span style="width:12px;height:12px;background:var(--orange);border-radius:3px;display:inline-block;flex-shrink:0;"></span>
+        <div>
+          <div style="font-size:18px;font-weight:900;color:var(--text);">Week at a glance</div>
+          <div style="font-size:11px;color:var(--text-3);font-weight:600;">June 1–5, 2026 · GSAPP MSAUD</div>
+        </div>
+      </div>
+
+      <div id="week-schedule"></div>
+
+    </div>
+  </div>
+
+
+<div id="tab-museums" class="tab-panel">
 
   <!-- ALERT -->
   <div class="alert" style="margin-top:20px;">
@@ -2817,10 +2835,56 @@
           <div class="course-color" style="background:#10B981;min-height:40px;"></div>
           <div style="flex:1"><div class="course-title">DTEQ</div><span class="course-sub">114 Avery &amp; Fayerweather 206 · Tuesdays</span></div>
         </div>
-        <div class="task-item" style="cursor:default;">
-          <div class="task-check" style="border-color:var(--border);background:var(--bg);color:var(--text-3);font-size:14px;">-</div>
-          <div class="task-body"><div class="task-name" style="color:var(--text-3);font-weight:500;">No assignments yet</div><div class="task-detail">Classes: 3-5PM (114 Avery) &amp; 5-7PM (Fayerweather 206)</div></div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body">
+            <div class="task-name">Syllabus Links <span class="new-badge" onclick="removeNew(this)">NEW</span></div>
+            <div class="task-detail">Drive · Miro Board</div>
+          </div>
         </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1bssi7A6QQ2xfnxZ-13VmvGECv9jtvVCK?usp=drive_link" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg>
+            DTEQ Google Drive
+          </a>
+          <br><br>
+          <a class="drive-btn" href="https://miro.com/app/board/uXjVHXzRmuY=/?share_link_id=112138952334" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
+            DTEQ Miro Board
+          </a>
+        </div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Assignment 01</div><div class="task-detail">Submit to Drive folder</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1RJWOE_aI-MDAxDxabfULJZiSxrqpFS2n" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Assignment 01 Folder</a>
+        </div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Assignment 02</div><div class="task-detail">Submit to Drive folder</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/18J-LVyKx5ah8JTmCGylM_PVIzU1j3314" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Assignment 02 Folder</a>
+        </div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Assignment 03</div><div class="task-detail">Submit to Drive folder</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1RH7VHM5yC9dmr36nnKXkCV1T6iQHeFFX" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Assignment 03 Folder</a>
+        </div></div>
+
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Final Assignment</div><div class="task-detail">Slides on Google Drive</div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <a class="drive-btn" href="https://docs.google.com/presentation/d/1BHfaGjAq52onWJgPYkjUgcI6cvWa0LSf/edit?usp=drive_link" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 9l5 3-5 3V9z"/></svg> Final Assignment Slides</a>
+        </div></div>
       </div>
     </div>
   </div>
@@ -2894,6 +2958,16 @@
 
 
 
+  function toggleLectureNotice() {
+    const el = document.getElementById('lecture-notice-expand');
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function toggleLectureNotice() {
+    const el = document.getElementById('lecture-notice-expand');
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
   function toggleGsappNotice() {
     const el = document.getElementById('gsapp-notice-expand');
     if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
@@ -2927,6 +3001,7 @@
     { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
     { id: 'days-studio-archive', date: '2026-06-04', label: 'Archive Visit — Avery Drawings', course: 'Studio', color: '#F59E0B', detail: 'Wed Jun 4 · 2–4PM · Arrive at your allotted time slot', subTab: 'as-studio', taskId: 'task-studio-1' },
     { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
+    { id: 'days-gsapp-lecture', date: '2026-06-11', label: 'Distinguished Alumni Lecture', course: 'GSAPP', color: '#1A35C5', detail: 'Max Nuñez · Casa Italiana · Thu 6–6:30PM reception', subTab: 'upcoming', taskId: '' },
     { id: 'days-gsapp-council', date: '2026-06-12', label: 'UD Student Rep Election', course: 'GSAPP', color: '#1A35C5', detail: 'Apply by Fri Jun 12 · 10AM · Subject: Council_Yourname', subTab: 'upcoming', taskId: '' },
     { id: 'days-udht-0',   date: '2026-06-03', label: 'Week 2 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Mattern · McKittrick', subTab: 'as-udht', taskId: 'task-udht-0' },
     { id: 'days-rnyu-sv1', date: '2026-06-02', label: 'RNYU Site Visit — South Street Seaport', course: 'RNYU', color: '#F59E0B', detail: 'Tue 10AM · Bleachers between Pier 16 & Tin Building', subTab: 'as-rny', taskId: 'rnyu-week-1', driveUrl: 'https://maps.app.goo.gl/gunuDRz5nbyzX1hUA' },
@@ -3066,7 +3141,37 @@
           + '</div>'
           + '</div>';
       }
-      list.innerHTML = noticeHtml + out;
+      // Distinguished Alumni Lecture
+      const lectureDays = getDaysLeft('2026-06-11');
+      let lectureHtml = '';
+      if (lectureDays >= 0) {
+        const lDaysLabel = lectureDays === 0 ? 'TODAY' : lectureDays === 1 ? '1 day left' : lectureDays + ' days left';
+        const lUrgency = lectureDays <= 3 ? 'urgent' : 'soon';
+        lectureHtml = '<div class="card" style="margin:0 14px 8px;border:1.5px solid var(--blue);cursor:pointer;" onclick="toggleLectureNotice()">'
+          + '<div class="card-top" style="padding:12px 14px 10px;">'
+          + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">'
+          + '<div><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px;">'
+          + '<span style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;display:inline-block;"></span>'
+          + '<span style="font-size:10px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;">📢 GSAPP EVENT</span>'
+          + '</div>'
+          + '<div style="font-size:14px;font-weight:700;color:var(--text);">Distinguished Alumni Lecture <span class="new-badge" onclick="removeNew(this);event.stopPropagation()">NEW</span></div>'
+          + '<div style="font-size:11px;color:var(--text-3);margin-top:2px;">Max Nuñez · Thu Jun 11 · Casa Italiana</div>'
+          + '</div>'
+          + '<div style="text-align:right;flex-shrink:0;">'
+          + '<div style="font-size:12px;font-weight:700;color:var(--text-2);">Jun 11</div>'
+          + '<div class="due-days ' + lUrgency + '" style="font-size:11px;font-weight:700;margin-top:2px;">' + lDaysLabel + '</div>'
+          + '</div></div></div>'
+          + '<div id="lecture-notice-expand" style="display:none;padding:0 14px 12px;font-size:12px;line-height:1.7;color:var(--text-2);">'
+          + 'Distinguished Alumni Lecture by <strong>Max Nuñez</strong> at <strong>Casa Italiana</strong><br>'
+          + 'Reception: <strong>6:00–6:30PM</strong> · Please try to attend!<br><br>'
+          + '<a class="drive-btn" href="https://www.arch.columbia.edu/events/4153-distinguished-alumni-lecture-series-max-nunez-10-msaad" target="_blank" rel="noopener">'
+          + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+          + ' Event Page</a>'
+          + '</div>'
+          + '</div>';
+      }
+
+      list.innerHTML = noticeHtml + lectureHtml + out;
     }
 
   buildUpcoming();
@@ -3281,6 +3386,88 @@
     });
   }
   applyDismissedNew();
+
+
+  // ── WEEK SCHEDULE ─────────────────────────────────────────
+  const weekSchedule = [
+    {
+      date: new Date(2026, 5, 1),
+      events: [
+        { title: 'Charrette Review + Project 1 Handout', loc: 'Avery 114', time: '2–7PM', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' }
+      ]
+    },
+    {
+      date: new Date(2026, 5, 2),
+      events: [
+        { title: 'RNYU · Site Visit', loc: 'South Street Seaport', time: '10AM', course: 'RNYU', color: '#F59E0B', bg: '#FFFBEB' },
+        { title: 'DTEQ', loc: '', time: '2:30–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+      ]
+    },
+    {
+      date: new Date(2026, 5, 3),
+      isToday: true,
+      events: [
+        { title: 'UDHT', loc: '', time: '10AM', course: 'UDHT', color: '#8B5CF6', bg: '#F5F3FF' },
+        { title: 'UDHT Discussion', loc: '', time: '12:30PM', course: 'UDHT', color: '#8B5CF6', bg: '#F5F3FF' },
+        { title: 'Avery Archive Visit', loc: 'Avery Library Archives', time: 'Group 1: 2–3PM · Group 2: 3–4PM', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' }
+      ]
+    },
+    {
+      date: new Date(2026, 5, 4),
+      events: [
+        { title: 'DTEQ', loc: '', time: '10AM–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+      ]
+    },
+    {
+      date: new Date(2026, 5, 5),
+      events: [
+        { title: 'DTEQ', loc: '', time: '11AM–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+        { title: 'Archive Submission Due', loc: 'PDF/JPEG 300dpi · max 25MB', time: '4PM deadline', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' }
+      ]
+    }
+  ];
+
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dayColors = {0:'#1A35C5',1:'#1A35C5',2:'#1A35C5',3:'#1A35C5',4:'#1A35C5',5:'#1A35C5',6:'#1A35C5'};
+
+  function renderWeekSchedule() {
+    const el = document.getElementById('week-schedule');
+    if (!el) return;
+    el.innerHTML = weekSchedule.map((day, i) => {
+      const dow = day.date.getDay();
+      const dayName = dayNames[dow];
+      const dateNum = day.date.getDate();
+      const isToday = day.isToday;
+      const headerBg = isToday ? 'var(--orange)' : dayColors[dow];
+      const dividerColor = isToday ? 'var(--orange)' : 'var(--border)';
+      const dateFontColor = isToday ? 'var(--orange)' : 'var(--text)';
+      const borderStyle = isToday ? '1.5px solid var(--orange)' : '1px solid var(--border)';
+      const rowBg = isToday ? 'background:#FFF7F0;margin:0 -16px;padding:16px;' : 'padding:16px 0;';
+      const isLast = i === weekSchedule.length - 1;
+
+      const eventsHtml = day.events.map((ev, ei) => {
+        const sep = ei > 0 ? '<div style="height:1px;background:' + (isToday ? 'rgba(248,123,27,.2)' : 'var(--border)') + ';margin:10px 0;border-style:dashed;"></div>' : '';
+        return sep
+          + '<div>'
+          + '<div style="font-size:14px;font-weight:800;color:var(--text);">' + ev.title + '</div>'
+          + (ev.loc ? '<div style="display:flex;align-items:center;gap:4px;margin-top:3px;"><span style="font-size:10px;">📍</span><span style="font-size:11px;color:var(--text-3);">' + ev.loc + '</span></div>' : '')
+          + '<div style="display:flex;align-items:center;gap:4px;margin-top:2px;"><span style="font-size:10px;">🕐</span><span style="font-size:11px;color:var(--text-3);">' + ev.time + '</span></div>'
+          + '<div style="margin-top:5px;"><span style="background:' + ev.bg + ';color:' + ev.color + ';font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;">' + ev.course + '</span></div>'
+          + '</div>';
+      }).join('');
+
+      return '<div style="display:flex;gap:0;' + rowBg + (isLast ? '' : 'border-bottom:1px solid var(--border);') + '">'
+        + '<div style="width:80px;flex-shrink:0;">'
+        + '<span style="background:' + headerBg + ';color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;text-transform:uppercase;">' + dayName + (isToday ? ' · TODAY' : '') + '</span>'
+        + '<div style="font-size:44px;font-weight:900;color:' + dateFontColor + ';line-height:1;margin-top:2px;">' + String(dateNum).padStart(2,'0') + '</div>'
+        + '<div style="font-size:10px;color:var(--text-3);font-weight:600;">June, 2026</div>'
+        + '</div>'
+        + '<div style="width:2px;background:' + dividerColor + ';margin:0 14px;border-radius:99px;flex-shrink:0;align-self:stretch;"></div>'
+        + '<div style="flex:1;">' + eventsHtml + '</div>'
+        + '</div>';
+    }).join('');
+  }
+  renderWeekSchedule();
 
 </script>
 
