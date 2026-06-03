@@ -3990,5 +3990,1031 @@ function getDaysLeft(dateStr, dueTime) {
   renderWeekSchedule();
 </script>
 
+<!-- GSAPP27 PATCH v4: Compact schedule + UDHT structured sections -->
+<style id="gsapp27-v4-schedule-udht-style">
+  /* Schedule: make the week fit more tightly on one screen */
+  #tab-schedule > div {
+    padding: 12px 10px 28px !important;
+  }
+
+  #tab-schedule > div > div:first-child {
+    margin-bottom: 10px !important;
+  }
+
+  #tab-schedule > div > div:first-child div[style*="font-size:18px"] {
+    font-size: 15px !important;
+  }
+
+  #tab-schedule > div > div:first-child div[style*="font-size:11px"] {
+    font-size: 10px !important;
+  }
+
+  .week-compact {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .week-compact-row {
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 10px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--bg);
+    min-height: 62px;
+  }
+
+  .week-compact-row:last-child {
+    border-bottom: none;
+  }
+
+  .week-compact-row.today:not(.past) {
+    background: #FFF7F0;
+    border-left: 4px solid var(--orange);
+    padding-left: 6px;
+  }
+
+  .week-compact-row.past {
+    background: #F8F9FA;
+  }
+
+  .week-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .week-dow {
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--blue);
+    border-radius: 5px;
+    padding: 2px 5px;
+    line-height: 1;
+  }
+
+  .week-compact-row.today:not(.past) .week-dow {
+    background: var(--orange);
+  }
+
+  .week-num {
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--text);
+    margin-top: 3px;
+  }
+
+  .week-month {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--text-3);
+  }
+
+  .week-events {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .week-event {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .week-event-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .week-event-meta {
+    font-size: 9.5px;
+    color: var(--text-3);
+    line-height: 1.2;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .week-course-chip {
+    font-size: 8px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .week-compact-row.past .week-dow,
+  .week-compact-row.past .week-course-chip,
+  .week-event.past .week-course-chip {
+    background: #E8ECF4 !important;
+    color: #9AA3BF !important;
+  }
+
+  .week-compact-row.past .week-num,
+  .week-compact-row.past .week-month,
+  .week-compact-row.past .week-event-title,
+  .week-compact-row.past .week-event-meta,
+  .week-event.past .week-event-title,
+  .week-event.past .week-event-meta {
+    color: #9AA3BF !important;
+  }
+
+  .week-event.past {
+    opacity: .75;
+  }
+
+  /* UDHT structure */
+  .udht-section-head {
+    padding: 10px 16px 8px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .udht-section-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .udht-section-icon {
+    font-size: 14px;
+    color: var(--text-3);
+    font-weight: 700;
+  }
+
+  .udht-past-separator {
+    margin: 12px 16px 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .udht-past-separator div {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .udht-past-separator span {
+    font-size: 10px;
+    font-weight: 800;
+    color: #9AA3BF;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+  }
+
+  .task-item.past-soft {
+    background: #F8F9FA;
+  }
+
+  .task-item.past-soft .task-name,
+  .task-item.past-soft .task-detail,
+  .task-item.past-soft .due-date,
+  .task-item.past-soft .due-days {
+    color: #9AA3BF !important;
+  }
+
+  .task-item.past-soft .task-check {
+    border-color: #D1D9E8;
+    color: #B0B8CC;
+  }
+
+  @media (max-width: 520px) {
+    .week-compact-row {
+      grid-template-columns: 46px 1fr;
+      gap: 8px;
+      padding: 7px 9px;
+      min-height: 58px;
+    }
+
+    .week-num {
+      font-size: 23px;
+    }
+
+    .week-event-title {
+      font-size: 11.5px;
+    }
+
+    .week-event-meta {
+      font-size: 9px;
+    }
+
+    .week-course-chip {
+      font-size: 7.5px;
+      padding: 2px 5px;
+    }
+  }
+</style>
+
+<script id="gsapp27-v4-schedule-udht-script">
+(function () {
+  'use strict';
+
+  function pad2(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function normalizeDate(input) {
+    if (input instanceof Date) return new Date(input.getFullYear(), input.getMonth(), input.getDate());
+    return new Date(input + 'T00:00:00');
+  }
+
+  function sameDate(a, b) {
+    return a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+  }
+
+  function parseLastExplicitTime(timeText) {
+    var text = String(timeText || '');
+    var matches = Array.from(text.matchAll(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/gi));
+    if (matches.length <= 1) {
+      return { hour: 18, minute: 0 };
+    }
+
+    var m = matches[matches.length - 1];
+    var hour = Number(m[1]);
+    var minute = Number(m[2] || 0);
+    var ampm = String(m[3]).toUpperCase();
+
+    if (ampm === 'PM' && hour < 12) hour += 12;
+    if (ampm === 'AM' && hour === 12) hour = 0;
+
+    return { hour: hour, minute: minute };
+  }
+
+  function eventEndDate(day, ev) {
+    var d = normalizeDate(day.date);
+    var end = ev.endTime ? parseLastExplicitTime(ev.endTime) : parseLastExplicitTime(ev.time);
+    d.setHours(end.hour, end.minute, 0, 0);
+    return d;
+  }
+
+  function isEventPast(day, ev) {
+    return new Date() >= eventEndDate(day, ev);
+  }
+
+  function isDayPast(day) {
+    return day.events && day.events.length > 0 && day.events.every(function (ev) {
+      return isEventPast(day, ev);
+    });
+  }
+
+  function renderWeekScheduleCompact() {
+    var el = document.getElementById('week-schedule');
+    var data = window.GSAPP_DATA && window.GSAPP_DATA.weekSchedule ? window.GSAPP_DATA.weekSchedule : [];
+    if (!el || !data.length) return;
+
+    var dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var now = new Date();
+
+    el.innerHTML = '<div class="week-compact">' + data.map(function (day) {
+      var date = normalizeDate(day.date);
+      var dayPast = isDayPast(day);
+      var today = sameDate(date, now);
+      var rowClass = 'week-compact-row' + (today ? ' today' : '') + (dayPast ? ' past' : '');
+
+      var eventsHtml = day.events.map(function (ev) {
+        var eventPast = isEventPast(day, ev);
+        var meta = [ev.time, ev.loc].filter(Boolean).join(' · ');
+        return '<div class="week-event' + (eventPast ? ' past' : '') + '">' +
+          '<div style="min-width:0;">' +
+            '<div class="week-event-title">' + ev.title + '</div>' +
+            '<div class="week-event-meta">' + meta + '</div>' +
+          '</div>' +
+          '<span class="week-course-chip" style="background:' + ev.bg + ';color:' + ev.color + ';">' + ev.course + '</span>' +
+        '</div>';
+      }).join('');
+
+      return '<div class="' + rowClass + '">' +
+        '<div class="week-date">' +
+          '<span class="week-dow">' + dayNames[date.getDay()] + (today && !dayPast ? ' · NOW' : '') + '</span>' +
+          '<span class="week-num">' + pad2(date.getDate()) + '</span>' +
+          '<span class="week-month">June</span>' +
+        '</div>' +
+        '<div class="week-events">' + eventsHtml + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  function daysLeft(dateStr, dueTime) {
+    if (typeof getDaysLeft === 'function') return getDaysLeft(dateStr, dueTime || '18:00');
+    var due = new Date(dateStr + 'T00:00:00');
+    due.setHours(18, 0, 0, 0);
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (new Date() >= due) return -1;
+    return Math.round((new Date(dateStr + 'T00:00:00') - today) / 86400000);
+  }
+
+  function dueLabel(dateStr, dueTime) {
+    var d = daysLeft(dateStr, dueTime || '18:00');
+    if (d < 0) return 'passed';
+    if (d === 0) return 'TODAY';
+    if (d === 1) return '1d left';
+    return d + 'd left';
+  }
+
+  function dueClass(dateStr, dueTime) {
+    var d = daysLeft(dateStr, dueTime || '18:00');
+    if (d < 0) return 'done-label';
+    if (d <= 3) return 'urgent';
+    if (d <= 10) return 'soon';
+    return 'ok';
+  }
+
+  function makeTask(id, title, detail, dateLabel, dateStr, bodyHtml, isPastOverride) {
+    var isPast = typeof isPastOverride === 'boolean' ? isPastOverride : daysLeft(dateStr, '18:00') < 0;
+    return '<div class="task-item' + (isPast ? ' past-soft' : '') + '" id="' + id + '" onclick="toggleTask(this)">' +
+      '<div class="task-check">✓</div>' +
+      '<div class="task-body"><div class="task-name">' + title + '</div><div class="task-detail">' + detail + '</div></div>' +
+      (dateLabel ? '<div class="task-due"><div class="due-date">' + dateLabel + '</div><div class="due-days ' + dueClass(dateStr, '18:00') + '" id="days-' + id.replace(/^task-/, '') + '">' + dueLabel(dateStr, '18:00') + '</div></div>' : '') +
+    '</div>' +
+    '<div class="task-expand"><div class="task-expand-inner">' + bodyHtml + '</div></div>';
+  }
+
+  function makeSimpleTask(id, title, detail, bodyHtml, isPast) {
+    return '<div class="task-item' + (isPast ? ' past-soft' : '') + '" id="' + id + '" onclick="toggleTask(this)">' +
+      '<div class="task-check">✓</div>' +
+      '<div class="task-body"><div class="task-name">' + title + '</div><div class="task-detail">' + detail + '</div></div>' +
+    '</div>' +
+    '<div class="task-expand"><div class="task-expand-inner">' + bodyHtml + '</div></div>';
+  }
+
+  function makeSection(id, label, content) {
+    return '<div class="udht-section-head" onclick="toggleSection(\'' + id + '\', this)">' +
+      '<span class="udht-section-label">' + label + '</span>' +
+      '<span id="' + id + '-icon" class="udht-section-icon">−</span>' +
+    '</div>' +
+    '<div id="' + id + '">' + content + '</div>';
+  }
+
+  function renderUDHTStructured() {
+    var panel = document.querySelector('#sub-as-udht > div');
+    if (!panel) return;
+
+    var assignments =
+      makeTask('task-udht-1', 'Project Proposal', '+ Week 3 Readings · 19th Century Modernism', 'Jun 10', '2026-06-10',
+        '<ul><li>Prepare the first project proposal direction.</li><li>Connect the proposal to Week 3 readings and discussion.</li></ul>', false) +
+      makeTask('task-udht-2', 'Formal Analysis', '+ Week 5 Readings · Ethical Shift of Postwar Urbanism', 'Jun 24', '2026-06-24',
+        '<ul><li>Focus on formal analysis, urban structure, and representational clarity.</li><li>Use the readings to frame the architectural and urban argument.</li></ul>', false) +
+      makeTask('task-udht-3', 'Thick Description', '+ Week 8 Readings · How New is “New Urbanism”?', 'Jul 15', '2026-07-15',
+        '<ul><li>Develop a thick description with careful observation and argument.</li><li>Link the site, social context, and theoretical frame.</li></ul>', false) +
+      makeTask('task-udht-4', 'Final Paper', '750-word final draft', 'Aug 10', '2026-08-10',
+        '<ul><li>750-word final draft incorporating feedback.</li><li>Boldly propose critical and subjective interpretations.</li><li>Include a 2-3 sentence note on AI tool usage.</li></ul>', false);
+
+    var udhtClasses = [
+      { date: '2026-06-03', title: 'Jun 3 · Week 2 — Social and Physical Urban Systems', detail: 'Lecture 10AM · Discussion 12:30PM · Mattern + McKittrick' },
+      { date: '2026-06-10', title: 'Jun 10 · Week 3 — 19th Century Modernism', detail: 'Lecture 10AM · Discussion 12:30PM · Project Proposal due' },
+      { date: '2026-06-17', title: 'Jun 17 · Week 4 — Suburbia + Sprawl', detail: 'Lecture 10AM · Discussion 12:30PM · Pedro Ramos Lecture' },
+      { date: '2026-06-24', title: 'Jun 24 · Week 5 — Ethical Shift of Postwar Urbanism', detail: 'Lecture 10AM · Discussion 12:30PM · Formal Analysis due' },
+      { date: '2026-07-01', title: 'Jul 1 · Week 6 — Systems, Supports, Self-Organized Urbanism', detail: 'Lecture 10AM · Discussion 12:30PM · Samantha Saona' },
+      { date: '2026-07-08', title: 'Jul 8 · Week 7 — Climate Justice and the City', detail: 'Lecture 10AM · Discussion 12:30PM' },
+      { date: '2026-07-15', title: 'Jul 15 · Week 8 — How New is “New Urbanism”?', detail: 'Lecture 10AM · Discussion 12:30PM · Thick Description due' },
+      { date: '2026-07-22', title: 'Jul 22 · Week 9 — The City in Crisis', detail: 'Lecture 10AM · Discussion 12:30PM' },
+      { date: '2026-08-05', title: 'Aug 5 · Week 10 — Individual Meetings', detail: 'Meet discussion leaders about final project arguments and sources' }
+    ];
+
+    var upcomingClasses = udhtClasses.filter(function (c) { return daysLeft(c.date, '18:00') >= 0; });
+    var pastClasses = udhtClasses.filter(function (c) { return daysLeft(c.date, '18:00') < 0; }).reverse();
+
+    var schedule = upcomingClasses.map(function (c, i) {
+      return makeSimpleTask('udht-class-' + i, c.title, c.detail, '<strong>Class Schedule</strong><br>' + c.detail, false);
+    }).join('');
+
+    if (pastClasses.length) {
+      schedule += '<div class="udht-past-separator"><div></div><span>Past</span><div></div></div>';
+      schedule += pastClasses.map(function (c, i) {
+        return makeSimpleTask('udht-class-past-' + i, c.title, c.detail, '<strong>Past class</strong><br>' + c.detail, true);
+      }).join('');
+    }
+
+    var readings =
+      makeTask('task-udht-0', 'Week 2 Readings', 'Social and Physical Urban Systems', 'Jun 3', '2026-06-03',
+        '<ul><li>Shannon Mattern, “A City Is Not a Computer,” <em>Places Journal</em> (2017)</li><li>Katherine McKittrick, “On Plantations, Prisons, and a Black Sense of Place”</li></ul><a class="drive-btn" href="https://drive.google.com/drive/folders/1w7FHPN6nSynGwrTPGNaqd15Ye0WC5hfe" target="_blank" rel="noopener">Open Week 2 Reading Materials</a>', true) +
+      makeSimpleTask('task-udht-w3-reading', 'Week 3 Readings', '19th Century Modernism', '<ul><li>Reading list to be confirmed from CourseWorks / Drive.</li></ul>', false) +
+      makeTask('task-udht-w4', 'Week 4 Readings', 'Suburbia + Sprawl · Pedro Ramos Lecture', 'Jun 17', '2026-06-17',
+        '<ul><li>Suburbia and sprawl readings.</li><li>Review together with Pedro Ramos lecture context.</li></ul>', false) +
+      makeSimpleTask('task-udht-w5-reading', 'Week 5 Readings', 'Ethical Shift of Postwar Urbanism', '<ul><li>Use with Formal Analysis assignment.</li></ul>', false) +
+      makeTask('task-udht-w6', 'Week 6 Readings', 'Systems, Supports, Self-Organized Urbanism', 'Jul 1', '2026-07-01',
+        '<ul><li>Systems, supports, and self-organized urbanism.</li><li>Samantha Saona session context.</li></ul>', false) +
+      makeTask('task-udht-w7', 'Week 7 Readings', 'Climate Justice and the City', 'Jul 8', '2026-07-08',
+        '<ul><li>Climate justice and urban design readings.</li></ul>', false) +
+      makeSimpleTask('task-udht-w8-reading', 'Week 8 Readings', 'How New is “New Urbanism”?', '<ul><li>Use with Thick Description assignment.</li></ul>', false) +
+      makeTask('task-udht-w9', 'Week 9 Readings', 'The City in Crisis', 'Jul 22', '2026-07-22',
+        '<ul><li>The city in crisis readings.</li></ul>', false);
+
+    panel.innerHTML =
+      '<div class="course-block">' +
+        '<div class="course-header">' +
+          '<div class="course-color" style="background:#8B5CF6;min-height:40px;"></div>' +
+          '<div style="flex:1"><div class="course-title">UDHT</div><span class="course-sub">Urban Design History &amp; Theory · Wednesdays 10AM · Discussion 12:30PM</span></div>' +
+        '</div>' +
+        makeSection('udht-assignments', '📋 Assignments', assignments) +
+        makeSection('udht-schedule', '🗓 Class Schedule', schedule) +
+        makeSection('udht-readings', '📚 Reading Materials', readings) +
+      '</div>';
+
+    if (typeof renderDueDays === 'function') renderDueDays();
+    if (typeof markPastTasks === 'function') markPastTasks();
+  }
+
+  function runPatch() {
+    renderWeekScheduleCompact();
+    renderUDHTStructured();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v5: UDHT one-item preview with expandable + more -->
+<style id="gsapp27-v5-udht-collapse-style">
+  .udht-more-list {
+    display: none;
+  }
+
+  .udht-more-list.open {
+    display: block;
+  }
+
+  .udht-more-toggle {
+    width: calc(100% - 32px);
+    margin: 8px 16px 12px;
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--blue);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+  }
+
+  .udht-more-toggle:hover {
+    background: var(--blue-tint);
+    border-color: var(--blue);
+  }
+
+  .udht-more-toggle .plus {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    margin-right: 5px;
+    transform: translateY(1px);
+  }
+
+  .udht-more-toggle.open .plus {
+    transform: translateY(1px) rotate(45deg);
+  }
+</style>
+
+<script id="gsapp27-v5-udht-collapse-script">
+(function () {
+  'use strict';
+
+  function compressSection(sectionId, singularLabel) {
+    var section = document.getElementById(sectionId);
+    if (!section || section.dataset.compressed === 'true') return;
+
+    var children = Array.from(section.children);
+    var taskIndexes = [];
+    children.forEach(function (node, index) {
+      if (node.classList && node.classList.contains('task-item')) {
+        taskIndexes.push(index);
+      }
+    });
+
+    if (taskIndexes.length <= 1) return;
+
+    var firstTaskIndex = taskIndexes[0];
+    var firstExpandIndex = firstTaskIndex + 1;
+
+    var nodesToMove = children.slice(firstExpandIndex + 1);
+    if (!nodesToMove.length) return;
+
+    var moreWrap = document.createElement('div');
+    moreWrap.className = 'udht-more-list';
+    moreWrap.id = sectionId + '-more';
+
+    nodesToMove.forEach(function (node) {
+      moreWrap.appendChild(node);
+    });
+
+    var remainingCount = taskIndexes.length - 1;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'udht-more-toggle';
+    btn.innerHTML = '<span class="plus">+</span> Show ' + remainingCount + ' more ' + singularLabel + (remainingCount > 1 ? 's' : '');
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = moreWrap.classList.toggle('open');
+      btn.classList.toggle('open', isOpen);
+      btn.innerHTML = isOpen
+        ? '<span class="plus">+</span> Hide extra ' + singularLabel + (remainingCount > 1 ? 's' : '')
+        : '<span class="plus">+</span> Show ' + remainingCount + ' more ' + singularLabel + (remainingCount > 1 ? 's' : '');
+    });
+
+    section.appendChild(btn);
+    section.appendChild(moreWrap);
+    section.dataset.compressed = 'true';
+  }
+
+  function runUDHTCollapsePatch() {
+    compressSection('udht-assignments', 'assignment');
+    compressSection('udht-schedule', 'class');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(runUDHTCollapsePatch, 80);
+    });
+  } else {
+    setTimeout(runUDHTCollapsePatch, 80);
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v6: unify all course panels into Assignments / Class Schedule / Reading Materials -->
+<style id="gsapp27-v6-course-unify-style">
+  .course-section-head {
+    padding: 10px 16px 8px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .course-section-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .course-section-count {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 2px 7px;
+  }
+
+  .course-more-list {
+    display: none;
+  }
+
+  .course-more-list.open {
+    display: block;
+  }
+
+  .course-more-toggle {
+    width: calc(100% - 32px);
+    margin: 8px 16px 12px;
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--blue);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+  }
+
+  .course-more-toggle:hover {
+    background: var(--blue-tint);
+    border-color: var(--blue);
+  }
+
+  .course-more-toggle .plus {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1;
+    margin-right: 5px;
+    transform: translateY(1px);
+  }
+
+  .course-more-toggle.open .plus {
+    transform: translateY(1px) rotate(45deg);
+  }
+
+  .material-card {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--bg);
+  }
+
+  .material-card:last-child {
+    border-bottom: none;
+  }
+
+  .material-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .material-detail {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.4;
+  }
+
+  .course-empty {
+    padding: 14px 16px;
+    font-size: 12px;
+    color: var(--text-3);
+    border-bottom: 1px solid var(--bg);
+  }
+
+  .task-item.course-past-soft {
+    background: #F8F9FA;
+  }
+
+  .task-item.course-past-soft .task-name,
+  .task-item.course-past-soft .task-detail,
+  .task-item.course-past-soft .due-date,
+  .task-item.course-past-soft .due-days {
+    color: #9AA3BF !important;
+  }
+
+  .task-item.course-past-soft .task-check {
+    border-color: #D1D9E8;
+    color: #B0B8CC;
+  }
+</style>
+
+<script id="gsapp27-v6-course-unify-script">
+(function () {
+  'use strict';
+
+  function dueDate(dateStr, timeStr) {
+    if (!dateStr) return null;
+    var d = new Date(dateStr + 'T00:00:00');
+    var t = timeStr || '18:00';
+    var parts = t.split(':');
+    d.setHours(Number(parts[0] || 18), Number(parts[1] || 0), 0, 0);
+    return d;
+  }
+
+  function daysLeft(dateStr, timeStr) {
+    if (!dateStr) return null;
+    var d = dueDate(dateStr, timeStr);
+    if (new Date() >= d) return -1;
+
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    var dueDay = new Date(dateStr + 'T00:00:00');
+    dueDay.setHours(0, 0, 0, 0);
+    return Math.round((dueDay - today) / 86400000);
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+
+  function daysLabel(dateStr, timeStr) {
+    var d = daysLeft(dateStr, timeStr);
+    if (d === null) return '';
+    if (d < 0) return 'passed';
+    if (d === 0) return 'TODAY';
+    if (d === 1) return '1d left';
+    return d + 'd left';
+  }
+
+  function daysClass(dateStr, timeStr) {
+    var d = daysLeft(dateStr, timeStr);
+    if (d === null) return 'ok';
+    if (d < 0) return 'done-label';
+    if (d <= 3) return 'urgent';
+    if (d <= 10) return 'soon';
+    return 'ok';
+  }
+
+  function isPast(dateStr, timeStr) {
+    if (!dateStr) return false;
+    return daysLeft(dateStr, timeStr || '18:00') < 0;
+  }
+
+  function renderTask(item, courseColor) {
+    var past = isPast(item.date, item.dueTime || '18:00');
+    var dueHtml = item.date
+      ? '<div class="task-due"><div class="due-date">' + formatDate(item.date) + '</div><div class="due-days ' + daysClass(item.date, item.dueTime || '18:00') + '">' + daysLabel(item.date, item.dueTime || '18:00') + '</div></div>'
+      : '';
+
+    var body = item.bodyHtml || '';
+    if (item.link) {
+      body += (body ? '<br><br>' : '') +
+        '<a class="drive-btn" href="' + item.link + '" target="_blank" rel="noopener">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg>' +
+        (item.linkLabel || 'Open Link') + '</a>';
+    }
+
+    return '<div class="task-item' + (past ? ' course-past-soft' : '') + '" onclick="toggleTask(this)">' +
+      '<div class="task-check">✓</div>' +
+      '<div class="task-body"><div class="task-name">' + item.title + '</div><div class="task-detail">' + (item.detail || '') + '</div></div>' +
+      dueHtml +
+    '</div>' +
+    '<div class="task-expand"><div class="task-expand-inner">' + (body || '<strong>' + item.title + '</strong><br>' + (item.detail || '')) + '</div></div>';
+  }
+
+  function renderSection(id, label, items, options) {
+    options = options || {};
+    var countLabel = items.length + ' item' + (items.length > 1 ? 's' : '');
+    var html = '<div class="course-section-head">' +
+      '<span class="course-section-label">' + label + '</span>' +
+      '<span class="course-section-count">' + countLabel + '</span>' +
+    '</div>';
+
+    if (!items.length) {
+      return html + '<div class="course-empty">No items added yet.</div>';
+    }
+
+    if (options.compress === false || items.length === 1) {
+      return html + items.map(function (item) { return renderTask(item, options.color); }).join('');
+    }
+
+    var first = items[0];
+    var rest = items.slice(1);
+    html += renderTask(first, options.color);
+
+    html += '<button type="button" class="course-more-toggle" onclick="toggleCourseMore(\'' + id + '-more\', this, \'' + (options.moreLabel || 'item') + '\', ' + rest.length + ')">' +
+      '<span class="plus">+</span> Show ' + rest.length + ' more ' + (options.moreLabel || 'item') + (rest.length > 1 ? 's' : '') +
+    '</button>';
+
+    html += '<div id="' + id + '-more" class="course-more-list">' +
+      rest.map(function (item) { return renderTask(item, options.color); }).join('') +
+    '</div>';
+
+    return html;
+  }
+
+  window.toggleCourseMore = function (id, btn, label, count) {
+    var target = document.getElementById(id);
+    if (!target) return;
+
+    var open = target.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.innerHTML = open
+      ? '<span class="plus">+</span> Hide extra ' + label + (count > 1 ? 's' : '')
+      : '<span class="plus">+</span> Show ' + count + ' more ' + label + (count > 1 ? 's' : '');
+  };
+
+  function renderCoursePanel(panelId, config) {
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+
+    panel.innerHTML =
+      '<div style="padding:12px 0 60px;">' +
+        '<div class="course-block">' +
+          '<div class="course-header">' +
+            '<div class="course-color" style="background:' + config.color + ';min-height:40px;"></div>' +
+            '<div style="flex:1"><div class="course-title">' + config.title + '</div><span class="course-sub">' + config.sub + '</span></div>' +
+          '</div>' +
+          renderSection(config.slug + '-assignments', '📋 Assignments', config.assignments || [], { color: config.color, moreLabel: 'assignment' }) +
+          renderSection(config.slug + '-schedule', '🗓 Class Schedule', config.schedule || [], { color: config.color, moreLabel: 'class' }) +
+          renderMaterials(config.materials || []) +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderMaterials(materials) {
+    var html = '<div class="course-section-head">' +
+      '<span class="course-section-label">📚 Reading Materials</span>' +
+      '<span class="course-section-count">' + materials.length + ' item' + (materials.length > 1 ? 's' : '') + '</span>' +
+    '</div>';
+
+    if (!materials.length) {
+      return html + '<div class="course-empty">No material links added yet.</div>';
+    }
+
+    html += materials.map(function (m) {
+      var link = m.link
+        ? '<a class="drive-btn" href="' + m.link + '" target="_blank" rel="noopener">' +
+          '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg>' +
+          (m.linkLabel || 'Open') + '</a>'
+        : '';
+
+      return '<div class="material-card">' +
+        '<div class="material-title">' + m.title + '</div>' +
+        '<div class="material-detail">' + (m.detail || '') + '</div>' +
+        link +
+      '</div>';
+    }).join('');
+
+    return html;
+  }
+
+  function rnyuScheduleItems() {
+    var data = (window.GSAPP_DATA && window.GSAPP_DATA.rnyuClasses) || [
+      { date: '2026-06-11', label: 'Jun 11 · Week 3 — New Domino, Brooklyn', detail: 'Site Visit · Thursday this week only' },
+      { date: '2026-06-16', label: 'Jun 16 · Week 4 — Zoning & Gentrification', detail: 'Discussion Session 2–3PM' },
+      { date: '2026-06-23', label: 'Jun 23 · Week 5 — Columbus Circle & Lincoln Center', detail: 'Site Visit · Big Plans, Part I' },
+      { date: '2026-06-30', label: 'Jun 30 · Week 6 — Hudson Yards', detail: 'Site Visit · Big Plans, Part II' },
+      { date: '2026-07-07', label: 'Jul 7 · Week 7 — The Grid, Street & Public Space', detail: 'Discussion Session 2–3PM' },
+      { date: '2026-07-14', label: 'Jul 14 · Week 8 — Nostalgia & Fragmented City', detail: 'E.B. White and postwar New York' }
+    ];
+
+    return data.map(function (c) {
+      return {
+        title: c.label,
+        detail: c.detail,
+        date: c.date,
+        dueTime: '18:00',
+        bodyHtml: '<strong>Class Schedule</strong><br>' + c.detail
+      };
+    });
+  }
+
+  function rnyuMaterials() {
+    var tasks = (window.GSAPP_DATA && window.GSAPP_DATA.allTasks) || [];
+    var materials = tasks
+      .filter(function (t) {
+        return t.course === 'RNYU' && t.driveUrl && /Week/.test(t.label || '');
+      })
+      .map(function (t) {
+        return {
+          title: t.label,
+          detail: t.detail || '',
+          link: t.driveUrl,
+          linkLabel: 'Open Materials'
+        };
+      });
+
+    if (materials.length) return materials;
+
+    return [
+      { title: 'RNYU Course Drive', detail: 'Use CourseWorks or class Drive folders for weekly readings.', link: 'https://drive.google.com/drive/folders/1Xud-fG2gWj4QeX_Rz9c0Jv7oRqxPmdpG', linkLabel: 'Open Drive' }
+    ];
+  }
+
+  function renderAllCoursesUnified() {
+    renderCoursePanel('sub-as-studio', {
+      slug: 'studio',
+      title: 'Studio',
+      sub: 'Urban Design Studio · 114 Avery & Fayerweather 206',
+      color: '#3B82F6',
+      assignments: [
+        {
+          title: 'Urban Fabric Drawing',
+          detail: '20x20" panel + 11x17" + 2-min presentation',
+          date: '2026-06-01',
+          dueTime: '18:00',
+          link: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook',
+          linkLabel: 'Open Studio Drive',
+          bodyHtml: '<ul><li>20x20 inch panel</li><li>11x17 inch supporting sheet</li><li>2-minute presentation</li></ul>'
+        },
+        {
+          title: 'Archive Submission',
+          detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM',
+          date: '2026-06-05',
+          dueTime: '16:00',
+          link: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook',
+          linkLabel: 'Open Submission Folder',
+          bodyHtml: '<ul><li>Export PDF/JPEG at 300dpi</li><li>Maximum 25MB</li><li>Submit before 4PM</li></ul>'
+        }
+      ],
+      schedule: [
+        {
+          title: 'Charrette Review + Project 1 Handout',
+          detail: 'Mon Jun 1 · 2–7PM · Avery 114',
+          date: '2026-06-01',
+          dueTime: '19:00',
+          bodyHtml: '<strong>Studio class</strong><br>Charrette review and Project 1 handout.'
+        },
+        {
+          title: 'Avery Drawings & Archives Visit',
+          detail: 'Wed Jun 3 · Group 1: 2–3PM · Group 2: 3–4PM',
+          date: '2026-06-03',
+          dueTime: '18:00',
+          bodyHtml: '<strong>Archive Visit</strong><br>Arrive at your allotted time slot. No food, drinks, bags, or coats in the archive. Photos are welcome, no flash.'
+        }
+      ],
+      materials: [
+        { title: 'Studio Drive Folder', detail: 'Main folder for studio submissions and resources.', link: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook', linkLabel: 'Open Studio Drive' },
+        { title: 'Avery Archive Visit Notes', detail: 'Archive directions and reading room policies are listed inside the class schedule card above.' }
+      ]
+    });
+
+    renderCoursePanel('sub-as-rny', {
+      slug: 'rnyu',
+      title: 'RNYU',
+      sub: 'Reading New York Urbanism · Tuesdays 10AM · 114 Avery',
+      color: '#F59E0B',
+      assignments: [
+        {
+          title: 'Assignment 1',
+          detail: 'Visit 1 of 4 boroughs · Photo + 150-200 word caption',
+          date: '2026-06-08',
+          dueTime: '17:00',
+          link: 'https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20',
+          linkLabel: 'Open Assignment Folder',
+          bodyHtml: '<ul><li>Visit one neighborhood from the syllabus list.</li><li>Take one photo with GPS metadata and date.</li><li>Write a 150-200 word caption.</li></ul>'
+        },
+        {
+          title: 'Assignment 2',
+          detail: '2nd borough visit · Photo + 150-200 word caption',
+          date: '2026-06-22',
+          dueTime: '17:00',
+          bodyHtml: '<ul><li>Must be a different borough from Assignment 1.</li><li>Same format: photo with GPS metadata + 150-200 word caption.</li></ul>'
+        },
+        {
+          title: 'Assignment 3',
+          detail: '3rd borough visit · Photo + 150-200 word caption',
+          date: '2026-07-06',
+          dueTime: '17:00',
+          bodyHtml: '<ul><li>Must be a different borough from previous assignments.</li><li>Same format: photo with GPS metadata + 150-200 word caption.</li></ul>'
+        },
+        {
+          title: 'Assignment 4',
+          detail: '4th borough visit · Photo + 150-200 word caption',
+          date: '2026-08-03',
+          dueTime: '17:00',
+          bodyHtml: '<ul><li>Must complete 4 of 5 boroughs total across all assignments.</li><li>Same format: photo with GPS metadata + 150-200 word caption.</li></ul>'
+        }
+      ],
+      schedule: rnyuScheduleItems(),
+      materials: rnyuMaterials()
+    });
+
+    renderCoursePanel('sub-as-dteq', {
+      slug: 'dteq',
+      title: 'DTEQ',
+      sub: 'Design Techniques · 114 Avery & Fayerweather 206',
+      color: '#10B981',
+      assignments: [
+        { title: 'Assignment 01', detail: 'Submit to Drive folder', link: 'https://drive.google.com/drive/folders/1RJWOE_aI-MDAxDxabfULJZiSxrqpFS2n', linkLabel: 'Assignment 01 Folder' },
+        { title: 'Assignment 02', detail: 'Submit to Drive folder', link: 'https://drive.google.com/drive/folders/18J-LVyKx5ah8JTmCGylM_PVIzU1j3314', linkLabel: 'Assignment 02 Folder' },
+        { title: 'Assignment 03', detail: 'Submit to Drive folder', link: 'https://drive.google.com/drive/folders/1RH7VHM5yC9dmr36nnKXkCV1T6iQHeFFX', linkLabel: 'Assignment 03 Folder' },
+        { title: 'Final Assignment', detail: 'Slides on Google Drive', link: 'https://docs.google.com/presentation/d/1BHfaGjAq52onWJgPYkjUgcI6cvWa0LSf/edit?usp=drive_link', linkLabel: 'Final Assignment Slides' }
+      ],
+      schedule: [
+        { title: 'DTEQ', detail: 'Tue Jun 2 · 2:30–6:30PM', date: '2026-06-02', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>2:30–6:30PM.' },
+        { title: 'DTEQ', detail: 'Thu Jun 4 · 10AM–6:30PM', date: '2026-06-04', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>10AM–6:30PM.' },
+        { title: 'DTEQ', detail: 'Fri Jun 5 · 11AM–6:30PM', date: '2026-06-05', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>11AM–6:30PM.' }
+      ],
+      materials: [
+        { title: 'DTEQ Google Drive', detail: 'Main DTEQ resource folder.', link: 'https://drive.google.com/drive/folders/1bssi7A6QQ2xfnxZ-13VmvGECv9jtvVCK?usp=drive_link', linkLabel: 'Open DTEQ Drive' },
+        { title: 'DTEQ Miro Board', detail: 'Shared board for workshop and class exercises.', link: 'https://miro.com/app/board/uXjVHXzRmuY=/?share_link_id=112138952334', linkLabel: 'Open Miro Board' }
+      ]
+    });
+
+    if (typeof renderDueDays === 'function') renderDueDays();
+    if (typeof markPastTasks === 'function') markPastTasks();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(renderAllCoursesUnified, 140);
+    });
+  } else {
+    setTimeout(renderAllCoursesUnified, 140);
+  }
+})();
+</script>
+
 </body>
 </html>
