@@ -2416,129 +2416,224 @@
         </div>
 
         <!-- ── ASSIGNMENTS ── -->
-        <div style="padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);">
+        <div onclick="toggleSection('rnyu-assignments', this)" style="padding:10px 16px 8px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
           <span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;">📋 Assignments</span>
+          <span id="rnyu-assignments-icon" style="font-size:14px;color:var(--text-3);font-weight:700;">−</span>
         </div>
+        <div id="rnyu-assignments">
 
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-a1">
           <div class="task-check">✓</div>
-          <div class="task-body">
-            <div class="task-name">Assignment 1</div>
-            <div class="task-detail">Due Mon Jun 8 at 5PM</div>
-          </div>
-          <div class="task-due">
-            <div class="due-date">Jun 8</div>
-            <div class="due-days" id="days-rnyu-a1"></div>
-          </div>
+          <div class="task-body"><div class="task-name">Assignment 1</div><div class="task-detail">Visit 1 of 4 boroughs · Photo + 150-200 word caption</div></div>
+          <div class="task-due"><div class="due-date">Jun 8</div><div class="due-days" id="days-rnyu-a1"></div></div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <strong>Instructions</strong>
-            <ul>
-              <li>Review the syllabus for full instructions</li>
-              <li>Use the <strong>InDesign template</strong> in the Assignments folder on Google Drive</li>
-              <li>Export as PDF and submit to the appropriate folder on Drive</li>
-            </ul>
-            <a class="drive-btn" href="https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20" target="_blank" rel="noopener">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg>
-              Open RNYU Drive Folder
-            </a>
-          </div>
-        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Due Mon Jun 8 at 5PM</strong>
+          <ul>
+            <li>Visit a neighborhood from the list (see syllabus for full list by borough)</li>
+            <li>Take photos · Upload one image with GPS metadata and date</li>
+            <li>Write 150-200 word caption: what you see, what questions it raises, what urban design intervention might be called for</li>
+          </ul>
+          <a class="drive-btn" href="https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg>
+            RNYU Assignments Folder
+          </a>
+        </div></div>
 
-        <!-- ── CLASS SCHEDULE ── -->
-        <div style="padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);margin-top:4px;">
+        <div class="task-item" onclick="toggleTask(this)" id="rnyu-a2">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Assignment 2</div><div class="task-detail">2nd borough visit · Photo + 150-200 word caption</div></div>
+          <div class="task-due"><div class="due-date">Jun 22</div><div class="due-days" id="days-rnyu-a2"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Due Mon Jun 22 at 5PM</strong>
+          <ul>
+            <li>Must be a different borough from Assignment 1</li>
+            <li>Same format: photo with GPS metadata + 150-200 word caption</li>
+          </ul>
+        </div></div>
+
+        <div class="task-item" onclick="toggleTask(this)" id="rnyu-a3">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Assignment 3</div><div class="task-detail">3rd borough visit · Photo + 150-200 word caption</div></div>
+          <div class="task-due"><div class="due-date">Jul 6</div><div class="due-days" id="days-rnyu-a3"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Due Mon Jul 6 at 5PM</strong>
+          <ul>
+            <li>Must be a different borough from previous assignments</li>
+            <li>Same format: photo with GPS metadata + 150-200 word caption</li>
+          </ul>
+        </div></div>
+
+        <div class="task-item" onclick="toggleTask(this)" id="rnyu-a4">
+          <div class="task-check">✓</div>
+          <div class="task-body"><div class="task-name">Assignment 4</div><div class="task-detail">4th borough visit · Photo + 150-200 word caption</div></div>
+          <div class="task-due"><div class="due-date">Aug 3</div><div class="due-days" id="days-rnyu-a4"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Due Mon Aug 3 at 5PM</strong>
+          <ul>
+            <li>Must complete 4 of 5 boroughs total across all 4 assignments</li>
+            <li>Same format: photo with GPS metadata + 150-200 word caption</li>
+          </ul>
+        </div></div>
+
+        </div><!-- end rnyu-assignments -->
+
+        <!-- ── CLASS SCHEDULE (collapsible) ── -->
+        <div onclick="toggleSection('rnyu-schedule', this)" style="padding:10px 16px 8px;background:var(--bg);border-bottom:1px solid var(--border);margin-top:4px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
           <span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;">📅 Class Schedule</span>
+          <span id="rnyu-schedule-icon" style="font-size:14px;color:var(--text-3);font-weight:700;">−</span>
         </div>
+        <div id="rnyu-schedule">
 
-        <!-- Site Visit — South Street Seaport -->
-        <div class="task-item" onclick="toggleTask(this)" id="rnyu-sv1" style="border-left:3px solid #F59E0B;">
-          <div class="task-check" style="background:#FFF0E6;border-color:#F59E0B;color:#F59E0B;font-size:12px;">!</div>
+        <!-- Next upcoming class shown always -->
+        <div class="task-item" onclick="toggleTask(this)" id="rnyu-next-class">
+          <div class="task-check" style="background:#FFF0E6;border-color:#F59E0B;color:#F59E0B;font-size:12px;">▶</div>
           <div class="task-body">
-            <div class="task-name" style="color:#F59E0B;">Site Visit — South Street Seaport</div>
-            <div class="task-detail">Tue Jun 3 · 10AM · Bleachers between Pier 16 &amp; Tin Building</div>
-          </div>
-          <div class="task-due">
-            <div class="due-date">Jun 3</div>
-            <div class="due-days" id="days-rnyu-sv1"></div>
+            <div class="task-name" style="color:#F59E0B;">Jun 3 · Week 2 — Site Visit</div>
+            <div class="task-detail">Seaport & Financial District · Meet 10AM (not 11)</div>
           </div>
         </div>
-        <div class="task-expand">
-          <div class="task-expand-inner">
-            <strong>Meeting Point</strong><br>
-            Bleachers between Pier 16 and the Tin Building at South Street Seaport
-            <br><br>
-            <a class="drive-btn" href="https://maps.app.goo.gl/gunuDRz5nbyzX1hUA" target="_blank" rel="noopener">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-              Open in Google Maps
-            </a>
-            <br><br>
-            <strong>Getting there from Columbia</strong><br>
-            No. 1 downtown (South Ferry) → transfer to 2 or 3 at 96th St → Fulton St → 5-min walk
-            <br><br>
-            <strong>Come prepared to discuss</strong>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>City of Water to City of Capital, Part II</strong><br>
+          The Invention of the Business District<br><br>
+          Meet at 10AM (not 11 — to get back before afternoon events)<br><br>
+          <strong>Reading:</strong> "The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 328 (Sep 1877) pp. 481–493
+        </div></div>
+
+        <!-- Full schedule toggle -->
+        <div class="task-item" onclick="toggleFullSchedule(this)" style="cursor:pointer;">
+          <div class="task-check" style="font-size:10px;border-color:var(--border);color:var(--text-3);" id="schedule-toggle-icon">+</div>
+          <div class="task-body">
+            <div class="task-name" style="color:var(--text-3);font-size:12px;font-weight:600;">View full schedule (Weeks 1–11)</div>
+          </div>
+        </div>
+        <div id="full-schedule" style="display:none;">
+
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">May 26 · Week 1 — Shipping, Slavery, Industry</div><div class="task-detail">Castello Plan, New Amsterdam, Domino & Navy Yard</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>City of Water to City of Capital, Part I</strong><br>
+            Walk along NYC waterfront before class — observe topography, history, design, and uses.<br><br>
+            <strong>Reading:</strong> Walt Whitman, "Mannahatta" (1860 version)
+          </div></div>
+
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jun 11 · Week 3 — New Domino, Brooklyn <span style="color:#F59E0B;font-size:10px;font-weight:800;">THU</span></div><div class="task-detail">Site Visit · Thursday this week only</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>The Invention of a Neighborhood</strong><br>
+            ⚠ <strong>Thursday Jun 11, not Tuesday</strong> — one-time change<br>
+            Site visit to New Domino, Brooklyn
+          </div></div>
+
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jun 16 · Week 4 — Zoning & Gentrification</div><div class="task-detail">Discussion Session 2–3PM (TBD) · Lecturer: Jesse Hirakawa</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>Orchestrating Change and Coping with Unintended Consequences</strong><br><br>
+            Part I: Zoning — How zoning gets outdated and how politicians can shift the climate<br>
+            Part II: Gentrification — Racial and class-based neighborhood change<br><br>
+            <strong>Reading:</strong>
             <ul>
-              <li>Walt Whitman, "Mannahatta" (Week 1 reading)</li>
-              <li>"The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 328 (Sep 1877) pp. 481–493</li>
-              <li>Berenice Abbott, <em>Fulton Dock</em> (1935) — have it on your phone, find the same point of view</li>
+              <li>Nikole Hannah-Jones, "Choosing a School for My Daughter in a Segregated City" NYT Magazine, Jun 9, 2016</li>
+              <li>Lance Freeman, "The Ghetto in the Twenty-First Century" & "Conclusion" in <em>A Haven and a Hell</em> pp. 203–254</li>
+              <li>Jacob Anbinder, "Power to the Neighborhoods!" White Paper, Harvard Joint Center for Housing Studies, Mar 2024</li>
             </ul>
-            <span style="color:#F59E0B;font-weight:700;">⚠ Wear comfortable shoes · ~2 mile walk · Check email Monday if weather changes</span>
+            Discussion Session: 2:00–3:00 PM · Location TBD
+          </div></div>
+
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jun 23 · Week 5 — Columbus Circle & Lincoln Center</div><div class="task-detail">Site Visit · Big Plans, Part I</div></div>
           </div>
-        </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>Big Plans, Part I</strong><br>
+            Robert Moses, Leonard Bernstein, the creation of cultural infrastructure, and the collective project of erasure.<br><br>
+            <strong>Reading:</strong> Committee on Slum Clearance, Preliminary Report, Lincoln Square Project, 1956
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 2 — Regular Class</div><div class="task-detail">Tue Jun 10 · 10AM · 114 Avery</div></div>
-          <div class="task-due"><div class="due-date">Jun 10</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Regular class session. Come with readings done.</div></div>
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jun 30 · Week 6 — Hudson Yards</div><div class="task-detail">Site Visit · Big Plans, Part II</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>Big Plans, Part II</strong><br><br>
+            <strong>Reading:</strong>
+            <ul>
+              <li>Justin Davidson, "I Have a Feeling We're Not In New York Anymore," New York (nymag.com), Feb 19, 2019</li>
+              <li>Audrey Wachs, "I Knew the Vessel Was Going to Have a Suicide Problem Years Before it Was Built," Curbed, Jan 15, 2021</li>
+              <li>"Manhattan's Last Frontier," in Daniel Doctoroff, <em>Greater Than Ever</em> (2017) pp. 151–170</li>
+            </ul>
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 3 — Regular Class</div><div class="task-detail">Tue Jun 16 · 10AM · 114 Avery</div></div>
-          <div class="task-due"><div class="due-date">Jun 16</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jul 7 · Week 7 — The Grid, Street & Public Space</div><div class="task-detail">Discussion Session 2–3PM (TBD)</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            Making a surface for walking, eating, shopping, meeting, protesting, driving, riding, flooding, garbage collecting, dancing, and sleeping.<br><br>
+            <strong>Reading:</strong>
+            <ul>
+              <li>"From the Winter of Despair to the Summer of Euphoria," in Setha Low, <em>Why Public Space Matters</em> (2023) pp. 175–204</li>
+              <li>Walt Whitman, "Omnibus Jaunts and Drivers," from <em>Specimen Days</em> (1881)</li>
+              <li>Walt Whitman, "Give Me the Silent, Splendid Sun," from <em>Leaves of Grass</em></li>
+            </ul>
+            Discussion Session: 2:00–3:00 PM · Location TBD
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Site Visit — Columbus Circle / Lincoln Center</div><div class="task-detail">Tue Jun 23 · 10AM</div></div>
-          <div class="task-due"><div class="due-date">Jun 23</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Site visit to Columbus Circle / Lincoln Center area.</div></div>
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jul 14 · Week 8 — Nostalgia & Future Lust</div><div class="task-detail">The Idea of New York in Art, Film, and Music · Discussion 2–3PM</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>Reading:</strong> E.B. White, <em>This is New York</em> (1949)<br><br>
+            Discussion Session: 2:00–3:00 PM · Location TBD
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Site Visit — Hudson Yards</div><div class="task-detail">Tue Jun 30 · 10AM</div></div>
-          <div class="task-due"><div class="due-date">Jun 30</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Site visit to Hudson Yards.</div></div>
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jul 21 · Week 9 — Long Island City & Hunters Point</div><div class="task-detail">Site Visit · City of Water to City of Capital, Part III: Leisure</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>City of Water to City of Capital, Part III: Leisure</strong><br>
+            Site visit to Long Island City and Hunters Point South
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 6 — Regular Class</div><div class="task-detail">Tue Jul 7 · 10AM</div></div>
-          <div class="task-due"><div class="due-date">Jul 7</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Jul 28 · Week 10 — Hudson Square</div><div class="task-detail">Site Visit · Tech City · Pier 45, Google, Disney</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>Tech City</strong><br>
+            Site visit to Hudson Square: Pier 45, Google, Disney
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 7 — Regular Class</div><div class="task-detail">Tue Jul 16 · 10AM</div></div>
-          <div class="task-due"><div class="due-date">Jul 16</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
+            <div class="task-check">✓</div>
+            <div class="task-body"><div class="task-name">Aug 4 · Week 11 — Washington Heights</div><div class="task-detail">Site Visit · WHIN Charter, Sugar Hill Housing, High Bridge</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>The Topography of Uplift</strong><br>
+            Site visit to Washington Heights: WHIN Charter School, Sugar Hill Housing, High Bridge
+          </div></div>
 
-        <div class="task-item" onclick="toggleTask(this)">
-          <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 8 — Regular Class</div><div class="task-detail">Tue Jul 21 · 10AM</div></div>
-          <div class="task-due"><div class="due-date">Jul 21</div></div>
-        </div>
-        <div class="task-expand"><div class="task-expand-inner">Regular class session.</div></div>
+        </div><!-- end full-schedule -->
+
+        </div><!-- end rnyu-schedule -->
 
         <!-- ── READING MATERIALS ── -->
-        <div style="padding:10px 16px 6px;background:var(--bg);border-bottom:1px solid var(--border);margin-top:4px;">
+        <div onclick="toggleSection('rnyu-readings', this)" style="padding:10px 16px 8px;background:var(--bg);border-bottom:1px solid var(--border);margin-top:4px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
           <span style="font-size:10px;font-weight:800;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;">📚 Reading Materials</span>
+          <span id="rnyu-readings-icon" style="font-size:14px;color:var(--text-3);font-weight:700;">−</span>
         </div>
+        <div id="rnyu-readings">
 
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-1">
           <div class="task-check">✓</div>
@@ -2551,10 +2646,10 @@
 
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-2">
           <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 2</div><div class="task-detail">"The Lading of a Ship" — Harper's New Monthly Magazine Vol. LV No. 32</div></div>
+          <div class="task-body"><div class="task-name">Week 2</div><div class="task-detail">"The Lading of a Ship" — Harper's New Monthly Magazine Vol. LV No. 328</div></div>
         </div>
         <div class="task-expand"><div class="task-expand-inner">
-          <ul><li>"The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 32</li></ul>
+          <ul><li>"The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 328 (Sep 1877) pp. 481–493</li></ul>
           <a class="drive-btn" href="https://drive.google.com/drive/folders/1KJMMr2npZRVZaH5sASmxIkKy4kcVxRO2" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 2 in Drive</a>
         </div></div>
 
@@ -2568,14 +2663,13 @@
 
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-4">
           <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 4</div><div class="task-detail">Lance Freeman · Nikole Hannah-Jones · Jacob Anbinder +1</div></div>
+          <div class="task-body"><div class="task-name">Week 4</div><div class="task-detail">Lance Freeman · Nikole Hannah-Jones · Jacob Anbinder</div></div>
         </div>
         <div class="task-expand"><div class="task-expand-inner">
           <ul>
-            <li>Lance Freeman, "The Ghetto in the Twenty-First Century" in <em>A Haven and a Hell</em></li>
-            <li>Lance Freeman, "Conclusion" in <em>A Haven and a Hell</em></li>
-            <li>Nikole Hannah-Jones, "Choosing a School for My Daughter in a Segregated City"</li>
-            <li>Jacob Anbinder, "Power to the Neighborhoods! New York City Gro..."</li>
+            <li>Nikole Hannah-Jones, "Choosing a School for My Daughter in a Segregated City" NYT Magazine, Jun 9, 2016</li>
+            <li>Lance Freeman, "The Ghetto in the Twenty-First Century" &amp; "Conclusion" in <em>A Haven and a Hell</em> pp. 203–254</li>
+            <li>Jacob Anbinder, "Power to the Neighborhoods!" White Paper, Harvard Joint Center for Housing Studies, Mar 2024</li>
           </ul>
           <a class="drive-btn" href="https://drive.google.com/drive/folders/1LnnKa-Ya8_uiVounU3sw8tfOBnYcROW0" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 4 in Drive</a>
         </div></div>
@@ -2585,7 +2679,7 @@
           <div class="task-body"><div class="task-name">Week 5</div><div class="task-detail">Committee on Slum Clearance, Preliminary Report, Lincoln Square</div></div>
         </div>
         <div class="task-expand"><div class="task-expand-inner">
-          <ul><li>Committee on Slum Clearance, Preliminary Report, Lincoln Square</li></ul>
+          <ul><li>Committee on Slum Clearance, Preliminary Report, Lincoln Square Project, 1956</li></ul>
           <a class="drive-btn" href="https://drive.google.com/drive/folders/1pRnp6HSrovkw2fuzapNhwAuz_e6JZDAJ" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 5 in Drive</a>
         </div></div>
 
@@ -2595,22 +2689,22 @@
         </div>
         <div class="task-expand"><div class="task-expand-inner">
           <ul>
-            <li>Daniel Doctoroff, "Manhattan's Last Frontier" in <em>Greater Than Ever</em></li>
-            <li>Audrey Wachs, "I Knew the Vessel Was Going to Have a Suicide Pr..."</li>
-            <li>Justin Davidson, "I Have a Feeling We're Not In New York Anymore"</li>
+            <li>Justin Davidson, "I Have a Feeling We're Not In New York Anymore," New York (nymag.com), Feb 19, 2019</li>
+            <li>Audrey Wachs, "I Knew the Vessel Was Going to Have a Suicide Problem Years Before it Was Built," Curbed, Jan 15, 2021</li>
+            <li>"Manhattan's Last Frontier," in Daniel Doctoroff, <em>Greater Than Ever</em> (2017) pp. 151–170</li>
           </ul>
           <a class="drive-btn" href="https://drive.google.com/drive/folders/1KHD84pKVmDOVdENiEF-2KozEKSpwjk7i" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 6 in Drive</a>
         </div></div>
 
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-week-7">
           <div class="task-check">✓</div>
-          <div class="task-body"><div class="task-name">Week 7</div><div class="task-detail">Walt Whitman (2) · "From the Winter of Despair..."</div></div>
+          <div class="task-body"><div class="task-name">Week 7</div><div class="task-detail">Setha Low · Walt Whitman (2)</div></div>
         </div>
         <div class="task-expand"><div class="task-expand-inner">
           <ul>
-            <li>"From the Winter of Despair to the Summer of Euphoria" in Setha...</li>
-            <li>Walt Whitman, "Give Me the Silent, Splendid Sun," <em>Leaves of Grass</em></li>
-            <li>Walt Whitman, "Omnibus Jaunts and Drivers," from <em>Specimen Days</em></li>
+            <li>"From the Winter of Despair to the Summer of Euphoria," in Setha Low, <em>Why Public Space Matters</em> (2023) pp. 175–204</li>
+            <li>Walt Whitman, "Omnibus Jaunts and Drivers," from <em>Specimen Days</em> (1881)</li>
+            <li>Walt Whitman, "Give Me the Silent, Splendid Sun," from <em>Leaves of Grass</em></li>
           </ul>
           <a class="drive-btn" href="https://drive.google.com/drive/folders/1JrtE2oQhLoiafivKHyw7_mWqaPRVk0kO" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M4.7 18.9L2 22h20l-2.7-3.1H4.7zM8.3 5L2 16h5l6.3-11H8.3zm7.4 0L9.4 16h11L16 5h-.3z"/></svg> Open Week 7 in Drive</a>
         </div></div>
@@ -2713,6 +2807,23 @@
 
 
 
+  function toggleSection(id, header) {
+    const el = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    const isOpen = el.style.display !== 'none';
+    el.style.display = isOpen ? 'none' : 'block';
+    if (icon) icon.textContent = isOpen ? '+' : '−';
+  }
+
+  function toggleFullSchedule(btn) {
+    const schedule = document.getElementById('full-schedule');
+    const icon = document.getElementById('schedule-toggle-icon');
+    const isOpen = schedule.style.display !== 'none';
+    schedule.style.display = isOpen ? 'none' : 'block';
+    icon.textContent = isOpen ? '+' : '−';
+    btn.querySelector('.task-name').style.color = isOpen ? 'var(--text-3)' : 'var(--blue)';
+  }
+
   function switchSubTab(id, btn) {
     document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
@@ -2731,7 +2842,10 @@
     { id: 'days-rnyu-5',  date: '2026-06-30', label: 'RNYU Week 5 — Site Visit', course: 'RNYU', color: '#F59E0B', detail: 'Hudson Yards · Committee on Slum Clearance', subTab: 'as-rny', taskId: 'rnyu-week-5', driveUrl: 'https://drive.google.com/drive/folders/1pRnp6HSrovkw2fuzapNhwAuz_e6JZDAJ' },
     { id: 'days-rnyu-6',  date: '2026-07-07', label: 'RNYU Week 6', course: 'RNYU', color: '#F59E0B', detail: 'Doctoroff · Audrey Wachs · Justin Davidson', subTab: 'as-rny', taskId: 'rnyu-week-6', driveUrl: 'https://drive.google.com/drive/folders/1KHD84pKVmDOVdENiEF-2KozEKSpwjk7i' },
     { id: 'days-rnyu-7',  date: '2026-07-16', label: 'RNYU Week 7', course: 'RNYU', color: '#F59E0B', detail: 'Walt Whitman (2) · "From the Winter of Despair..."', subTab: 'as-rny', taskId: 'rnyu-week-7', driveUrl: 'https://drive.google.com/drive/folders/1JrtE2oQhLoiafivKHyw7_mWqaPRVk0kO' },
-    { id: 'days-rnyu-a1', date: '2026-06-08', label: 'RNYU Assignment 1', course: 'RNYU', color: '#F59E0B', detail: 'Due Mon Jun 8 at 5PM · InDesign template on Drive', subTab: 'as-rny', taskId: 'rnyu-sv1', driveUrl: 'https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20' },
+    { id: 'days-rnyu-a1', date: '2026-06-08', label: 'RNYU Assignment 1', course: 'RNYU', color: '#F59E0B', detail: 'Borough visit · Photo + 150-200 word caption', subTab: 'as-rny', taskId: 'rnyu-a1', driveUrl: 'https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20' },
+    { id: 'days-rnyu-a2', date: '2026-06-22', label: 'RNYU Assignment 2', course: 'RNYU', color: '#F59E0B', detail: 'Borough visit · Photo + 150-200 word caption', subTab: 'as-rny', taskId: 'rnyu-a2' },
+    { id: 'days-rnyu-a3', date: '2026-07-06', label: 'RNYU Assignment 3', course: 'RNYU', color: '#F59E0B', detail: 'Borough visit · Photo + 150-200 word caption', subTab: 'as-rny', taskId: 'rnyu-a3' },
+    { id: 'days-rnyu-a4', date: '2026-08-03', label: 'RNYU Assignment 4', course: 'RNYU', color: '#F59E0B', detail: 'Borough visit · Photo + 150-200 word caption', subTab: 'as-rny', taskId: 'rnyu-a4' },
     { id: 'days-rnyu-8',  date: '2026-07-21', label: 'RNYU Week 8', course: 'RNYU', color: '#F59E0B', detail: 'E.B. White, This is New York (1949)', subTab: 'as-rny', taskId: 'rnyu-week-8', driveUrl: 'https://drive.google.com/drive/folders/17MhD5OygTH0QKF16LExzar-ma5ZtecKy' },
     { id: 'days-udht-1',   date: '2026-06-10', label: 'Project Proposal', course: 'UDHT', color: '#8B5CF6', detail: '+ Week 3 Readings', subTab: 'as-udht', taskId: 'task-udht-1' },
     { id: 'days-udht-w4',  date: '2026-06-17', label: 'Week 4 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Suburbia + Sprawl', subTab: 'as-udht', taskId: 'task-udht-w4' },
