@@ -5580,5 +5580,126 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v10: collapse OPS price guide by default + slightly taller schedule cards -->
+<style id="gsapp27-v10-ops-schedule-style">
+  /* Schedule: keep compact, but give each day card a little more breathing room */
+  .week-compact-row {
+    min-height: 74px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .week-num {
+    font-size: 28px !important;
+  }
+
+  .week-event-title {
+    font-size: 12.5px !important;
+  }
+
+  .week-event-meta {
+    font-size: 10px !important;
+  }
+
+  @media (max-width: 520px) {
+    .week-compact-row {
+      min-height: 68px !important;
+      padding-top: 9px !important;
+      padding-bottom: 9px !important;
+    }
+
+    .week-num {
+      font-size: 25px !important;
+    }
+  }
+
+  /* OPS card should be folded by default */
+  #notice-ops .notice-expand {
+    display: none;
+  }
+
+  #notice-ops .notice-expand.open {
+    display: block;
+  }
+
+  #notice-ops .notice-subtitle::after {
+    content: " · tap to view details";
+    color: var(--text-3);
+    font-weight: 500;
+  }
+
+  #notice-ops .notice-card-main {
+    cursor: pointer;
+  }
+</style>
+
+<script id="gsapp27-v10-ops-schedule-script">
+(function () {
+  'use strict';
+
+  function foldOpsCard() {
+    const ops = document.getElementById('notice-ops');
+    if (!ops) return;
+
+    const expand = ops.querySelector('.notice-expand');
+    if (expand) {
+      expand.classList.remove('open');
+      expand.style.display = '';
+    }
+
+    const subtitle = ops.querySelector('.notice-subtitle');
+    if (subtitle) {
+      subtitle.textContent = 'Bond $4/ft · Heavyweight $6/ft · Mylar/Satin Gloss $9/ft';
+    }
+
+    const dateBottom = ops.querySelector('.notice-date .due-days');
+    if (dateBottom) {
+      dateBottom.textContent = 'Tap to open';
+      dateBottom.className = 'due-days soon';
+    }
+  }
+
+  function ensureOpsToggleWorks() {
+    const ops = document.getElementById('notice-ops');
+    if (!ops) return;
+
+    const btn = ops.querySelector('.notice-card-main');
+    const expand = ops.querySelector('.notice-expand');
+    if (!btn || !expand || btn.dataset.v10Toggle === 'true') return;
+
+    btn.dataset.v10Toggle = 'true';
+    btn.addEventListener('click', function (event) {
+      event.stopPropagation();
+      expand.classList.toggle('open');
+
+      const dateBottom = ops.querySelector('.notice-date .due-days');
+      if (dateBottom) {
+        dateBottom.textContent = expand.classList.contains('open') ? 'Open' : 'Tap to open';
+        dateBottom.className = expand.classList.contains('open') ? 'due-days ok' : 'due-days soon';
+      }
+    });
+  }
+
+  function runPatch() {
+    /* v9 opens the OPS card after a delay, so v10 folds it after v9 finishes. */
+    setTimeout(function () {
+      foldOpsCard();
+      ensureOpsToggleWorks();
+    }, 950);
+
+    setTimeout(function () {
+      foldOpsCard();
+      ensureOpsToggleWorks();
+    }, 1400);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
