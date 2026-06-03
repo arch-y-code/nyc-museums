@@ -2249,7 +2249,38 @@
   <!-- STUDIO -->
   <div id="sub-as-studio" class="sub-panel">
     <div style="padding:12px 0 60px;">
-      
+
+      <!-- 📢 NOTICE -->
+      <div class="course-block" style="border:1.5px solid #F59E0B;margin-bottom:10px;">
+        <div class="course-header" style="background:#FFFBEB;">
+          <div class="course-color" style="background:#F59E0B;min-height:40px;"></div>
+          <div style="flex:1">
+            <div class="course-title" style="color:#D97706;">📢 Notice</div>
+            <span class="course-sub">Archive Visit — Wed Jun 4 · Avery Library</span>
+          </div>
+        </div>
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
+          <div class="task-body">
+            <div class="task-name">Avery Drawings &amp; Archives Visit <span class="new-badge" onclick="removeNew(this)">NEW</span></div>
+            <div class="task-detail">Wed Jun 4 · 2–4PM · Arrive at your allotted time slot</div>
+          </div>
+          <div class="task-due"><div class="due-date">Jun 4</div><div class="due-days" id="days-studio-archive"></div></div>
+        </div>
+        <div class="task-expand"><div class="task-expand-inner">
+          <strong>Group 1: 2PM</strong> — arrive during your allotted time slot<br>
+          We will meet in the seminar room before beginning the visit.<br><br>
+          <strong>Directions to Avery Drawings &amp; Archives</strong><br>
+          Take the main stairs or elevator behind the front desk attendant → at the bottom level, turn left at the Service Desk → continue until you enter the Fine Arts stacks → follow the purple floor through the stacks to the Wallach Study Center → Drawings &amp; Archives is past the double doors and display cases<br><br>
+          <strong>Reading Room Policies</strong>
+          <ul>
+            <li>No food, drinks, bags, or coats in the archive</li>
+            <li>Store belongings in the Avery Seminar Room (just left of archives)</li>
+            <li>Photos welcome — no flash · Notebook: pencil only</li>
+          </ul>
+        </div></div>
+      </div>
+
       <div class="course-block">
         <div class="course-header">
           <div class="course-color" style="background:#3B82F6;min-height:40px;"></div>
@@ -2889,7 +2920,7 @@
 
   const allTasks = [
     { id: 'days-studio-1', date: '2026-06-01', label: 'Urban Fabric Drawing', course: 'Studio', color: '#3B82F6', detail: '20x20" panel + 11x17" + 2-min presentation', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
-    { id: 'days-studio-archive', date: '2026-06-03', label: 'Archive Visit — Avery Drawings', course: 'Studio', color: '#F59E0B', detail: 'Today Jun 3 · 2–4PM · Arrive at your allotted time slot', subTab: 'as-studio', taskId: 'task-studio-1' },
+    { id: 'days-studio-archive', date: '2026-06-04', label: 'Archive Visit — Avery Drawings', course: 'Studio', color: '#F59E0B', detail: 'Wed Jun 4 · 2–4PM · Arrive at your allotted time slot', subTab: 'as-studio', taskId: 'task-studio-1' },
     { id: 'days-studio-2', date: '2026-06-05', label: 'Archive Submission', course: 'Studio', color: '#3B82F6', detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM', subTab: 'as-studio', taskId: 'task-studio-1', driveUrl: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook' },
     { id: 'days-udht-0',   date: '2026-06-03', label: 'Week 2 Readings', course: 'UDHT', color: '#8B5CF6', detail: 'Mattern · McKittrick', subTab: 'as-udht', taskId: 'task-udht-0' },
     { id: 'days-rnyu-sv1', date: '2026-06-02', label: 'RNYU Site Visit — South Street Seaport', course: 'RNYU', color: '#F59E0B', detail: 'Tue 10AM · Bleachers between Pier 16 & Tin Building', subTab: 'as-rny', taskId: 'rnyu-week-1', driveUrl: 'https://maps.app.goo.gl/gunuDRz5nbyzX1hUA' },
