@@ -95,6 +95,27 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
+    /* ─── PAST / COMPLETED TASK STYLING ─────────────────────── */
+    .task-item.past {
+      background: #F8F9FA;
+    }
+    .task-item.past .task-name {
+      color: #9AA3BF;
+    }
+    .task-item.past .task-detail {
+      color: #B0B8CC;
+    }
+    .task-item.past .task-check {
+      border-color: #D1D9E8;
+      color: #B0B8CC;
+    }
+    .task-item.past .due-date {
+      color: #B0B8CC;
+    }
+    .task-item.past .due-days {
+      color: #B0B8CC !important;
+    }
+
     /* iOS safe area — extend blue behind status bar */
     body::before {
       content: '';
@@ -2440,6 +2461,12 @@
           </a>
         </div></div>
 
+        <div class="task-item" onclick="toggleSection('rnyu-more-assign', this)" style="cursor:pointer;">
+          <div class="task-check" style="font-size:10px;border-color:var(--border);color:var(--text-3);" id="rnyu-more-assign-icon">+</div>
+          <div class="task-body"><div class="task-name" style="color:var(--text-3);font-size:12px;font-weight:600;">Assignments 2–4</div></div>
+        </div>
+        <div id="rnyu-more-assign" style="display:none;">
+
         <div class="task-item" onclick="toggleTask(this)" id="rnyu-a2">
           <div class="task-check">✓</div>
           <div class="task-body"><div class="task-name">Assignment 2</div><div class="task-detail">2nd borough visit · Photo + 150-200 word caption</div></div>
@@ -2479,6 +2506,8 @@
           </ul>
         </div></div>
 
+        </div><!-- end rnyu-more-assign -->
+
         </div><!-- end rnyu-assignments -->
 
         <!-- ── CLASS SCHEDULE (collapsible) ── -->
@@ -2488,39 +2517,29 @@
         </div>
         <div id="rnyu-schedule">
 
-        <!-- Next upcoming class shown always -->
-        <div class="task-item" onclick="toggleTask(this)" id="rnyu-next-class">
-          <div class="task-check" style="background:#FFF0E6;border-color:#F59E0B;color:#F59E0B;font-size:12px;">▶</div>
+        <!-- Next upcoming class -->
+        <div class="task-item" onclick="toggleTask(this)">
+          <div class="task-check">✓</div>
           <div class="task-body">
-            <div class="task-name" style="color:#F59E0B;">Jun 3 · Week 2 — Site Visit</div>
-            <div class="task-detail">Seaport & Financial District · Meet 10AM (not 11)</div>
+            <div class="task-name">Jun 11 · Week 3 — New Domino, Brooklyn</div>
+            <div class="task-detail">Site Visit · <span style="color:#F59E0B;font-weight:700;">Thursday this week</span></div>
           </div>
+          <div class="task-due"><div class="due-date">Jun 11</div></div>
         </div>
         <div class="task-expand"><div class="task-expand-inner">
-          <strong>City of Water to City of Capital, Part II</strong><br>
-          The Invention of the Business District<br><br>
-          Meet at 10AM (not 11 — to get back before afternoon events)<br><br>
-          <strong>Reading:</strong> "The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 328 (Sep 1877) pp. 481–493
+          <strong>The Invention of a Neighborhood</strong><br>
+          ⚠ <strong>Thursday Jun 11, not Tuesday</strong> — one-time change<br>
+          Site visit to New Domino, Brooklyn
         </div></div>
 
         <!-- Full schedule toggle -->
         <div class="task-item" onclick="toggleFullSchedule(this)" style="cursor:pointer;">
           <div class="task-check" style="font-size:10px;border-color:var(--border);color:var(--text-3);" id="schedule-toggle-icon">+</div>
           <div class="task-body">
-            <div class="task-name" style="color:var(--text-3);font-size:12px;font-weight:600;">View full schedule (Weeks 1–11)</div>
+            <div class="task-name" style="color:var(--text-3);font-size:12px;font-weight:600;">View full schedule (Weeks 3–11)</div>
           </div>
         </div>
         <div id="full-schedule" style="display:none;">
-
-          <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
-            <div class="task-check">✓</div>
-            <div class="task-body"><div class="task-name">May 26 · Week 1 — Shipping, Slavery, Industry</div><div class="task-detail">Castello Plan, New Amsterdam, Domino & Navy Yard</div></div>
-          </div>
-          <div class="task-expand"><div class="task-expand-inner">
-            <strong>City of Water to City of Capital, Part I</strong><br>
-            Walk along NYC waterfront before class — observe topography, history, design, and uses.<br><br>
-            <strong>Reading:</strong> Walt Whitman, "Mannahatta" (1860 version)
-          </div></div>
 
           <div class="task-item" onclick="toggleTask(this)" style="background:#f8f9ff;">
             <div class="task-check">✓</div>
@@ -2622,6 +2641,33 @@
           <div class="task-expand"><div class="task-expand-inner">
             <strong>The Topography of Uplift</strong><br>
             Site visit to Washington Heights: WHIN Charter School, Sugar Hill Housing, High Bridge
+          </div></div>
+
+          <!-- Past classes -->
+          <div style="margin:12px 0 6px;display:flex;align-items:center;gap:8px;padding:0 2px;">
+            <div style="flex:1;height:1px;background:var(--border);"></div>
+            <span style="font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;">Past</span>
+            <div style="flex:1;height:1px;background:var(--border);"></div>
+          </div>
+
+          <div class="task-item" onclick="toggleTask(this)" style="background:#F8F9FA;">
+            <div class="task-check" style="border-color:#D1D9E8;color:#B0B8CC;">✓</div>
+            <div class="task-body"><div class="task-name" style="color:#9AA3BF;">Jun 2 · Week 2 — Site Visit</div><div class="task-detail" style="color:#B0B8CC;">Seaport &amp; Financial District · 10AM</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>City of Water to City of Capital, Part II</strong><br>
+            The Invention of the Business District<br><br>
+            <strong>Reading:</strong> "The Lading of a Ship," Harper's New Monthly Magazine Vol. LV No. 328 (Sep 1877) pp. 481–493
+          </div></div>
+
+          <div class="task-item" onclick="toggleTask(this)" style="background:#F8F9FA;">
+            <div class="task-check" style="border-color:#D1D9E8;color:#B0B8CC;">✓</div>
+            <div class="task-body"><div class="task-name" style="color:#9AA3BF;">May 26 · Week 1 — Shipping, Slavery, Industry</div><div class="task-detail" style="color:#B0B8CC;">Castello Plan, New Amsterdam, Domino & Navy Yard</div></div>
+          </div>
+          <div class="task-expand"><div class="task-expand-inner">
+            <strong>City of Water to City of Capital, Part I</strong><br>
+            Walk along NYC waterfront before class — observe topography, history, design, and uses.<br><br>
+            <strong>Reading:</strong> Walt Whitman, "Mannahatta" (1860 version)
           </div></div>
 
         </div><!-- end full-schedule -->
@@ -2886,16 +2932,16 @@
   }
 
   function makeUpcomingCard(t, isPast) {
-      const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : 'soon';
+      const urgency = isPast ? 'done-label' : t.days === 0 ? 'urgent' : t.days <= 3 ? 'urgent' : t.days <= 10 ? 'soon' : 'ok';
       const daysLabel = isPast ? 'Completed' : t.days === 0 ? 'TODAY' : t.days === 1 ? '1 day left' : t.days + ' days left';
       const dateStr = new Date(t.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       const hasDrive = isPast && t.driveUrl;
       const cardStyle = isPast
-        ? 'margin:0 14px 8px;background:#FFF0E6;border:1.5px solid rgba(248,123,27,.35);' + (hasDrive ? 'cursor:pointer;' : '')
+        ? 'margin:0 14px 8px;background:#F8F9FA;border:1px solid #E8ECF4;' + (hasDrive ? 'cursor:pointer;' : '')
         : 'margin:0 14px 8px;cursor:pointer;';
-      const nameColor = isPast ? '#F87B1B' : 'var(--text)';
-      const dotColor = isPast ? '#F87B1B' : t.color;
-      const labelColor = isPast ? '#F87B1B' : 'var(--text-3)';
+      const nameColor = isPast ? '#9AA3BF' : 'var(--text)';
+      const dotColor = isPast ? '#B0B8CC' : t.color;
+      const labelColor = isPast ? '#B0B8CC' : 'var(--text-3)';
       const clickAttr = isPast
         ? (hasDrive ? 'onclick="location.href=\'' + t.driveUrl + '\'"' : '')
         : 'onclick="goToTask(\'' + t.subTab + '\', \'' + t.taskId + '\')"';
@@ -2963,6 +3009,18 @@
     return Math.ceil(diffMs / 86400000);
   }
 
+  function markPastTasks() {
+    document.querySelectorAll('.task-item[onclick*="toggleTask"]').forEach(item => {
+      const dueEl = item.querySelector('[id^="days-"]');
+      if (!dueEl) return;
+      const id = dueEl.id.replace('days-', '');
+      const task = allTasks.find(t => t.id === 'days-' + id);
+      if (task && getDaysLeft(task.date) < 0) {
+        item.classList.add('past');
+      }
+    });
+  }
+
   function renderDueDays() {
     const tasks = allTasks;
     // Render RNYU day badges (reuse days elements if they exist)
@@ -3025,6 +3083,7 @@
   }
 
   renderDueDays();
+  markPastTasks();
 
   // ── FILTER PILLS ──────────────────────────────────────
   const pills = document.querySelectorAll('.pill');
