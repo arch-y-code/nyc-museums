@@ -6193,5 +6193,654 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v15: replace hidden-section text buttons with blue icon-only plus button -->
+<style id="gsapp27-v15-icon-plus-style">
+  .course-more-toggle,
+  .udht-more-toggle {
+    width: calc(100% - 24px) !important;
+    margin: 6px 12px 10px !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    min-height: 34px;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    text-decoration: none !important;
+  }
+
+  .course-more-toggle:hover,
+  .udht-more-toggle:hover {
+    background: transparent !important;
+    text-decoration: none !important;
+  }
+
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--blue);
+    color: #fff !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px !important;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0 !important;
+    transition: transform var(--transition), background var(--transition), opacity var(--transition);
+    box-shadow: 0 4px 10px rgba(26, 53, 197, 0.18);
+  }
+
+  .course-more-toggle:hover .plus,
+  .udht-more-toggle:hover .plus {
+    background: var(--blue-hover);
+  }
+
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    transform: rotate(45deg);
+  }
+
+  .course-more-toggle .more-label,
+  .udht-more-toggle .more-label {
+    display: none !important;
+  }
+</style>
+
+<script id="gsapp27-v15-icon-plus-script">
+(function () {
+  'use strict';
+
+  function buttonLabelFromSection(btn) {
+    var prevHead = btn.previousElementSibling;
+    while (prevHead && !(prevHead.classList && prevHead.classList.contains('course-section-head'))) {
+      prevHead = prevHead.previousElementSibling;
+    }
+
+    var raw = prevHead ? (prevHead.textContent || '') : '';
+    if (/assignment/i.test(raw)) return 'Show more assignments';
+    if (/class schedule/i.test(raw)) return 'Show more classes';
+    return 'Show more';
+  }
+
+  function iconifyOneButton(btn) {
+    if (!btn || btn.dataset.iconifiedPlus === 'true') return;
+
+    var label = buttonLabelFromSection(btn);
+    btn.dataset.iconifiedPlus = 'true';
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('title', label);
+    btn.innerHTML = '<span class="more-label">' + label + '</span><span class="plus">+</span>';
+  }
+
+  function iconifyAllButtons() {
+    document.querySelectorAll('.course-more-toggle, .udht-more-toggle').forEach(iconifyOneButton);
+  }
+
+  function runPatch() {
+    iconifyAllButtons();
+    setTimeout(iconifyAllButtons, 400);
+    setTimeout(iconifyAllButtons, 1200);
+    setTimeout(iconifyAllButtons, 2200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v16: make hidden-section opener a small tongue-shaped tab attached to the line -->
+<style id="gsapp27-v16-tongue-plus-style">
+  /* Replace floating square plus with a small tongue-shaped tab attached to the divider line */
+  .course-more-toggle,
+  .udht-more-toggle {
+    width: 100% !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    margin: -1px 0 6px !important;
+    padding: 0 64px 0 0 !important;
+    border: none !important;
+    border-top: 1px solid var(--border) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-end !important;
+    position: relative !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+  }
+
+  .course-more-toggle:hover,
+  .udht-more-toggle:hover {
+    background: transparent !important;
+    text-decoration: none !important;
+  }
+
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    width: 42px !important;
+    height: 18px !important;
+    border-radius: 0 0 11px 11px !important;
+    background: var(--blue) !important;
+    color: #fff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    margin: -1px 0 0 !important;
+    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
+    transition: background var(--transition), transform var(--transition) !important;
+  }
+
+  .course-more-toggle:hover .plus,
+  .udht-more-toggle:hover .plus {
+    background: var(--blue-hover) !important;
+  }
+
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    transform: rotate(45deg) !important;
+  }
+
+  .course-more-toggle .more-label,
+  .udht-more-toggle .more-label {
+    display: none !important;
+  }
+
+  @media (max-width: 520px) {
+    .course-more-toggle,
+    .udht-more-toggle {
+      padding-right: 44px !important;
+      height: 18px !important;
+      min-height: 18px !important;
+    }
+
+    .course-more-toggle .plus,
+    .udht-more-toggle .plus {
+      width: 36px !important;
+      height: 16px !important;
+      font-size: 15px !important;
+      border-radius: 0 0 9px 9px !important;
+    }
+  }
+</style>
+
+<!-- GSAPP27 PATCH v17: align tongue plus with date column spacing and center plus precisely -->
+<style id="gsapp27-v17-tongue-align-style">
+  /* Tongue tab aligns to the same right inset as the date column */
+  .course-more-toggle,
+  .udht-more-toggle {
+    width: 100% !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    margin: -1px 0 6px !important;
+    padding: 0 32px 0 0 !important;
+    border: none !important;
+    border-top: 1px solid var(--border) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-end !important;
+    position: relative !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+  }
+
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    width: 42px !important;
+    height: 18px !important;
+    border-radius: 0 0 11px 11px !important;
+    background: var(--blue) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    line-height: 18px !important;
+    margin: -1px 0 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
+    transform-origin: center center !important;
+  }
+
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    transform: rotate(45deg) !important;
+  }
+
+  .course-more-toggle:hover .plus,
+  .udht-more-toggle:hover .plus {
+    background: var(--blue-hover) !important;
+  }
+
+  .course-more-toggle .more-label,
+  .udht-more-toggle .more-label {
+    display: none !important;
+  }
+
+  @media (max-width: 520px) {
+    .course-more-toggle,
+    .udht-more-toggle {
+      padding-right: 28px !important;
+      height: 18px !important;
+      min-height: 18px !important;
+    }
+
+    .course-more-toggle .plus,
+    .udht-more-toggle .plus {
+      width: 38px !important;
+      height: 16px !important;
+      border-radius: 0 0 9px 9px !important;
+      font-size: 14px !important;
+      line-height: 16px !important;
+    }
+  }
+</style>
+
+<!-- GSAPP27 PATCH v18: pin tongue plus to the date-column right line -->
+<style id="gsapp27-v18-tongue-date-line-style">
+  /* The tongue tab now pins to the same visual right line as the date column */
+  .course-more-toggle,
+  .udht-more-toggle {
+    width: 100% !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    margin: -1px 0 6px !important;
+    padding: 0 !important;
+    border: none !important;
+    border-top: 1px solid var(--border) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: block !important;
+    position: relative !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+  }
+
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    position: absolute !important;
+    top: -1px !important;
+    right: 18px !important; /* aligns with the date column's visual right edge */
+    width: 42px !important;
+    height: 18px !important;
+    border-radius: 0 0 11px 11px !important;
+    background: var(--blue) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    line-height: 18px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
+    transform-origin: center center !important;
+  }
+
+  .course-more-toggle:hover .plus,
+  .udht-more-toggle:hover .plus {
+    background: var(--blue-hover) !important;
+  }
+
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    transform: rotate(45deg) !important;
+  }
+
+  .course-more-toggle .more-label,
+  .udht-more-toggle .more-label {
+    display: none !important;
+  }
+
+  @media (max-width: 520px) {
+    .course-more-toggle,
+    .udht-more-toggle {
+      height: 18px !important;
+      min-height: 18px !important;
+    }
+
+    .course-more-toggle .plus,
+    .udht-more-toggle .plus {
+      right: 16px !important;
+      width: 38px !important;
+      height: 16px !important;
+      border-radius: 0 0 9px 9px !important;
+      font-size: 14px !important;
+      line-height: 16px !important;
+    }
+  }
+</style>
+
+<!-- GSAPP27 PATCH v19: every list item must have a right-side date/status column -->
+<style id="gsapp27-v19-date-rule-style">
+  .task-due.auto-date {
+    min-width: 74px;
+  }
+
+  .task-due.auto-date .due-date {
+    color: var(--text-2);
+  }
+
+  .task-due.auto-date .due-days {
+    color: var(--text-3);
+  }
+
+  .task-due.auto-date.tbd .due-date,
+  .task-due.auto-date.tbd .due-days {
+    color: #9AA3BF !important;
+  }
+
+  @media (max-width: 520px) {
+    .task-due.auto-date {
+      min-width: 62px;
+    }
+  }
+</style>
+
+<script id="gsapp27-v19-date-rule-script">
+(function () {
+  'use strict';
+
+  const COURSE_DATE_RULES = [
+    { pattern: /Week\s*2\s*Readings/i, date: 'Jun 3', status: 'passed', cls: 'done-label' },
+    { pattern: /Week\s*3\s*Readings|Project Proposal/i, date: 'Jun 10', status: '7d left', cls: 'urgent' },
+    { pattern: /Week\s*4\s*Readings/i, date: 'Jun 17', status: '14d left', cls: 'ok' },
+    { pattern: /Week\s*5\s*Readings|Formal Analysis/i, date: 'Jun 24', status: '21d left', cls: 'ok' },
+    { pattern: /Week\s*6\s*Readings/i, date: 'Jul 1', status: '28d left', cls: 'ok' },
+    { pattern: /Week\s*7\s*Readings/i, date: 'Jul 8', status: '35d left', cls: 'ok' },
+    { pattern: /Week\s*8\s*Readings|Thick Description/i, date: 'Jul 15', status: '42d left', cls: 'ok' },
+    { pattern: /Week\s*9\s*Readings/i, date: 'Jul 22', status: '49d left', cls: 'ok' },
+    { pattern: /Final Paper/i, date: 'Aug 10', status: '68d left', cls: 'ok' },
+    { pattern: /Assignment\s*01/i, date: 'TBD', status: 'no date', cls: 'done-label' },
+    { pattern: /Assignment\s*02/i, date: 'TBD', status: 'no date', cls: 'done-label' },
+    { pattern: /Assignment\s*03/i, date: 'TBD', status: 'no date', cls: 'done-label' },
+    { pattern: /Final Assignment/i, date: 'TBD', status: 'no date', cls: 'done-label' },
+    { pattern: /Studio Drive Folder|DTEQ Google Drive|DTEQ Miro Board|RNYU Course Drive|Avery Archive Visit Notes/i, date: 'Info', status: 'link', cls: 'ok' }
+  ];
+
+  function getText(node) {
+    return node ? (node.textContent || '') : '';
+  }
+
+  function matchDateRule(text) {
+    return COURSE_DATE_RULES.find(function (rule) {
+      return rule.pattern.test(text);
+    });
+  }
+
+  function addDueColumn(item, rule) {
+    if (!item || item.querySelector('.task-due')) return;
+
+    const due = document.createElement('div');
+    due.className = 'task-due auto-date' + (rule.date === 'TBD' ? ' tbd' : '');
+    due.innerHTML =
+      '<div class="due-date">' + rule.date + '</div>' +
+      '<div class="due-days ' + rule.cls + '">' + rule.status + '</div>';
+
+    item.appendChild(due);
+  }
+
+  function fillExistingEmptyDue(item, rule) {
+    const due = item.querySelector('.task-due');
+    if (!due) return;
+
+    const date = due.querySelector('.due-date');
+    const days = due.querySelector('.due-days');
+
+    if (date && !date.textContent.trim()) {
+      date.textContent = rule.date;
+    }
+
+    if (days && !days.textContent.trim()) {
+      days.textContent = rule.status;
+      days.className = 'due-days ' + rule.cls;
+    }
+  }
+
+  function enforceDateRule() {
+    document.querySelectorAll('.task-item').forEach(function (item) {
+      const text = getText(item);
+      const rule = matchDateRule(text) || { date: 'TBD', status: 'no date', cls: 'done-label' };
+
+      if (item.querySelector('.task-due')) {
+        fillExistingEmptyDue(item, rule);
+      } else {
+        addDueColumn(item, rule);
+      }
+    });
+
+    /* Material cards are not task-items, so give them a small info chip only when needed. */
+    document.querySelectorAll('.material-card').forEach(function (card) {
+      if (card.querySelector('.material-date-chip')) return;
+
+      const text = getText(card);
+      const rule = matchDateRule(text) || { date: 'Info', status: 'link', cls: 'ok' };
+
+      const chip = document.createElement('div');
+      chip.className = 'material-date-chip';
+      chip.style.cssText = 'margin-top:6px;font-size:10px;font-weight:800;color:#6B77A8;';
+      chip.textContent = rule.date + ' · ' + rule.status;
+      card.appendChild(chip);
+    });
+  }
+
+  function runPatch() {
+    setTimeout(enforceDateRule, 500);
+    setTimeout(enforceDateRule, 1200);
+    setTimeout(enforceDateRule, 2400);
+    setTimeout(enforceDateRule, 3600);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v20: tongue tab open state becomes longer gray minus, closed becomes short blue plus -->
+<style id="gsapp27-v20-tongue-open-close-style">
+  /* Closed state: short blue tongue with centered white plus */
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    right: 18px !important;
+    width: 42px !important;
+    height: 18px !important;
+    border-radius: 0 0 11px 11px !important;
+    background: var(--blue) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transition: width var(--transition), height var(--transition), background var(--transition), border-radius var(--transition) !important;
+  }
+
+  .course-more-toggle .plus::before,
+  .udht-more-toggle .plus::before {
+    content: "+" !important;
+    color: #fff !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    transform: translateY(-1px);
+  }
+
+  .course-more-toggle:hover .plus,
+  .udht-more-toggle:hover .plus {
+    background: var(--blue-hover) !important;
+  }
+
+  /* Open state: longer gray tongue with centered white minus. No rotation. */
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    width: 56px !important;
+    height: 24px !important;
+    border-radius: 0 0 13px 13px !important;
+    background: #9AA3BF !important;
+    transform: none !important;
+    box-shadow: 0 3px 7px rgba(80, 90, 120, 0.16) !important;
+  }
+
+  .course-more-toggle.open:hover .plus,
+  .udht-more-toggle.open:hover .plus {
+    background: #8791AC !important;
+  }
+
+  .course-more-toggle.open .plus::before,
+  .udht-more-toggle.open .plus::before {
+    content: "−" !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 520px) {
+    .course-more-toggle .plus,
+    .udht-more-toggle .plus {
+      right: 16px !important;
+      width: 38px !important;
+      height: 16px !important;
+      border-radius: 0 0 9px 9px !important;
+    }
+
+    .course-more-toggle .plus::before,
+    .udht-more-toggle .plus::before {
+      font-size: 15px !important;
+    }
+
+    .course-more-toggle.open .plus,
+    .udht-more-toggle.open .plus {
+      width: 50px !important;
+      height: 22px !important;
+      border-radius: 0 0 12px 12px !important;
+    }
+
+    .course-more-toggle.open .plus::before,
+    .udht-more-toggle.open .plus::before {
+      font-size: 19px !important;
+    }
+  }
+</style>
+
+<!-- GSAPP27 PATCH v21: tongue grows downward only, width stays the same -->
+<style id="gsapp27-v21-tongue-down-only-style">
+  /* Closed: short blue tongue */
+  .course-more-toggle .plus,
+  .udht-more-toggle .plus {
+    right: 18px !important;
+    width: 42px !important;
+    height: 18px !important;
+    border-radius: 0 0 11px 11px !important;
+    background: var(--blue) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transition: height var(--transition), background var(--transition), border-radius var(--transition) !important;
+  }
+
+  .course-more-toggle .plus::before,
+  .udht-more-toggle .plus::before {
+    content: "+" !important;
+    color: #fff !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    transform: translateY(-1px);
+  }
+
+  /* Open: same width, only grows downward, gray with minus */
+  .course-more-toggle.open .plus,
+  .udht-more-toggle.open .plus {
+    right: 18px !important;
+    width: 42px !important;
+    height: 26px !important;
+    border-radius: 0 0 12px 12px !important;
+    background: #9AA3BF !important;
+    transform: none !important;
+    box-shadow: 0 3px 7px rgba(80, 90, 120, 0.16) !important;
+  }
+
+  .course-more-toggle.open .plus::before,
+  .udht-more-toggle.open .plus::before {
+    content: "−" !important;
+    color: #fff !important;
+    font-size: 21px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    transform: translateY(-2px);
+  }
+
+  .course-more-toggle:hover .plus,
+  .udht-more-toggle:hover .plus {
+    background: var(--blue-hover) !important;
+  }
+
+  .course-more-toggle.open:hover .plus,
+  .udht-more-toggle.open:hover .plus {
+    background: #8791AC !important;
+  }
+
+  @media (max-width: 520px) {
+    .course-more-toggle .plus,
+    .udht-more-toggle .plus {
+      right: 16px !important;
+      width: 38px !important;
+      height: 16px !important;
+      border-radius: 0 0 9px 9px !important;
+    }
+
+    .course-more-toggle .plus::before,
+    .udht-more-toggle .plus::before {
+      font-size: 15px !important;
+    }
+
+    .course-more-toggle.open .plus,
+    .udht-more-toggle.open .plus {
+      right: 16px !important;
+      width: 38px !important;
+      height: 24px !important;
+      border-radius: 0 0 11px 11px !important;
+    }
+
+    .course-more-toggle.open .plus::before,
+    .udht-more-toggle.open .plus::before {
+      font-size: 20px !important;
+    }
+  }
+</style>
+
 </body>
 </html>
