@@ -6193,273 +6193,27 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
-<!-- GSAPP27 PATCH v15: replace hidden-section text buttons with blue icon-only plus button -->
-<style id="gsapp27-v15-icon-plus-style">
-  .course-more-toggle,
-  .udht-more-toggle {
-    width: calc(100% - 24px) !important;
-    margin: 6px 12px 10px !important;
-    padding: 0 !important;
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    min-height: 34px;
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-end;
-    text-decoration: none !important;
-  }
+<!-- GSAPP27 PATCH v28: debug-stable hidden rows, icon only -->
+<style id="gsapp27-v28-stable-hidden-toggle-style">
+  /*
+    Debug-stable rule:
+    - Remove "Show x more..." text entirely.
+    - Keep only the tongue-shaped + / − tab.
+    - No MutationObserver.
+    - No repeated DOM rewriting after click.
+    - Keeps top tabs clickable.
+  */
 
-  .course-more-toggle:hover,
-  .udht-more-toggle:hover {
-    background: transparent !important;
-    text-decoration: none !important;
-  }
-
-  .course-more-toggle .plus,
-  .udht-more-toggle .plus {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: var(--blue);
-    color: #fff !important;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px !important;
-    font-weight: 800;
-    line-height: 1;
-    margin: 0 !important;
-    transition: transform var(--transition), background var(--transition), opacity var(--transition);
-    box-shadow: 0 4px 10px rgba(26, 53, 197, 0.18);
-  }
-
-  .course-more-toggle:hover .plus,
-  .udht-more-toggle:hover .plus {
-    background: var(--blue-hover);
-  }
-
-  .course-more-toggle.open .plus,
-  .udht-more-toggle.open .plus {
-    transform: rotate(45deg);
-  }
-
-  .course-more-toggle .more-label,
-  .udht-more-toggle .more-label {
-    display: none !important;
-  }
-</style>
-
-<script id="gsapp27-v15-icon-plus-script">
-(function () {
-  'use strict';
-
-  function buttonLabelFromSection(btn) {
-    var prevHead = btn.previousElementSibling;
-    while (prevHead && !(prevHead.classList && prevHead.classList.contains('course-section-head'))) {
-      prevHead = prevHead.previousElementSibling;
-    }
-
-    var raw = prevHead ? (prevHead.textContent || '') : '';
-    if (/assignment/i.test(raw)) return 'Show more assignments';
-    if (/class schedule/i.test(raw)) return 'Show more classes';
-    return 'Show more';
-  }
-
-  function iconifyOneButton(btn) {
-    if (!btn || btn.dataset.iconifiedPlus === 'true') return;
-
-    var label = buttonLabelFromSection(btn);
-    btn.dataset.iconifiedPlus = 'true';
-    btn.setAttribute('aria-label', label);
-    btn.setAttribute('title', label);
-    btn.innerHTML = '<span class="more-label">' + label + '</span><span class="plus">+</span>';
-  }
-
-  function iconifyAllButtons() {
-    document.querySelectorAll('.course-more-toggle, .udht-more-toggle').forEach(iconifyOneButton);
-  }
-
-  function runPatch() {
-    iconifyAllButtons();
-    setTimeout(iconifyAllButtons, 400);
-    setTimeout(iconifyAllButtons, 1200);
-    setTimeout(iconifyAllButtons, 2200);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runPatch);
-  } else {
-    runPatch();
-  }
-})();
-</script>
-
-<!-- GSAPP27 PATCH v16: make hidden-section opener a small tongue-shaped tab attached to the line -->
-<style id="gsapp27-v16-tongue-plus-style">
-  /* Replace floating square plus with a small tongue-shaped tab attached to the divider line */
-  .course-more-toggle,
-  .udht-more-toggle {
-    width: 100% !important;
-    height: 20px !important;
-    min-height: 20px !important;
-    margin: -1px 0 6px !important;
-    padding: 0 64px 0 0 !important;
-    border: none !important;
-    border-top: 1px solid var(--border) !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: flex-end !important;
-    position: relative !important;
-    text-decoration: none !important;
-    cursor: pointer !important;
-  }
-
-  .course-more-toggle:hover,
-  .udht-more-toggle:hover {
-    background: transparent !important;
-    text-decoration: none !important;
-  }
-
-  .course-more-toggle .plus,
-  .udht-more-toggle .plus {
-    width: 42px !important;
-    height: 18px !important;
-    border-radius: 0 0 11px 11px !important;
-    background: var(--blue) !important;
-    color: #fff !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 17px !important;
+  .task-name,
+  .card-name {
     font-weight: 900 !important;
-    line-height: 1 !important;
-    margin: -1px 0 0 !important;
-    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
-    transition: background var(--transition), transform var(--transition) !important;
   }
 
-  .course-more-toggle:hover .plus,
-  .udht-more-toggle:hover .plus {
-    background: var(--blue-hover) !important;
-  }
-
-  .course-more-toggle.open .plus,
-  .udht-more-toggle.open .plus {
-    transform: rotate(45deg) !important;
-  }
-
-  .course-more-toggle .more-label,
-  .udht-more-toggle .more-label {
-    display: none !important;
-  }
-
-  @media (max-width: 520px) {
-    .course-more-toggle,
-    .udht-more-toggle {
-      padding-right: 44px !important;
-      height: 18px !important;
-      min-height: 18px !important;
-    }
-
-    .course-more-toggle .plus,
-    .udht-more-toggle .plus {
-      width: 36px !important;
-      height: 16px !important;
-      font-size: 15px !important;
-      border-radius: 0 0 9px 9px !important;
-    }
-  }
-</style>
-
-<!-- GSAPP27 PATCH v17: align tongue plus with date column spacing and center plus precisely -->
-<style id="gsapp27-v17-tongue-align-style">
-  /* Tongue tab aligns to the same right inset as the date column */
   .course-more-toggle,
   .udht-more-toggle {
     width: 100% !important;
-    height: 20px !important;
-    min-height: 20px !important;
-    margin: -1px 0 6px !important;
-    padding: 0 32px 0 0 !important;
-    border: none !important;
-    border-top: 1px solid var(--border) !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: flex-end !important;
-    position: relative !important;
-    text-decoration: none !important;
-    cursor: pointer !important;
-  }
-
-  .course-more-toggle .plus,
-  .udht-more-toggle .plus {
-    width: 42px !important;
-    height: 18px !important;
-    border-radius: 0 0 11px 11px !important;
-    background: var(--blue) !important;
-    color: #fff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 16px !important;
-    font-weight: 900 !important;
-    line-height: 18px !important;
-    margin: -1px 0 0 !important;
-    padding: 0 !important;
-    text-align: center !important;
-    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
-    transform-origin: center center !important;
-  }
-
-  .course-more-toggle.open .plus,
-  .udht-more-toggle.open .plus {
-    transform: rotate(45deg) !important;
-  }
-
-  .course-more-toggle:hover .plus,
-  .udht-more-toggle:hover .plus {
-    background: var(--blue-hover) !important;
-  }
-
-  .course-more-toggle .more-label,
-  .udht-more-toggle .more-label {
-    display: none !important;
-  }
-
-  @media (max-width: 520px) {
-    .course-more-toggle,
-    .udht-more-toggle {
-      padding-right: 28px !important;
-      height: 18px !important;
-      min-height: 18px !important;
-    }
-
-    .course-more-toggle .plus,
-    .udht-more-toggle .plus {
-      width: 38px !important;
-      height: 16px !important;
-      border-radius: 0 0 9px 9px !important;
-      font-size: 14px !important;
-      line-height: 16px !important;
-    }
-  }
-</style>
-
-<!-- GSAPP27 PATCH v18: pin tongue plus to the date-column right line -->
-<style id="gsapp27-v18-tongue-date-line-style">
-  /* The tongue tab now pins to the same visual right line as the date column */
-  .course-more-toggle,
-  .udht-more-toggle {
-    width: 100% !important;
-    height: 20px !important;
-    min-height: 20px !important;
+    height: 22px !important;
+    min-height: 22px !important;
     margin: -1px 0 6px !important;
     padding: 0 !important;
     border: none !important;
@@ -6469,41 +6223,26 @@ function getDaysLeft(dateStr, dueTime) {
     box-shadow: none !important;
     display: block !important;
     position: relative !important;
-    text-decoration: none !important;
+    text-align: left !important;
     cursor: pointer !important;
+    overflow: visible !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
   }
 
-  .course-more-toggle .plus,
-  .udht-more-toggle .plus {
-    position: absolute !important;
-    top: -1px !important;
-    right: 18px !important; /* aligns with the date column's visual right edge */
-    width: 42px !important;
-    height: 18px !important;
-    border-radius: 0 0 11px 11px !important;
-    background: var(--blue) !important;
-    color: #fff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 16px !important;
-    font-weight: 900 !important;
-    line-height: 18px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    text-align: center !important;
-    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
-    transform-origin: center center !important;
+  .course-more-toggle:hover,
+  .udht-more-toggle:hover {
+    background: transparent !important;
+    text-decoration: none !important;
   }
 
-  .course-more-toggle:hover .plus,
-  .udht-more-toggle:hover .plus {
-    background: var(--blue-hover) !important;
-  }
-
-  .course-more-toggle.open .plus,
-  .udht-more-toggle.open .plus {
-    transform: rotate(45deg) !important;
+  .course-more-toggle:focus,
+  .udht-more-toggle:focus,
+  .course-more-toggle:focus-visible,
+  .udht-more-toggle:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
   }
 
   .course-more-toggle .more-label,
@@ -6511,158 +6250,10 @@ function getDaysLeft(dateStr, dueTime) {
     display: none !important;
   }
 
-  @media (max-width: 520px) {
-    .course-more-toggle,
-    .udht-more-toggle {
-      height: 18px !important;
-      min-height: 18px !important;
-    }
-
-    .course-more-toggle .plus,
-    .udht-more-toggle .plus {
-      right: 16px !important;
-      width: 38px !important;
-      height: 16px !important;
-      border-radius: 0 0 9px 9px !important;
-      font-size: 14px !important;
-      line-height: 16px !important;
-    }
-  }
-</style>
-
-<!-- GSAPP27 PATCH v19: every list item must have a right-side date/status column -->
-<style id="gsapp27-v19-date-rule-style">
-  .task-due.auto-date {
-    min-width: 74px;
-  }
-
-  .task-due.auto-date .due-date {
-    color: var(--text-2);
-  }
-
-  .task-due.auto-date .due-days {
-    color: var(--text-3);
-  }
-
-  .task-due.auto-date.tbd .due-date,
-  .task-due.auto-date.tbd .due-days {
-    color: #9AA3BF !important;
-  }
-
-  @media (max-width: 520px) {
-    .task-due.auto-date {
-      min-width: 62px;
-    }
-  }
-</style>
-
-<script id="gsapp27-v19-date-rule-script">
-(function () {
-  'use strict';
-
-  const COURSE_DATE_RULES = [
-    { pattern: /Week\s*2\s*Readings/i, date: 'Jun 3', status: 'passed', cls: 'done-label' },
-    { pattern: /Week\s*3\s*Readings|Project Proposal/i, date: 'Jun 10', status: '7d left', cls: 'urgent' },
-    { pattern: /Week\s*4\s*Readings/i, date: 'Jun 17', status: '14d left', cls: 'ok' },
-    { pattern: /Week\s*5\s*Readings|Formal Analysis/i, date: 'Jun 24', status: '21d left', cls: 'ok' },
-    { pattern: /Week\s*6\s*Readings/i, date: 'Jul 1', status: '28d left', cls: 'ok' },
-    { pattern: /Week\s*7\s*Readings/i, date: 'Jul 8', status: '35d left', cls: 'ok' },
-    { pattern: /Week\s*8\s*Readings|Thick Description/i, date: 'Jul 15', status: '42d left', cls: 'ok' },
-    { pattern: /Week\s*9\s*Readings/i, date: 'Jul 22', status: '49d left', cls: 'ok' },
-    { pattern: /Final Paper/i, date: 'Aug 10', status: '68d left', cls: 'ok' },
-    { pattern: /Assignment\s*01/i, date: 'TBD', status: 'no date', cls: 'done-label' },
-    { pattern: /Assignment\s*02/i, date: 'TBD', status: 'no date', cls: 'done-label' },
-    { pattern: /Assignment\s*03/i, date: 'TBD', status: 'no date', cls: 'done-label' },
-    { pattern: /Final Assignment/i, date: 'TBD', status: 'no date', cls: 'done-label' },
-    { pattern: /Studio Drive Folder|DTEQ Google Drive|DTEQ Miro Board|RNYU Course Drive|Avery Archive Visit Notes/i, date: 'Info', status: 'link', cls: 'ok' }
-  ];
-
-  function getText(node) {
-    return node ? (node.textContent || '') : '';
-  }
-
-  function matchDateRule(text) {
-    return COURSE_DATE_RULES.find(function (rule) {
-      return rule.pattern.test(text);
-    });
-  }
-
-  function addDueColumn(item, rule) {
-    if (!item || item.querySelector('.task-due')) return;
-
-    const due = document.createElement('div');
-    due.className = 'task-due auto-date' + (rule.date === 'TBD' ? ' tbd' : '');
-    due.innerHTML =
-      '<div class="due-date">' + rule.date + '</div>' +
-      '<div class="due-days ' + rule.cls + '">' + rule.status + '</div>';
-
-    item.appendChild(due);
-  }
-
-  function fillExistingEmptyDue(item, rule) {
-    const due = item.querySelector('.task-due');
-    if (!due) return;
-
-    const date = due.querySelector('.due-date');
-    const days = due.querySelector('.due-days');
-
-    if (date && !date.textContent.trim()) {
-      date.textContent = rule.date;
-    }
-
-    if (days && !days.textContent.trim()) {
-      days.textContent = rule.status;
-      days.className = 'due-days ' + rule.cls;
-    }
-  }
-
-  function enforceDateRule() {
-    document.querySelectorAll('.task-item').forEach(function (item) {
-      const text = getText(item);
-      const rule = matchDateRule(text) || { date: 'TBD', status: 'no date', cls: 'done-label' };
-
-      if (item.querySelector('.task-due')) {
-        fillExistingEmptyDue(item, rule);
-      } else {
-        addDueColumn(item, rule);
-      }
-    });
-
-    /* Material cards are not task-items, so give them a small info chip only when needed. */
-    document.querySelectorAll('.material-card').forEach(function (card) {
-      if (card.querySelector('.material-date-chip')) return;
-
-      const text = getText(card);
-      const rule = matchDateRule(text) || { date: 'Info', status: 'link', cls: 'ok' };
-
-      const chip = document.createElement('div');
-      chip.className = 'material-date-chip';
-      chip.style.cssText = 'margin-top:6px;font-size:10px;font-weight:800;color:#6B77A8;';
-      chip.textContent = rule.date + ' · ' + rule.status;
-      card.appendChild(chip);
-    });
-  }
-
-  function runPatch() {
-    setTimeout(enforceDateRule, 500);
-    setTimeout(enforceDateRule, 1200);
-    setTimeout(enforceDateRule, 2400);
-    setTimeout(enforceDateRule, 3600);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runPatch);
-  } else {
-    runPatch();
-  }
-})();
-</script>
-
-<!-- GSAPP27 PATCH v20: tongue tab open state becomes longer gray minus, closed becomes short blue plus -->
-<style id="gsapp27-v20-tongue-open-close-style">
-  /* Closed state: short blue tongue with centered white plus */
   .course-more-toggle .plus,
   .udht-more-toggle .plus {
+    position: absolute !important;
+    top: -1px !important;
     right: 18px !important;
     width: 42px !important;
     height: 18px !important;
@@ -6677,97 +6268,7 @@ function getDaysLeft(dateStr, dueTime) {
     justify-content: center !important;
     padding: 0 !important;
     margin: 0 !important;
-    transition: width var(--transition), height var(--transition), background var(--transition), border-radius var(--transition) !important;
-  }
-
-  .course-more-toggle .plus::before,
-  .udht-more-toggle .plus::before {
-    content: "+" !important;
-    color: #fff !important;
-    font-size: 17px !important;
-    font-weight: 900 !important;
-    line-height: 1 !important;
-    transform: translateY(-1px);
-  }
-
-  .course-more-toggle:hover .plus,
-  .udht-more-toggle:hover .plus {
-    background: var(--blue-hover) !important;
-  }
-
-  /* Open state: longer gray tongue with centered white minus. No rotation. */
-  .course-more-toggle.open .plus,
-  .udht-more-toggle.open .plus {
-    width: 56px !important;
-    height: 24px !important;
-    border-radius: 0 0 13px 13px !important;
-    background: #9AA3BF !important;
-    transform: none !important;
-    box-shadow: 0 3px 7px rgba(80, 90, 120, 0.16) !important;
-  }
-
-  .course-more-toggle.open:hover .plus,
-  .udht-more-toggle.open:hover .plus {
-    background: #8791AC !important;
-  }
-
-  .course-more-toggle.open .plus::before,
-  .udht-more-toggle.open .plus::before {
-    content: "−" !important;
-    color: #fff !important;
-    font-size: 20px !important;
-    font-weight: 900 !important;
-    line-height: 1 !important;
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 520px) {
-    .course-more-toggle .plus,
-    .udht-more-toggle .plus {
-      right: 16px !important;
-      width: 38px !important;
-      height: 16px !important;
-      border-radius: 0 0 9px 9px !important;
-    }
-
-    .course-more-toggle .plus::before,
-    .udht-more-toggle .plus::before {
-      font-size: 15px !important;
-    }
-
-    .course-more-toggle.open .plus,
-    .udht-more-toggle.open .plus {
-      width: 50px !important;
-      height: 22px !important;
-      border-radius: 0 0 12px 12px !important;
-    }
-
-    .course-more-toggle.open .plus::before,
-    .udht-more-toggle.open .plus::before {
-      font-size: 19px !important;
-    }
-  }
-</style>
-
-<!-- GSAPP27 PATCH v21: tongue grows downward only, width stays the same -->
-<style id="gsapp27-v21-tongue-down-only-style">
-  /* Closed: short blue tongue */
-  .course-more-toggle .plus,
-  .udht-more-toggle .plus {
-    right: 18px !important;
-    width: 42px !important;
-    height: 18px !important;
-    border-radius: 0 0 11px 11px !important;
-    background: var(--blue) !important;
-    color: transparent !important;
-    font-size: 0 !important;
-    line-height: 1 !important;
-    transform: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
     transition: height var(--transition), background var(--transition), border-radius var(--transition) !important;
   }
 
@@ -6778,13 +6279,11 @@ function getDaysLeft(dateStr, dueTime) {
     font-size: 17px !important;
     font-weight: 900 !important;
     line-height: 1 !important;
-    transform: translateY(-1px);
+    transform: translateY(-1px) !important;
   }
 
-  /* Open: same width, only grows downward, gray with minus */
   .course-more-toggle.open .plus,
   .udht-more-toggle.open .plus {
-    right: 18px !important;
     width: 42px !important;
     height: 26px !important;
     border-radius: 0 0 12px 12px !important;
@@ -6797,10 +6296,10 @@ function getDaysLeft(dateStr, dueTime) {
   .udht-more-toggle.open .plus::before {
     content: "−" !important;
     color: #fff !important;
-    font-size: 21px !important;
+    font-size: 17px !important;
     font-weight: 900 !important;
     line-height: 1 !important;
-    transform: translateY(-2px);
+    transform: translateY(-1px) !important;
   }
 
   .course-more-toggle:hover .plus,
@@ -6814,6 +6313,12 @@ function getDaysLeft(dateStr, dueTime) {
   }
 
   @media (max-width: 520px) {
+    .course-more-toggle,
+    .udht-more-toggle {
+      height: 20px !important;
+      min-height: 20px !important;
+    }
+
     .course-more-toggle .plus,
     .udht-more-toggle .plus {
       right: 16px !important;
@@ -6822,25 +6327,522 @@ function getDaysLeft(dateStr, dueTime) {
       border-radius: 0 0 9px 9px !important;
     }
 
-    .course-more-toggle .plus::before,
-    .udht-more-toggle .plus::before {
-      font-size: 15px !important;
-    }
-
     .course-more-toggle.open .plus,
     .udht-more-toggle.open .plus {
-      right: 16px !important;
       width: 38px !important;
       height: 24px !important;
       border-radius: 0 0 11px 11px !important;
     }
 
+    .course-more-toggle .plus::before,
+    .udht-more-toggle .plus::before,
     .course-more-toggle.open .plus::before,
     .udht-more-toggle.open .plus::before {
-      font-size: 20px !important;
+      font-size: 15px !important;
     }
   }
 </style>
+
+<script id="gsapp27-v28-stable-hidden-toggle-script">
+(function () {
+  'use strict';
+
+  function simplifyToggleButtons() {
+    document.querySelectorAll('.course-more-toggle, .udht-more-toggle').forEach(function (btn) {
+      if (btn.dataset.v28Stable === 'true') return;
+
+      const countMatch = (btn.textContent || '').match(/(\d+)/);
+      const count = countMatch ? countMatch[1] : '';
+
+      let label = 'Show hidden items';
+      const text = btn.textContent || '';
+      if (/assignment/i.test(text)) label = count ? 'Show ' + count + ' more assignments' : 'Show more assignments';
+      if (/class/i.test(text)) label = count ? 'Show ' + count + ' more classes' : 'Show more classes';
+
+      btn.dataset.v28Stable = 'true';
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+      btn.innerHTML = '<span class="plus" aria-hidden="true">+</span>';
+    });
+  }
+
+  function runPatch() {
+    simplifyToggleButtons();
+    setTimeout(simplifyToggleButtons, 500);
+    setTimeout(simplifyToggleButtons, 1400);
+    setTimeout(simplifyToggleButtons, 2600);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v29: add Studio June 15 notice -->
+<style id="gsapp27-v29-studio-notice-style">
+  .studio-june15-note {
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  .studio-june15-note strong {
+    color: var(--blue);
+    font-weight: 900;
+  }
+</style>
+
+<script id="gsapp27-v29-studio-notice-script">
+(function () {
+  'use strict';
+
+  const STUDIO_NOTICE_TEXT = "By June 15, we only need to prepare ideas, possible directions, and research questions. The final transect drawing starts after the detailed instructions on June 15.";
+
+  function makeStudioNotice() {
+    return '<div class="notice-card card" id="notice-studio-june15">' +
+      '<button class="notice-card-main" type="button">' +
+        '<span class="notice-dot" style="background:var(--orange);"></span>' +
+        '<span class="notice-copy">' +
+          '<span class="notice-type">STUDIO NOTICE</span>' +
+          '<span class="notice-title">June 15 Preparation Scope</span>' +
+          '<span class="notice-subtitle">Ideas, possible directions, and research questions only.</span>' +
+          '<span class="studio-june15-note"><strong>Note:</strong> ' + STUDIO_NOTICE_TEXT + '</span>' +
+        '</span>' +
+        '<span class="notice-date">' +
+          '<span>Jun 15</span>' +
+          '<span class="due-days soon">Prepare</span>' +
+        '</span>' +
+      '</button>' +
+    '</div>';
+  }
+
+  function installStudioNotice() {
+    const list = document.getElementById('notice-list');
+    if (!list) return;
+
+    const existing = document.getElementById('notice-studio-june15');
+    if (existing) existing.remove();
+
+    const actionNotice = document.getElementById('notice-designing-action');
+    const ops = document.getElementById('notice-ops');
+
+    if (actionNotice) {
+      actionNotice.insertAdjacentHTML('beforebegin', makeStudioNotice());
+    } else if (ops) {
+      ops.insertAdjacentHTML('beforebegin', makeStudioNotice());
+    } else {
+      list.insertAdjacentHTML('beforeend', makeStudioNotice());
+    }
+  }
+
+  function runPatch() {
+    setTimeout(installStudioNotice, 700);
+    setTimeout(installStudioNotice, 1600);
+    setTimeout(installStudioNotice, 2800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v32: clean Studio assignments rebuild, strict date order, no duplicate tongues -->
+<style id="gsapp27-v32-studio-clean-style">
+  .studio-prep-card .task-check {
+    border-color: var(--orange) !important;
+    color: var(--orange) !important;
+  }
+
+  .studio-prep-note {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--text-2);
+  }
+
+  .studio-prep-note strong {
+    color: var(--blue);
+    font-weight: 900;
+  }
+
+  .studio-past-list-v32 {
+    display: none;
+  }
+
+  .studio-past-list-v32.open {
+    display: block;
+  }
+
+  .studio-past-toggle-v32 {
+    width: 100% !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    margin: -1px 0 6px !important;
+    padding: 0 !important;
+    border: none !important;
+    border-top: 1px solid var(--border) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: block !important;
+    position: relative !important;
+    cursor: pointer !important;
+    overflow: visible !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+  }
+
+  .studio-past-toggle-v32:focus,
+  .studio-past-toggle-v32:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .studio-past-toggle-v32 .plus {
+    position: absolute !important;
+    top: -1px !important;
+    right: 18px !important;
+    width: 42px !important;
+    height: 18px !important;
+    border-radius: 0 0 11px 11px !important;
+    background: #9AA3BF !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 3px 7px rgba(80, 90, 120, 0.16) !important;
+    transition: height var(--transition), background var(--transition), border-radius var(--transition) !important;
+  }
+
+  .studio-past-toggle-v32 .plus::before {
+    content: "+" !important;
+    color: #fff !important;
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .studio-past-toggle-v32.open .plus {
+    height: 26px !important;
+    border-radius: 0 0 12px 12px !important;
+  }
+
+  .studio-past-toggle-v32.open .plus::before {
+    content: "−" !important;
+  }
+
+  @media (max-width: 520px) {
+    .studio-past-toggle-v32 .plus {
+      right: 16px !important;
+      width: 38px !important;
+      height: 16px !important;
+      border-radius: 0 0 9px 9px !important;
+    }
+
+    .studio-past-toggle-v32.open .plus {
+      height: 24px !important;
+      border-radius: 0 0 11px 11px !important;
+    }
+
+    .studio-past-toggle-v32 .plus::before {
+      font-size: 15px !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v32-studio-clean-script">
+(function () {
+  'use strict';
+
+  const STUDIO_PREP_TEXT = "By June 15, we only need to prepare ideas, possible directions, and research questions. The final transect drawing starts after the detailed instructions on June 15.";
+
+  const STUDIO_ASSIGNMENTS = [
+    {
+      id: 'task-studio-archive-submission',
+      title: 'Archive Submission',
+      detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM',
+      date: '2026-06-05',
+      time: '16:00',
+      kind: 'normal',
+      body: '<ul><li>Export PDF/JPEG at 300dpi.</li><li>Maximum 25MB.</li><li>Submit before 4PM.</li></ul>'
+    },
+    {
+      id: 'task-studio-june15-prep',
+      title: 'June 15 Preparation Scope',
+      detail: 'Prepare ideas, possible directions, and research questions only',
+      date: '2026-06-15',
+      time: '18:00',
+      kind: 'prep',
+      body: '<div class="studio-prep-note"><strong>Studio Notice:</strong> ' + STUDIO_PREP_TEXT + '</div>'
+    },
+    {
+      id: 'task-studio-urban-fabric',
+      title: 'Urban Fabric Drawing',
+      detail: '20x20" panel + 11x17" + 2-min presentation',
+      date: '2026-06-01',
+      time: '18:00',
+      kind: 'past',
+      body: '<ul><li>20x20 inch panel.</li><li>11x17 inch supporting sheet.</li><li>2-minute presentation.</li></ul>'
+    }
+  ];
+
+  function dueDate(item) {
+    const d = new Date(item.date + 'T00:00:00');
+    const parts = String(item.time || '18:00').split(':');
+    d.setHours(Number(parts[0] || 18), Number(parts[1] || 0), 0, 0);
+    return d;
+  }
+
+  function daysLeft(item) {
+    const due = dueDate(item);
+    if (new Date() >= due) return -1;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const dueDay = new Date(item.date + 'T00:00:00');
+    dueDay.setHours(0, 0, 0, 0);
+
+    return Math.round((dueDay - today) / 86400000);
+  }
+
+  function dueLabel(item) {
+    const d = daysLeft(item);
+    if (d < 0) return 'passed';
+    if (d === 0) return 'TODAY';
+    if (d === 1) return '1d left';
+    return d + 'd left';
+  }
+
+  function dueClass(item) {
+    const d = daysLeft(item);
+    if (d < 0) return 'done-label';
+    if (d <= 3) return 'urgent';
+    if (d <= 10) return 'soon';
+    return 'ok';
+  }
+
+  function dateLabel(item) {
+    return new Date(item.date + 'T00:00:00').toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+
+  function taskHtml(item, past) {
+    const classes = ['task-item'];
+    if (item.kind === 'prep') classes.push('studio-prep-card');
+    if (past) classes.push('course-past-soft');
+
+    return '<div class="' + classes.join(' ') + '" id="' + item.id + '" data-date="' + item.date + '" data-due-time="' + item.time + '" onclick="toggleTask(this)">' +
+      '<div class="task-check">✓</div>' +
+      '<div class="task-body">' +
+        '<div class="task-name">' + item.title + '</div>' +
+        '<div class="task-detail">' + item.detail + '</div>' +
+      '</div>' +
+      '<div class="task-due">' +
+        '<div class="due-date">' + dateLabel(item) + '</div>' +
+        '<div class="due-days ' + dueClass(item) + '">' + dueLabel(item) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="task-expand">' +
+      '<div class="task-expand-inner">' + item.body + '</div>' +
+    '</div>';
+  }
+
+  function getStudioPanel() {
+    return document.getElementById('sub-as-studio');
+  }
+
+  function getAssignmentsHead(panel) {
+    return Array.from(panel.querySelectorAll('.course-section-head')).find(function (head) {
+      return /Assignments/i.test(head.textContent || '');
+    });
+  }
+
+  function clearAssignmentsSection(head) {
+    let node = head.nextElementSibling;
+
+    while (node && !(node.classList && node.classList.contains('course-section-head'))) {
+      const next = node.nextElementSibling;
+      node.remove();
+      node = next;
+    }
+  }
+
+  function updateCount(head, count) {
+    const countEl = head.querySelector('.course-section-count');
+    if (countEl) {
+      countEl.textContent = count + ' item' + (count > 1 ? 's' : '');
+    }
+  }
+
+  function makePastToggle(target) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'studio-past-toggle-v32';
+    btn.setAttribute('aria-label', 'Show past studio assignments');
+    btn.innerHTML = '<span class="plus" aria-hidden="true">+</span>';
+
+    btn.addEventListener('click', function () {
+      const open = target.classList.toggle('open');
+      btn.classList.toggle('open', open);
+    });
+
+    return btn;
+  }
+
+  function rebuildStudioAssignments() {
+    const panel = getStudioPanel();
+    if (!panel) return;
+
+    const head = getAssignmentsHead(panel);
+    if (!head) return;
+
+    clearAssignmentsSection(head);
+
+    const upcoming = STUDIO_ASSIGNMENTS
+      .filter(function (item) { return daysLeft(item) >= 0; })
+      .sort(function (a, b) { return dueDate(a) - dueDate(b); });
+
+    const past = STUDIO_ASSIGNMENTS
+      .filter(function (item) { return daysLeft(item) < 0; })
+      .sort(function (a, b) { return dueDate(b) - dueDate(a); });
+
+    updateCount(head, upcoming.length);
+
+    const insertBefore = head.nextElementSibling;
+
+    upcoming.forEach(function (item) {
+      head.insertAdjacentHTML('afterend', '');
+    });
+
+    /* Insert in reverse because afterend places each item right after the header. */
+    upcoming.slice().reverse().forEach(function (item) {
+      head.insertAdjacentHTML('afterend', taskHtml(item, false));
+    });
+
+    if (past.length) {
+      const pastList = document.createElement('div');
+      pastList.className = 'studio-past-list-v32';
+      pastList.innerHTML = past.map(function (item) {
+        return taskHtml(item, true);
+      }).join('');
+
+      const toggle = makePastToggle(pastList);
+
+      const afterUpcoming = head.nextElementSibling;
+      let lastNode = head;
+      while (lastNode.nextElementSibling && !(lastNode.nextElementSibling.classList && lastNode.nextElementSibling.classList.contains('course-section-head'))) {
+        lastNode = lastNode.nextElementSibling;
+      }
+
+      head.parentNode.insertBefore(toggle, lastNode.nextElementSibling);
+      head.parentNode.insertBefore(pastList, toggle.nextElementSibling);
+    }
+  }
+
+  function runPatch() {
+    setTimeout(rebuildStudioAssignments, 700);
+    setTimeout(rebuildStudioAssignments, 1700);
+    setTimeout(rebuildStudioAssignments, 3200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v33: restore main-blue plus tongues and neutral check icons -->
+<style id="gsapp27-v33-blue-plus-neutral-check-style">
+  /*
+    Global fixed rule:
+    - Every collapsed + tongue uses the main blue color.
+    - Opened − tongue may stay gray.
+    - All task check circles use the same neutral style.
+    - No special orange check for Studio June 15.
+  */
+
+  .course-more-toggle:not(.open) .plus,
+  .udht-more-toggle:not(.open) .plus,
+  .studio-more-toggle:not(.open) .plus,
+  .studio-past-toggle-v31:not(.open) .plus,
+  .studio-past-toggle-v32:not(.open) .plus,
+  .past-collapse-toggle:not(.open) .plus,
+  .upcoming-past-toggle:not(.open) .plus {
+    background: var(--blue) !important;
+    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
+  }
+
+  .course-more-toggle:not(.open):hover .plus,
+  .udht-more-toggle:not(.open):hover .plus,
+  .studio-more-toggle:not(.open):hover .plus,
+  .studio-past-toggle-v31:not(.open):hover .plus,
+  .studio-past-toggle-v32:not(.open):hover .plus {
+    background: var(--blue-hover) !important;
+  }
+
+  .studio-prep-card .task-check,
+  .task-item .task-check {
+    border-color: #E2E8F4 !important;
+    color: var(--text) !important;
+    background: transparent !important;
+  }
+
+  .task-item.course-past-soft .task-check,
+  .task-item.past-soft .task-check {
+    border-color: #D1D9E8 !important;
+    color: #B0B8CC !important;
+    background: transparent !important;
+  }
+
+  /* remove browser tooltip caused by old show-more title text */
+  .course-more-toggle,
+  .udht-more-toggle,
+  .studio-more-toggle,
+  .studio-past-toggle-v31,
+  .studio-past-toggle-v32 {
+    -webkit-tap-highlight-color: transparent;
+  }
+</style>
+
+<script id="gsapp27-v33-blue-plus-neutral-check-script">
+(function () {
+  'use strict';
+
+  function cleanInteractiveTitles() {
+    document.querySelectorAll('.course-more-toggle, .udht-more-toggle, .studio-more-toggle, .studio-past-toggle-v31, .studio-past-toggle-v32').forEach(function (btn) {
+      btn.removeAttribute('title');
+    });
+  }
+
+  function runPatch() {
+    cleanInteractiveTitles();
+    setTimeout(cleanInteractiveTitles, 500);
+    setTimeout(cleanInteractiveTitles, 1500);
+    setTimeout(cleanInteractiveTitles, 3000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
 
 </body>
 </html>
