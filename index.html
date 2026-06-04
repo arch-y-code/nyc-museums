@@ -3380,14 +3380,19 @@ window.GSAPP_DATA.weekSchedule = [
     {
       date: new Date(2026, 5, 4),
       events: [
-        { title: 'DTEQ', loc: '', time: '10AM–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+        { title: 'DTEQ Support Session', loc: 'Room 115', time: '10–11AM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+        { title: 'DTEQ', loc: '114 Avery', time: '11AM–12PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+        { title: 'DTEQ', loc: 'Fayerweather 206', time: '2–3PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+        { title: 'DTEQ', loc: '114 Avery', time: '5–6PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
       ]
     },
     {
       date: new Date(2026, 5, 5),
       events: [
-        { title: 'DTEQ', loc: '', time: '11AM–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
-        { title: 'Archive Submission Due', loc: 'PDF/JPEG 300dpi · max 25MB', time: '4PM deadline', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' }
+        { title: 'DTEQ', loc: '114 Avery', time: '11AM–12PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+        { title: 'DTEQ', loc: 'Fayerweather 206', time: '2–4PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+        { title: 'Archive Submission Due', loc: 'PDF/JPEG 300dpi · max 25MB', time: '4PM deadline', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' },
+        { title: 'DTEQ', loc: '114 Avery', time: '5–6PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
       ]
     }
   ];
@@ -5029,14 +5034,60 @@ function getDaysLeft(dateStr, dueTime) {
         {
           id: 'task-dteq-support-jun4',
           title: 'Support Session for Non-Design Backgrounds',
-          detail: 'Thu Jun 4 · 10AM · Room 115 · Regular DTEQ starts 11AM',
+          detail: 'Thu Jun 4 · 10–11AM · Room 115 · Regular DTEQ starts 11AM',
           date: '2026-06-04',
           dueTime: '10:00',
           bodyHtml: '<strong>DTEQ Support Session</strong><br><ul><li>For students coming from interdisciplinary or non-design backgrounds.</li><li>Low-pressure space to ask questions, share concerns, and get guidance.</li><li>Software tools will be a big part of the conversation.</li><li><strong>Regular DTEQ class begins at 11AM as usual.</strong></li><li>No preparation needed, just come as you are.</li></ul>'
         },
-        { title: 'DTEQ', detail: 'Thu Jun 4 · 11AM–6:30PM', date: '2026-06-04', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>11AM–6:30PM.' },
-        { title: 'DTEQ', detail: 'Fri Jun 5 · 11AM–6:30PM', date: '2026-06-05', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>11AM–6:30PM.' },
-        { title: 'DTEQ', detail: 'Tue Jun 2 · 2:30–6:30PM', date: '2026-06-02', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>2:30–6:30PM.' }
+        {
+          title: 'DTEQ · 114 Avery',
+          detail: 'Thu Jun 4 · 11AM–12PM',
+          date: '2026-06-04',
+          dueTime: '12:00',
+          bodyHtml: '<strong>DTEQ</strong><br>Thursday, June 4 · 11AM–12PM · 114 Avery.'
+        },
+        {
+          title: 'DTEQ · Fayerweather 206',
+          detail: 'Thu Jun 4 · 2–3PM',
+          date: '2026-06-04',
+          dueTime: '15:00',
+          bodyHtml: '<strong>DTEQ</strong><br>Thursday, June 4 · 2–3PM · Fayerweather 206.'
+        },
+        {
+          title: 'DTEQ · 114 Avery',
+          detail: 'Thu Jun 4 · 5–6PM',
+          date: '2026-06-04',
+          dueTime: '18:00',
+          bodyHtml: '<strong>DTEQ</strong><br>Thursday, June 4 · 5–6PM · 114 Avery.'
+        },
+        {
+          title: 'DTEQ · 114 Avery',
+          detail: 'Fri Jun 5 · 11AM–12PM',
+          date: '2026-06-05',
+          dueTime: '12:00',
+          bodyHtml: '<strong>DTEQ</strong><br>Friday, June 5 · 11AM–12PM · 114 Avery.'
+        },
+        {
+          title: 'DTEQ · Fayerweather 206',
+          detail: 'Fri Jun 5 · 2–4PM',
+          date: '2026-06-05',
+          dueTime: '16:00',
+          bodyHtml: '<strong>DTEQ</strong><br>Friday, June 5 · 2–4PM · Fayerweather 206.'
+        },
+        {
+          title: 'DTEQ · 114 Avery',
+          detail: 'Fri Jun 5 · 5–6PM',
+          date: '2026-06-05',
+          dueTime: '18:00',
+          bodyHtml: '<strong>DTEQ</strong><br>Friday, June 5 · 5–6PM · 114 Avery.'
+        },
+        {
+          title: 'DTEQ',
+          detail: 'Tue Jun 2 · 2:30–6:30PM',
+          date: '2026-06-02',
+          dueTime: '18:30',
+          bodyHtml: '<strong>DTEQ class</strong><br>Tuesday, June 2 · 2:30–6:30PM.'
+        }
       ],
       materials: [
         { title: 'DTEQ Google Drive', detail: 'Main DTEQ resource folder.', link: 'https://drive.google.com/drive/folders/1bssi7A6QQ2xfnxZ-13VmvGECv9jtvVCK?usp=drive_link', linkLabel: 'Open DTEQ Drive' },
@@ -7517,6 +7568,443 @@ function getDaysLeft(dateStr, dueTime) {
     setTimeout(correctDteqRegularCards, 1800);
     setTimeout(correctDteqRegularCards, 3200);
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v46: detailed Thu/Fri DTEQ schedule from printed timetable -->
+<style id="gsapp27-v46-dteq-detail-style">
+  .dteq-detail-note {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+</style>
+
+<script id="gsapp27-v46-dteq-detail-script">
+(function () {
+  'use strict';
+
+  /*
+    DTEQ week 06/01 detailed rule from printed timetable:
+    Thu 06/04
+      10–11AM Support Session · Room 115
+      11AM–12PM DTEQ · 114 Avery
+      2–3PM DTEQ · Fayerweather 206
+      5–6PM DTEQ · 114 Avery
+    Fri 06/05
+      11AM–12PM DTEQ · 114 Avery
+      2–4PM DTEQ · Fayerweather 206
+      5–6PM DTEQ · 114 Avery
+  */
+
+  const THU_EVENTS = [
+    { title: 'DTEQ Support Session', loc: 'Room 115', time: '10–11AM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: '114 Avery', time: '11AM–12PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: 'Fayerweather 206', time: '2–3PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: '114 Avery', time: '5–6PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+  ];
+
+  const FRI_EVENTS = [
+    { title: 'DTEQ', loc: '114 Avery', time: '11AM–12PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: 'Fayerweather 206', time: '2–4PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'Archive Submission Due', loc: 'PDF/JPEG 300dpi · max 25MB', time: '4PM deadline', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' },
+    { title: 'DTEQ', loc: '114 Avery', time: '5–6PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+  ];
+
+  function sameDay(date, monthIndex, day) {
+    return date && date.getMonth && date.getMonth() === monthIndex && date.getDate() === day;
+  }
+
+  function updateData() {
+    if (!window.GSAPP_DATA || !Array.isArray(window.GSAPP_DATA.weekSchedule)) return;
+
+    window.GSAPP_DATA.weekSchedule.forEach(function (day) {
+      const d = day.date instanceof Date ? day.date : new Date(day.date);
+      if (sameDay(d, 5, 4)) day.events = THU_EVENTS.slice();
+      if (sameDay(d, 5, 5)) day.events = FRI_EVENTS.slice();
+    });
+  }
+
+  function correctVisibleText() {
+    document.querySelectorAll('*').forEach(function (node) {
+      if (!node.children || node.children.length) return;
+      const parentText = node.parentElement ? node.parentElement.textContent : '';
+      if (/DTEQ/i.test(parentText) && !/Support Session|non-design/i.test(parentText)) {
+        node.textContent = (node.textContent || '')
+          .replace(/10AM\s*[–-]\s*6:30PM/g, '11AM–6:30PM')
+          .replace(/10AM\s*[–-]\s*6PM/g, '11AM–6PM');
+      }
+    });
+  }
+
+  function runPatch() {
+    updateData();
+    correctVisibleText();
+    setTimeout(function () {
+      updateData();
+      correctVisibleText();
+    }, 500);
+    setTimeout(function () {
+      updateData();
+      correctVisibleText();
+    }, 1500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v47: compress repeated subject labels in schedule -->
+<style id="gsapp27-v47-repeat-subject-style">
+  /*
+    Schedule rule:
+    If several items in the same day have the same subject, show the subject once.
+    Repeated rows show only time and location to reduce visual clutter.
+  */
+
+  .schedule-repeat-row {
+    padding-top: 3px !important;
+  }
+
+  .schedule-repeat-row .event-title,
+  .schedule-repeat-row .schedule-title,
+  .schedule-repeat-row .card-title {
+    display: none !important;
+  }
+
+  .schedule-repeat-row .event-meta,
+  .schedule-repeat-row .schedule-meta,
+  .schedule-repeat-row .card-meta {
+    margin-top: 0 !important;
+  }
+
+  .schedule-repeat-inline {
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    color: var(--text-3) !important;
+  }
+</style>
+
+<script id="gsapp27-v47-repeat-subject-script">
+(function () {
+  'use strict';
+
+  /*
+    Rule:
+    - For schedule/timeline cards only.
+    - If same subject appears multiple times in the same date group:
+      first item keeps the subject title.
+      repeated items display time + location only.
+    - Support Session is not treated as the same as regular DTEQ.
+  */
+
+  function normalizeSubject(text) {
+    const raw = String(text || '').trim();
+
+    if (/support session|non-design/i.test(raw)) return raw.toLowerCase();
+    if (/^DTEQ\b/i.test(raw)) return 'DTEQ';
+    if (/^UDHT\b/i.test(raw)) return 'UDHT';
+    if (/^RNYU\b/i.test(raw)) return 'RNYU';
+    if (/^Studio\b/i.test(raw)) return 'Studio';
+
+    return raw.replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function getTitleEl(card) {
+    return card.querySelector('.event-title, .schedule-title, .card-title, .timeline-title');
+  }
+
+  function getMetaEl(card) {
+    return card.querySelector('.event-meta, .schedule-meta, .card-meta, .timeline-meta');
+  }
+
+  function compressCardsInGroup(group) {
+    if (!group || group.dataset.v47Compressed === 'true') return;
+
+    const cards = Array.from(group.querySelectorAll('.event-card, .schedule-card, .timeline-card, .class-card, .card')).filter(function (card) {
+      const title = getTitleEl(card);
+      if (!title) return false;
+
+      const text = title.textContent || '';
+      return /DTEQ|UDHT|RNYU|Studio|Support Session/i.test(text);
+    });
+
+    if (!cards.length) return;
+
+    const seen = new Set();
+
+    cards.forEach(function (card) {
+      const title = getTitleEl(card);
+      const meta = getMetaEl(card);
+      if (!title) return;
+
+      const subject = normalizeSubject(title.textContent);
+
+      if (seen.has(subject)) {
+        card.classList.add('schedule-repeat-row');
+
+        if (meta && !card.querySelector('.schedule-repeat-inline')) {
+          const compact = document.createElement('div');
+          compact.className = 'schedule-repeat-inline';
+          compact.textContent = meta.textContent.trim();
+          card.appendChild(compact);
+        }
+      } else {
+        seen.add(subject);
+        card.classList.remove('schedule-repeat-row');
+      }
+    });
+
+    group.dataset.v47Compressed = 'true';
+  }
+
+  function compressScheduleDom() {
+    const schedule = document.getElementById('tab-schedule');
+    if (!schedule) return;
+
+    /* Prefer date/day groups. If unavailable, use the whole schedule tab as a fallback. */
+    const groups = Array.from(schedule.querySelectorAll('.day-group, .schedule-day, .timeline-day, .week-day, .schedule-column, .day-column'));
+
+    if (groups.length) {
+      groups.forEach(function (group) {
+        group.dataset.v47Compressed = 'false';
+        compressCardsInGroup(group);
+      });
+    } else {
+      schedule.dataset.v47Compressed = 'false';
+      compressCardsInGroup(schedule);
+    }
+  }
+
+  function compressScheduleData() {
+    if (!window.GSAPP_DATA || !Array.isArray(window.GSAPP_DATA.weekSchedule)) return;
+
+    window.GSAPP_DATA.weekSchedule.forEach(function (day) {
+      const seen = new Set();
+
+      if (!Array.isArray(day.events)) return;
+
+      day.events.forEach(function (event) {
+        const subject = normalizeSubject(event.title);
+
+        if (seen.has(subject)) {
+          event.displayTitle = '';
+          event.compact = true;
+        } else {
+          seen.add(subject);
+          event.displayTitle = event.title;
+          event.compact = false;
+        }
+      });
+    });
+  }
+
+  function patchEventRendererDataUse() {
+    /*
+      Some versions render directly from event.title.
+      This DOM pass is the reliable layer after rendering.
+    */
+    compressScheduleDom();
+  }
+
+  function runPatch() {
+    compressScheduleData();
+    patchEventRendererDataUse();
+
+    setTimeout(function () {
+      compressScheduleData();
+      patchEventRendererDataUse();
+    }, 400);
+
+    setTimeout(function () {
+      compressScheduleData();
+      patchEventRendererDataUse();
+    }, 1200);
+
+    setTimeout(function () {
+      compressScheduleData();
+      patchEventRendererDataUse();
+    }, 2500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v48: one subject label per day in compact schedule -->
+<style id="gsapp27-v48-one-subject-style">
+  /*
+    Schedule display rule:
+    If the same subject repeats within the same day, show the subject name only once.
+    Repeated rows show only time + location.
+  */
+
+  .week-event-repeat {
+    grid-template-columns: 1fr !important;
+    padding-left: 0 !important;
+  }
+
+  .week-event-repeat .week-event-meta {
+    font-size: 10.5px !important;
+    font-weight: 600 !important;
+    color: var(--text-3) !important;
+    margin-top: 0 !important;
+    line-height: 1.35 !important;
+  }
+
+  .week-event-repeat .week-course-chip {
+    display: none !important;
+  }
+
+  .week-event-title-hidden {
+    display: none !important;
+  }
+</style>
+
+<script id="gsapp27-v48-one-subject-script">
+(function () {
+  'use strict';
+
+  function pad2(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function normalizeDate(date) {
+    if (date instanceof Date) return date;
+    return new Date(date);
+  }
+
+  function sameDate(a, b) {
+    a = normalizeDate(a);
+    b = normalizeDate(b);
+    return a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+  }
+
+  function isEventPast(day, ev) {
+    const date = normalizeDate(day.date);
+    const now = new Date();
+    if (date.getFullYear() !== now.getFullYear() || date.getMonth() !== now.getMonth() || date.getDate() !== now.getDate()) {
+      const endOfDay = new Date(date);
+      endOfDay.setHours(23, 59, 59, 999);
+      return endOfDay < now;
+    }
+
+    const timeText = String(ev.time || '');
+    const timeMatch = timeText.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+    if (!timeMatch) return false;
+
+    let hour = Number(timeMatch[1]);
+    const minute = Number(timeMatch[2] || 0);
+    const ampm = timeMatch[3].toUpperCase();
+
+    if (ampm === 'PM' && hour !== 12) hour += 12;
+    if (ampm === 'AM' && hour === 12) hour = 0;
+
+    const eventTime = new Date(date);
+    eventTime.setHours(hour, minute, 0, 0);
+    return eventTime < now;
+  }
+
+  function isDayPast(day) {
+    const date = normalizeDate(day.date);
+    const end = new Date(date);
+    end.setHours(23, 59, 59, 999);
+    return end < new Date();
+  }
+
+  function normalizeSubject(ev) {
+    const title = String(ev.title || '').trim();
+
+    if (/support session|non-design/i.test(title)) {
+      return title.toLowerCase();
+    }
+
+    if (/^DTEQ\b/i.test(title) || ev.course === 'DTEQ') return 'DTEQ';
+    if (/^UDHT\b/i.test(title) || ev.course === 'UDHT') return 'UDHT';
+    if (/^RNYU\b/i.test(title) || ev.course === 'RNYU') return 'RNYU';
+    if (/^Studio\b/i.test(title) || ev.course === 'Studio') return 'Studio';
+
+    return title.replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function renderWeekScheduleCompactOneSubject() {
+    const el = document.getElementById('week-schedule');
+    const data = window.GSAPP_DATA && window.GSAPP_DATA.weekSchedule ? window.GSAPP_DATA.weekSchedule : null;
+    if (!el || !data || !data.length) return;
+
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const now = new Date();
+
+    el.innerHTML = '<div class="week-compact">' + data.map(function (day) {
+      const date = normalizeDate(day.date);
+      const dayPast = isDayPast(day);
+      const today = sameDate(date, now);
+      const rowClass = 'week-compact-row' + (today ? ' today' : '') + (dayPast ? ' past' : '');
+
+      const seenSubjects = new Set();
+
+      const eventsHtml = (day.events || []).map(function (ev) {
+        const eventPast = isEventPast(day, ev);
+        const meta = [ev.time, ev.loc].filter(Boolean).join(' · ');
+        const subject = normalizeSubject(ev);
+        const isRepeat = seenSubjects.has(subject);
+
+        if (!isRepeat) seenSubjects.add(subject);
+
+        if (isRepeat) {
+          return '<div class="week-event week-event-repeat' + (eventPast ? ' past' : '') + '">' +
+            '<div style="min-width:0;">' +
+              '<div class="week-event-meta">' + meta + '</div>' +
+            '</div>' +
+          '</div>';
+        }
+
+        return '<div class="week-event' + (eventPast ? ' past' : '') + '">' +
+          '<div style="min-width:0;">' +
+            '<div class="week-event-title">' + ev.title + '</div>' +
+            '<div class="week-event-meta">' + meta + '</div>' +
+          '</div>' +
+          '<span class="week-course-chip" style="background:' + ev.bg + ';color:' + ev.color + ';">' + ev.course + '</span>' +
+        '</div>';
+      }).join('');
+
+      return '<div class="' + rowClass + '">' +
+        '<div class="week-date">' +
+          '<span class="week-dow">' + dayNames[date.getDay()] + (today && !dayPast ? ' · NOW' : '') + '</span>' +
+          '<span class="week-num">' + pad2(date.getDate()) + '</span>' +
+          '<span class="week-month">June</span>' +
+        '</div>' +
+        '<div class="week-events">' + eventsHtml + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  function runPatch() {
+    renderWeekScheduleCompactOneSubject();
+    setTimeout(renderWeekScheduleCompactOneSubject, 300);
+    setTimeout(renderWeekScheduleCompactOneSubject, 900);
+    setTimeout(renderWeekScheduleCompactOneSubject, 1800);
+  }
+
+  window.GSAPP_RENDER_WEEK_ONE_SUBJECT = renderWeekScheduleCompactOneSubject;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', runPatch);
