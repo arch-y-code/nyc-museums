@@ -7363,5 +7363,168 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v44: restore unified left circle sizes -->
+<style id="gsapp27-v44-left-circle-size-style">
+  /*
+    Left circle size rule:
+    - Notices keep the previous small dot size.
+    - Assignment/task cards keep the previous check-circle size.
+    - NEW badge stays under the date, so it never changes or hides the left circle.
+  */
+
+  .notice-dot {
+    width: 10px !important;
+    height: 10px !important;
+    min-width: 10px !important;
+    flex: 0 0 10px !important;
+    border-radius: 999px !important;
+    opacity: 1 !important;
+    margin-top: 6px !important;
+  }
+
+  .notice-card.has-new-badge .notice-dot {
+    opacity: 1 !important;
+  }
+
+  #tab-assignments .task-check,
+  .task-item .task-check {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    flex: 0 0 22px !important;
+    border-radius: 999px !important;
+    border-width: 2px !important;
+    opacity: 1 !important;
+  }
+
+  #tab-assignments .task-item.has-new-badge .task-check,
+  .task-item.has-new-badge .task-check {
+    opacity: 1 !important;
+  }
+
+  @media (max-width: 520px) {
+    .notice-dot {
+      width: 10px !important;
+      height: 10px !important;
+      min-width: 10px !important;
+      flex-basis: 10px !important;
+    }
+
+    #tab-assignments .task-check,
+    .task-item .task-check {
+      width: 22px !important;
+      height: 22px !important;
+      min-width: 22px !important;
+      flex-basis: 22px !important;
+    }
+  }
+</style>
+
+<!-- GSAPP27 PATCH v45: DTEQ regular class starts at 11AM -->
+<style id="gsapp27-v45-dteq-11am-style">
+  /* DTEQ regular class time correction marker */
+  .dteq-regular-time-note {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+</style>
+
+<script id="gsapp27-v45-dteq-11am-script">
+(function () {
+  'use strict';
+
+  /*
+    Rule:
+    - DTEQ support session is 10AM in Room 115.
+    - Regular DTEQ class starts at 11AM.
+    - Any regular DTEQ card that says 10AM is corrected to 11AM.
+  */
+
+  function correctDteqTextNode(node) {
+    if (!node || !node.textContent) return;
+
+    const text = node.textContent;
+
+    const isSupport = /Support Session|support session|non-design/i.test(text);
+    const isDteq = /DTEQ/i.test(text);
+
+    if (!isDteq || isSupport) return;
+
+    node.textContent = text
+      .replace(/10AM\s*[–-]\s*6:30PM/g, '11AM–6:30PM')
+      .replace(/10AM\s*[–-]\s*6PM/g, '11AM–6PM')
+      .replace(/10AM\s*·\s*6:30PM/g, '11AM · 6:30PM')
+      .replace(/10AM/g, '11AM');
+  }
+
+  function correctDteqRegularCards() {
+    const roots = [
+      document.getElementById('tab-schedule'),
+      document.getElementById('sub-as-dteq')
+    ].filter(Boolean);
+
+    roots.forEach(function (root) {
+      root.querySelectorAll('.task-item, .timeline-card, .schedule-card, .event-card, .class-card, .card, .task-detail, .task-name, .task-expand-inner').forEach(function (node) {
+        correctDteqTextNode(node);
+      });
+    });
+
+    /* More direct correction for the DTEQ assignment tab rows */
+    const dteqPanel = document.getElementById('sub-as-dteq');
+    if (dteqPanel) {
+      dteqPanel.querySelectorAll('.task-item').forEach(function (item) {
+        const full = item.textContent || '';
+        if (/DTEQ/i.test(full) && !/Support Session|non-design/i.test(full)) {
+          const detail = item.querySelector('.task-detail');
+          if (detail) {
+            detail.textContent = detail.textContent
+              .replace(/10AM\s*[–-]\s*6:30PM/g, '11AM–6:30PM')
+              .replace(/10AM\s*[–-]\s*6PM/g, '11AM–6PM')
+              .replace(/10AM/g, '11AM');
+          }
+
+          const name = item.querySelector('.task-name');
+          if (name && /^DTEQ$/i.test(name.textContent.trim())) {
+            name.textContent = 'DTEQ';
+          }
+        }
+      });
+    }
+
+    /* Direct correction for Schedule tab visible cards */
+    const scheduleTab = document.getElementById('tab-schedule');
+    if (scheduleTab) {
+      scheduleTab.querySelectorAll('*').forEach(function (node) {
+        if (node.children.length === 0 && /DTEQ/i.test(node.parentElement ? node.parentElement.textContent : '') && /10AM/.test(node.textContent || '')) {
+          const parentText = node.parentElement ? node.parentElement.textContent : '';
+          if (!/Support Session|non-design/i.test(parentText)) {
+            node.textContent = node.textContent
+              .replace(/10AM\s*[–-]\s*6:30PM/g, '11AM–6:30PM')
+              .replace(/10AM\s*[–-]\s*6PM/g, '11AM–6PM')
+              .replace(/10AM/g, '11AM');
+          }
+        }
+      });
+    }
+  }
+
+  function runPatch() {
+    correctDteqRegularCards();
+    setTimeout(correctDteqRegularCards, 300);
+    setTimeout(correctDteqRegularCards, 900);
+    setTimeout(correctDteqRegularCards, 1800);
+    setTimeout(correctDteqRegularCards, 3200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
