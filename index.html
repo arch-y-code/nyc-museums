@@ -8014,5 +8014,402 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v49: unified detail hierarchy for grouped schedule items -->
+<style id="gsapp27-v49-schedule-detail-hierarchy-style">
+  /*
+    Schedule hierarchy rule:
+    - Same subject appears once.
+    - All detail lines below that subject use the same hierarchy.
+    - Time + location lines are visually equal: same size, weight, color, and line-height.
+  */
+
+  .week-event-grouped {
+    align-items: start !important;
+  }
+
+  .week-event-lines {
+    margin-top: 3px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+  }
+
+  .week-event-line,
+  .week-event .week-event-meta,
+  .week-event-repeat .week-event-meta,
+  .schedule-repeat-inline {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.38 !important;
+    letter-spacing: .01em !important;
+    color: var(--text-3) !important;
+  }
+
+  .week-event-line strong,
+  .week-event .week-event-meta strong,
+  .week-event-repeat .week-event-meta strong {
+    font-weight: 600 !important;
+    color: var(--text-3) !important;
+  }
+
+  .week-event-repeat {
+    display: none !important;
+  }
+
+  @media (max-width: 520px) {
+    .week-event-line,
+    .week-event .week-event-meta,
+    .week-event-repeat .week-event-meta,
+    .schedule-repeat-inline {
+      font-size: 10.8px !important;
+      line-height: 1.38 !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v49-schedule-detail-hierarchy-script">
+(function () {
+  'use strict';
+
+  function pad2(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function normalizeDate(date) {
+    if (date instanceof Date) return date;
+    return new Date(date);
+  }
+
+  function sameDate(a, b) {
+    a = normalizeDate(a);
+    b = normalizeDate(b);
+    return a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+  }
+
+  function isDayPast(day) {
+    const date = normalizeDate(day.date);
+    const end = new Date(date);
+    end.setHours(23, 59, 59, 999);
+    return end < new Date();
+  }
+
+  function normalizeSubject(ev) {
+    const title = String(ev.title || '').trim();
+
+    if (/support session|non-design/i.test(title)) {
+      return title.toLowerCase();
+    }
+
+    if (/^DTEQ\b/i.test(title) || ev.course === 'DTEQ') return 'DTEQ';
+    if (/^UDHT\b/i.test(title) || ev.course === 'UDHT') return 'UDHT';
+    if (/^RNYU\b/i.test(title) || ev.course === 'RNYU') return 'RNYU';
+    if (/^Studio\b/i.test(title) || ev.course === 'Studio') return 'Studio';
+
+    return title.replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function displayTitleForGroup(group) {
+    const first = group.events[0] || {};
+    const subject = group.subject;
+
+    if (subject === 'DTEQ') return 'DTEQ';
+    if (subject === 'UDHT') return 'UDHT';
+    if (subject === 'RNYU') return 'RNYU';
+    if (subject === 'Studio') return first.title || 'Studio';
+
+    return first.title || subject;
+  }
+
+  function groupEvents(events) {
+    const groups = [];
+    const bySubject = new Map();
+
+    (events || []).forEach(function (ev) {
+      const subject = normalizeSubject(ev);
+
+      if (!bySubject.has(subject)) {
+        const group = {
+          subject: subject,
+          events: [],
+          course: ev.course,
+          color: ev.color,
+          bg: ev.bg
+        };
+        bySubject.set(subject, group);
+        groups.push(group);
+      }
+
+      bySubject.get(subject).events.push(ev);
+    });
+
+    return groups;
+  }
+
+  function renderWeekScheduleGroupedDetails() {
+    const el = document.getElementById('week-schedule');
+    const data = window.GSAPP_DATA && window.GSAPP_DATA.weekSchedule ? window.GSAPP_DATA.weekSchedule : null;
+    if (!el || !data || !data.length) return;
+
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const now = new Date();
+
+    el.innerHTML = '<div class="week-compact">' + data.map(function (day) {
+      const date = normalizeDate(day.date);
+      const dayPast = isDayPast(day);
+      const today = sameDate(date, now);
+      const rowClass = 'week-compact-row' + (today ? ' today' : '') + (dayPast ? ' past' : '');
+
+      const groups = groupEvents(day.events || []);
+
+      const eventsHtml = groups.map(function (group) {
+        const first = group.events[0] || {};
+        const details = group.events.map(function (ev) {
+          return '<div class="week-event-line">' + [ev.time, ev.loc].filter(Boolean).join(' · ') + '</div>';
+        }).join('');
+
+        return '<div class="week-event week-event-grouped">' +
+          '<div style="min-width:0;">' +
+            '<div class="week-event-title">' + displayTitleForGroup(group) + '</div>' +
+            '<div class="week-event-lines">' + details + '</div>' +
+          '</div>' +
+          '<span class="week-course-chip" style="background:' + (first.bg || group.bg || '#EEF2FF') + ';color:' + (first.color || group.color || 'var(--blue)') + ';">' + (first.course || group.course || '') + '</span>' +
+        '</div>';
+      }).join('');
+
+      return '<div class="' + rowClass + '">' +
+        '<div class="week-date">' +
+          '<span class="week-dow">' + dayNames[date.getDay()] + (today && !dayPast ? ' · NOW' : '') + '</span>' +
+          '<span class="week-num">' + pad2(date.getDate()) + '</span>' +
+          '<span class="week-month">June</span>' +
+        '</div>' +
+        '<div class="week-events">' + eventsHtml + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  function runPatch() {
+    renderWeekScheduleGroupedDetails();
+    setTimeout(renderWeekScheduleGroupedDetails, 300);
+    setTimeout(renderWeekScheduleGroupedDetails, 900);
+    setTimeout(renderWeekScheduleGroupedDetails, 1800);
+  }
+
+  window.GSAPP_RENDER_WEEK_GROUPED_DETAILS = renderWeekScheduleGroupedDetails;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v50: global one-subject schedule rule -->
+<style id="gsapp27-v50-global-schedule-rule-style">
+  /*
+    GLOBAL SCHEDULE RULE:
+    In every schedule day, any repeated subject/course appears only once.
+    All entries under that subject share the same detail hierarchy.
+
+    Example:
+    DTEQ
+    11AM–12PM · 114 Avery
+    2–3PM · Fayerweather 206
+    5–6PM · 114 Avery
+
+    This is not DTEQ-specific. It applies to UDHT, RNYU, Studio, DTEQ, and future subjects.
+  */
+
+  .week-event-grouped {
+    align-items: start !important;
+  }
+
+  .week-event-lines {
+    margin-top: 3px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+  }
+
+  .week-event-line,
+  .week-event .week-event-meta,
+  .week-event-repeat .week-event-meta,
+  .schedule-repeat-inline {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.38 !important;
+    letter-spacing: .01em !important;
+    color: var(--text-3) !important;
+  }
+
+  .week-event-line strong,
+  .week-event .week-event-meta strong,
+  .week-event-repeat .week-event-meta strong {
+    font-weight: 600 !important;
+    color: var(--text-3) !important;
+  }
+
+  .week-event-repeat {
+    display: none !important;
+  }
+
+  @media (max-width: 520px) {
+    .week-event-line,
+    .week-event .week-event-meta,
+    .week-event-repeat .week-event-meta,
+    .schedule-repeat-inline {
+      font-size: 10.8px !important;
+      line-height: 1.38 !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v50-global-schedule-rule-script">
+(function () {
+  'use strict';
+
+  function pad2(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function normalizeDate(date) {
+    if (date instanceof Date) return date;
+    return new Date(date);
+  }
+
+  function sameDate(a, b) {
+    a = normalizeDate(a);
+    b = normalizeDate(b);
+    return a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate();
+  }
+
+  function isDayPast(day) {
+    const date = normalizeDate(day.date);
+    const end = new Date(date);
+    end.setHours(23, 59, 59, 999);
+    return end < new Date();
+  }
+
+  function normalizeSubject(ev) {
+    const title = String(ev.title || '').trim();
+    const course = String(ev.course || '').trim();
+
+    /*
+      Keep special sessions independent if they are not regular course blocks.
+      Everything else is grouped by course first, then title.
+    */
+    if (/support session|non-design/i.test(title)) {
+      return 'special:' + title.toLowerCase();
+    }
+
+    if (course) return 'course:' + course.toUpperCase();
+
+    return 'title:' + title.replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function displayTitleForGroup(group) {
+    const first = group.events[0] || {};
+    const course = String(first.course || '').trim();
+    const title = String(first.title || '').trim();
+
+    if (/support session|non-design/i.test(title)) return title;
+    if (course) return course;
+
+    return title || group.subject.replace(/^title:/, '');
+  }
+
+  function groupEvents(events) {
+    const groups = [];
+    const bySubject = new Map();
+
+    (events || []).forEach(function (ev) {
+      const subject = normalizeSubject(ev);
+
+      if (!bySubject.has(subject)) {
+        const group = {
+          subject: subject,
+          events: [],
+          course: ev.course,
+          color: ev.color,
+          bg: ev.bg
+        };
+        bySubject.set(subject, group);
+        groups.push(group);
+      }
+
+      bySubject.get(subject).events.push(ev);
+    });
+
+    return groups;
+  }
+
+  function renderWeekScheduleGlobalSubjectRule() {
+    const el = document.getElementById('week-schedule');
+    const data = window.GSAPP_DATA && window.GSAPP_DATA.weekSchedule ? window.GSAPP_DATA.weekSchedule : null;
+    if (!el || !data || !data.length) return;
+
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const now = new Date();
+
+    el.innerHTML = '<div class="week-compact">' + data.map(function (day) {
+      const date = normalizeDate(day.date);
+      const dayPast = isDayPast(day);
+      const today = sameDate(date, now);
+      const rowClass = 'week-compact-row' + (today ? ' today' : '') + (dayPast ? ' past' : '');
+
+      const groups = groupEvents(day.events || []);
+
+      const eventsHtml = groups.map(function (group) {
+        const first = group.events[0] || {};
+        const details = group.events.map(function (ev) {
+          return '<div class="week-event-line">' + [ev.time, ev.loc].filter(Boolean).join(' · ') + '</div>';
+        }).join('');
+
+        const courseLabel = first.course || group.course || '';
+        const chipHtml = courseLabel
+          ? '<span class="week-course-chip" style="background:' + (first.bg || group.bg || '#EEF2FF') + ';color:' + (first.color || group.color || 'var(--blue)') + ';">' + courseLabel + '</span>'
+          : '';
+
+        return '<div class="week-event week-event-grouped">' +
+          '<div style="min-width:0;">' +
+            '<div class="week-event-title">' + displayTitleForGroup(group) + '</div>' +
+            '<div class="week-event-lines">' + details + '</div>' +
+          '</div>' +
+          chipHtml +
+        '</div>';
+      }).join('');
+
+      return '<div class="' + rowClass + '">' +
+        '<div class="week-date">' +
+          '<span class="week-dow">' + dayNames[date.getDay()] + (today && !dayPast ? ' · NOW' : '') + '</span>' +
+          '<span class="week-num">' + pad2(date.getDate()) + '</span>' +
+          '<span class="week-month">June</span>' +
+        '</div>' +
+        '<div class="week-events">' + eventsHtml + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  function runPatch() {
+    renderWeekScheduleGlobalSubjectRule();
+    setTimeout(renderWeekScheduleGlobalSubjectRule, 300);
+    setTimeout(renderWeekScheduleGlobalSubjectRule, 900);
+    setTimeout(renderWeekScheduleGlobalSubjectRule, 1800);
+  }
+
+  window.GSAPP_RENDER_WEEK_GLOBAL_SUBJECT_RULE = renderWeekScheduleGlobalSubjectRule;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
