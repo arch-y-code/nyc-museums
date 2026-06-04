@@ -6844,5 +6844,319 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v34: add latest email-derived cards, excluding duplicates -->
+<style id="gsapp27-v34-email-cards-style">
+  .email-card-list {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    color: var(--text-2);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .email-card-list li {
+    margin: 4px 0;
+  }
+
+  .email-card-note {
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.55;
+    margin-top: 6px;
+  }
+
+  .email-card-note strong {
+    color: var(--text);
+    font-weight: 900;
+  }
+
+  .email-card-source {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--bg);
+    font-size: 10.5px;
+    color: var(--text-3);
+    line-height: 1.45;
+  }
+</style>
+
+<script id="gsapp27-v34-email-cards-script">
+(function () {
+  'use strict';
+
+  function once(id) {
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
+  }
+
+  function noticeCardHtml(config) {
+    return '<div class="notice-card card" id="' + config.id + '">' +
+      '<button class="notice-card-main" type="button">' +
+        '<span class="notice-dot" style="background:' + config.dot + ';"></span>' +
+        '<span class="notice-copy">' +
+          '<span class="notice-type">' + config.type + '</span>' +
+          '<span class="notice-title">' + config.title + '</span>' +
+          '<span class="notice-subtitle">' + config.subtitle + '</span>' +
+        '</span>' +
+        '<span class="notice-date">' +
+          '<span>' + config.date + '</span>' +
+          '<span class="due-days ' + config.statusClass + '">' + config.status + '</span>' +
+        '</span>' +
+      '</button>' +
+      '<div class="notice-expand">' +
+        '<div class="notice-expand-inner">' + config.body + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function installNoticeToggle(card) {
+    if (!card || card.dataset.v34Toggle === 'true') return;
+
+    const btn = card.querySelector('.notice-card-main');
+    const panel = card.querySelector('.notice-expand');
+    const status = card.querySelector('.notice-date .due-days');
+
+    if (!btn || !panel) return;
+
+    card.dataset.v34Toggle = 'true';
+    btn.addEventListener('click', function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const open = panel.classList.toggle('open');
+      if (status) {
+        status.textContent = open ? 'Open' : (card.dataset.statusClosed || status.textContent);
+        status.className = open ? 'due-days ok' : (card.dataset.statusClass || status.className);
+      }
+    });
+  }
+
+  function insertNoticeBeforeBottom(list, htmlText) {
+    const ops = document.getElementById('notice-ops');
+    const action = document.getElementById('notice-designing-action');
+
+    if (ops) {
+      ops.insertAdjacentHTML('beforebegin', htmlText);
+    } else if (action) {
+      action.insertAdjacentHTML('beforebegin', htmlText);
+    } else {
+      list.insertAdjacentHTML('beforeend', htmlText);
+    }
+  }
+
+  function addEmailNotices() {
+    const list = document.getElementById('notice-list');
+    if (!list) return;
+
+    once('notice-dteq-support-jun4');
+    once('notice-rnyu-followup-jun2');
+
+    const dteqBody =
+      '<div class="email-card-note"><strong>Support session:</strong> Thursday, June 4 at 10 AM in Room 115.</div>' +
+      '<ul class="email-card-list">' +
+        '<li>Especially designed for students coming from interdisciplinary or non-design backgrounds.</li>' +
+        '<li>Low-pressure space to ask questions, share concerns, and get guidance on the course and the UD program.</li>' +
+        '<li>Software tools will be a big part of the conversation.</li>' +
+        '<li><strong>Regular DTEQ class begins at 11 AM as usual</strong>, so the support session wraps up before class.</li>' +
+      '</ul>' +
+      '<div class="email-card-source">Source: Adriana Chavez Sanchez email · 7:01 AM</div>';
+
+    const rnyuBody =
+      '<div class="email-card-note"><strong>Correction:</strong> the group was standing at Peck Slip, not Burling Slip.</div>' +
+      '<ul class="email-card-list">' +
+        '<li>Next week the class meets on Thursday, not Tuesday.</li>' +
+        '<li>Follow-up resources mentioned: Ada Louise Huxtable’s 1979 Seaport preservation essay, Justin Davidson’s Seaport piece, Berenice Abbott’s <em>Changing New York</em>, and Harper’s office illustrations.</li>' +
+        '<li>Links and attachments are in Justin Davidson’s email.</li>' +
+        '<li>More instructions will follow from Jesse about the first assignment.</li>' +
+      '</ul>' +
+      '<div class="email-card-source">Source: Justin Davidson email · Jun 2</div>';
+
+    insertNoticeBeforeBottom(list, noticeCardHtml({
+      id: 'notice-dteq-support-jun4',
+      dot: 'var(--orange)',
+      type: 'DTEQ SUPPORT',
+      title: 'Support Session for Non-Design Backgrounds',
+      subtitle: 'Thu Jun 4 · 10AM · Room 115 · Regular DTEQ starts 11AM',
+      date: 'Jun 4',
+      status: 'Class day',
+      statusClass: 'soon',
+      body: dteqBody
+    }));
+
+    insertNoticeBeforeBottom(list, noticeCardHtml({
+      id: 'notice-rnyu-followup-jun2',
+      dot: 'var(--blue)',
+      type: 'RNYU FOLLOW-UP',
+      title: 'Peck Slip Correction + Next Class Change',
+      subtitle: 'Next week meets Thursday, not Tuesday · follow-up resources in email',
+      date: 'Jun 2',
+      status: 'Info',
+      statusClass: 'ok',
+      body: rnyuBody
+    }));
+
+    ['notice-dteq-support-jun4', 'notice-rnyu-followup-jun2'].forEach(function (id) {
+      const card = document.getElementById(id);
+      if (!card) return;
+      const status = card.querySelector('.notice-date .due-days');
+      card.dataset.statusClosed = status ? status.textContent : 'Info';
+      card.dataset.statusClass = status ? status.className : 'due-days ok';
+      installNoticeToggle(card);
+    });
+  }
+
+  function updateRNYUAssignment1() {
+    const panel = document.getElementById('sub-as-rny');
+    if (!panel) return;
+
+    const item = Array.from(panel.querySelectorAll('.task-item')).find(function (node) {
+      return /Assignment\s*1/i.test(node.textContent || '');
+    });
+
+    if (!item) return;
+
+    const name = item.querySelector('.task-name');
+    const detail = item.querySelector('.task-detail');
+
+    if (name) name.textContent = 'Assignment 1';
+    if (detail) detail.textContent = '1st borough visit · exported PDF due 5PM · use ASSIGNMENTS template';
+
+    const dueDate = item.querySelector('.due-date');
+    const dueDays = item.querySelector('.due-days');
+    if (dueDate) dueDate.textContent = 'Jun 8';
+
+    const expand = item.nextElementSibling && item.nextElementSibling.classList.contains('task-expand')
+      ? item.nextElementSibling
+      : null;
+
+    if (expand) {
+      const inner = expand.querySelector('.task-expand-inner');
+      if (inner) {
+        inner.innerHTML =
+          '<strong>RNYU Assignment 1</strong><br>' +
+          '<ul>' +
+            '<li>Due before the next class: Monday, June 8 at 5PM.</li>' +
+            '<li>Review the syllabus for instructions.</li>' +
+            '<li>In the readings folder on Google Drive, use the folder titled <strong>ASSIGNMENTS</strong>.</li>' +
+            '<li>Use the InDesign template file for the assignment submission.</li>' +
+            '<li>The PDF also includes instructions.</li>' +
+            '<li>Submit exported PDFs in the appropriate Google Drive assignment folders.</li>' +
+          '</ul>' +
+          '<div class="email-card-source">Source: Jesse H. Hirakawa email · RNYU Assignment 1</div>';
+      }
+    }
+  }
+
+  function addDTEQSupportScheduleCard() {
+    const panel = document.getElementById('sub-as-dteq');
+    if (!panel) return;
+
+    const scheduleHead = Array.from(panel.querySelectorAll('.course-section-head')).find(function (head) {
+      return /Class Schedule/i.test(head.textContent || '');
+    });
+
+    if (!scheduleHead) return;
+
+    if (panel.querySelector('#task-dteq-support-jun4')) return;
+
+    /* Update the existing Jun 4 regular class if it exists, so the support session is not confused with the regular DTEQ start. */
+    Array.from(panel.querySelectorAll('.task-item')).forEach(function (item) {
+      const text = item.textContent || '';
+      if (/Thu\s+Jun\s+4|Jun\s+4/i.test(text) && /DTEQ/i.test(text) && !/Support Session/i.test(text)) {
+        const detail = item.querySelector('.task-detail');
+        if (detail && /10AM/i.test(detail.textContent || '')) {
+          detail.textContent = 'Regular DTEQ · 11AM–6:30PM';
+        }
+      }
+    });
+
+    const card =
+      '<div class="task-item" id="task-dteq-support-jun4" data-date="2026-06-04" data-due-time="10:00" onclick="toggleTask(this)">' +
+        '<div class="task-check">✓</div>' +
+        '<div class="task-body">' +
+          '<div class="task-name">Support Session for Non-Design Backgrounds</div>' +
+          '<div class="task-detail">Thu Jun 4 · 10AM · Room 115 · Regular DTEQ starts 11AM</div>' +
+        '</div>' +
+        '<div class="task-due">' +
+          '<div class="due-date">Jun 4</div>' +
+          '<div class="due-days soon">10AM</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="task-expand">' +
+        '<div class="task-expand-inner">' +
+          '<strong>DTEQ Support Session</strong><br>' +
+          '<ul>' +
+            '<li>Open to students who would like to join.</li>' +
+            '<li>Especially useful for interdisciplinary or non-design backgrounds.</li>' +
+            '<li>Room 115, Thursday June 4, 10 AM.</li>' +
+            '<li>Regular DTEQ class begins at 11 AM as usual.</li>' +
+          '</ul>' +
+        '</div>' +
+      '</div>';
+
+    scheduleHead.insertAdjacentHTML('afterend', card);
+  }
+
+  function runPatch() {
+    addEmailNotices();
+    updateRNYUAssignment1();
+    addDTEQSupportScheduleCard();
+
+    setTimeout(function () {
+      addEmailNotices();
+      updateRNYUAssignment1();
+      addDTEQSupportScheduleCard();
+    }, 900);
+
+    setTimeout(function () {
+      addEmailNotices();
+      updateRNYUAssignment1();
+      addDTEQSupportScheduleCard();
+    }, 2200);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v35: prevent Designing for Action poster image from being clipped -->
+<style id="gsapp27-v35-action-image-full-style">
+  /*
+    Fix:
+    The general notice expand panel had max-height: 420px.
+    That clipped the Designing for Action poster.
+    This notice needs a taller open area because it contains an embedded image.
+  */
+
+  #notice-designing-action .notice-expand.open {
+    max-height: 2400px !important;
+    overflow: hidden !important;
+  }
+
+  #notice-designing-action .notice-expand-inner {
+    padding-bottom: 18px !important;
+  }
+
+  #notice-designing-action .action-notice-image {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin-top: 12px !important;
+    margin-bottom: 6px !important;
+  }
+
+  @media (max-width: 520px) {
+    #notice-designing-action .notice-expand.open {
+      max-height: 2600px !important;
+    }
+  }
+</style>
+
 </body>
 </html>
