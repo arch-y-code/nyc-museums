@@ -3225,6 +3225,25 @@ header::after {
           <div class="course-color" style="background:#10B981;min-height:40px;"></div>
           <div style="flex:1"><div class="course-title">DTEQ</div><span class="course-sub">114 Avery &amp; Fayerweather 206 · Tuesdays</span></div>
         </div>
+<div class="task-due">
+            <div class="due-date">Jun 4</div>
+            <div class="due-days soon">10AM</div>
+          </div>
+        </div>
+        <div class="task-expand">
+          <div class="task-expand-inner">
+            <strong>DTEQ Support Session</strong><br>
+            <ul>
+              <li>For students coming from interdisciplinary or non-design backgrounds.</li>
+              <li>Low-pressure space to ask questions, share concerns, and get guidance.</li>
+              <li>Software tools will be a big part of the conversation.</li>
+              <li><strong>Regular DTEQ class begins at 11AM as usual.</strong></li>
+              <li>No preparation needed, just come as you are.</li>
+            </ul>
+            <div class="email-card-source">Source: Adriana Chavez Sanchez email · Meeting with non-design students</div>
+          </div>
+        </div>
+
         <div class="task-item" onclick="toggleTask(this)">
           <div class="task-check">✓</div>
           <div class="task-body">
@@ -4753,7 +4772,12 @@ function getDaysLeft(dateStr, dueTime) {
         (item.linkLabel || 'Open Link') + '</a>';
     }
 
-    return '<div class="task-item' + (past ? ' course-past-soft' : '') + '" onclick="toggleTask(this)">' +
+    var taskAttrs = '';
+    if (item.id) taskAttrs += ' id="' + item.id + '"';
+    if (item.date) taskAttrs += ' data-date="' + item.date + '"';
+    if (item.dueTime) taskAttrs += ' data-due-time="' + item.dueTime + '"';
+
+    return '<div class="task-item' + (past ? ' course-past-soft' : '') + '"' + taskAttrs + ' onclick="toggleTask(this)">' +
       '<div class="task-check">✓</div>' +
       '<div class="task-body"><div class="task-name">' + item.title + '</div><div class="task-detail">' + (item.detail || '') + '</div></div>' +
       dueHtml +
@@ -4899,22 +4923,32 @@ function getDaysLeft(dateStr, dueTime) {
       color: '#3B82F6',
       assignments: [
         {
-          title: 'Urban Fabric Drawing',
-          detail: '20x20" panel + 11x17" + 2-min presentation',
-          date: '2026-06-01',
-          dueTime: '18:00',
-          link: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook',
-          linkLabel: 'Open Studio Drive',
-          bodyHtml: '<ul><li>20x20 inch panel</li><li>11x17 inch supporting sheet</li><li>2-minute presentation</li></ul>'
-        },
-        {
+          id: 'task-studio-archive-submission',
           title: 'Archive Submission',
           detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM',
           date: '2026-06-05',
           dueTime: '16:00',
-          link: 'https://drive.google.com/drive/folders/1yu2u7duAcIfQn-SpPECe28X2piLu1Ook',
+          link: 'https://drive.google.com/drive/folders/1SJh8PR3NqOtEmsW9_peqYaqvowFkfTWk',
           linkLabel: 'Open Submission Folder',
-          bodyHtml: '<ul><li>Export PDF/JPEG at 300dpi</li><li>Maximum 25MB</li><li>Submit before 4PM</li></ul>'
+          bodyHtml: '<ul><li>Export PDF/JPEG at 300dpi.</li><li>Maximum 25MB.</li><li>Submit before 4PM.</li></ul>'
+        },
+        {
+          id: 'task-studio-june15-prep',
+          title: 'June 15 Preparation Scope',
+          detail: 'Prepare ideas, possible directions, and research questions only',
+          date: '2026-06-15',
+          dueTime: '18:00',
+          bodyHtml: '<strong>Studio Notice</strong><br>By June 15, we only need to prepare ideas, possible directions, and research questions. The final transect drawing starts after the detailed instructions on June 15.'
+        },
+        {
+          id: 'task-studio-urban-fabric',
+          title: 'Urban Fabric Drawing',
+          detail: '20x20" panel + 11x17" + 2-min presentation',
+          date: '2026-06-01',
+          dueTime: '18:00',
+          link: 'https://drive.google.com/drive/folders/1SJh8PR3NqOtEmsW9_peqYaqvowFkfTWk',
+          linkLabel: 'Open Studio Drive',
+          bodyHtml: '<ul><li>20x20 inch panel.</li><li>11x17 inch supporting sheet.</li><li>2-minute presentation.</li></ul>'
         }
       ],
       schedule: [
@@ -4947,12 +4981,12 @@ function getDaysLeft(dateStr, dueTime) {
       assignments: [
         {
           title: 'Assignment 1',
-          detail: 'Visit 1 of 4 boroughs · Photo + 150-200 word caption',
+          detail: '1st borough visit · exported PDF due 5PM · use ASSIGNMENTS template',
           date: '2026-06-08',
           dueTime: '17:00',
           link: 'https://drive.google.com/drive/folders/1b0A7wvZEDk_5mWhxWI69h08nKLPvWt20',
           linkLabel: 'Open Assignment Folder',
-          bodyHtml: '<ul><li>Visit one neighborhood from the syllabus list.</li><li>Take one photo with GPS metadata and date.</li><li>Write a 150-200 word caption.</li></ul>'
+          bodyHtml: '<ul><li>Due before the next class: Monday, June 8 at 5PM.</li><li>Review the syllabus for instructions.</li><li>Use the Google Drive folder titled <strong>ASSIGNMENTS</strong>.</li><li>Use the InDesign template file for submission.</li><li>The PDF also includes instructions.</li><li>Submit exported PDFs in the appropriate Google Drive assignment folders.</li></ul>'
         },
         {
           title: 'Assignment 2',
@@ -4992,9 +5026,17 @@ function getDaysLeft(dateStr, dueTime) {
         { title: 'Final Assignment', detail: 'Slides on Google Drive', link: 'https://docs.google.com/presentation/d/1BHfaGjAq52onWJgPYkjUgcI6cvWa0LSf/edit?usp=drive_link', linkLabel: 'Final Assignment Slides' }
       ],
       schedule: [
-        { title: 'DTEQ', detail: 'Tue Jun 2 · 2:30–6:30PM', date: '2026-06-02', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>2:30–6:30PM.' },
-        { title: 'DTEQ', detail: 'Thu Jun 4 · 10AM–6:30PM', date: '2026-06-04', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>10AM–6:30PM.' },
-        { title: 'DTEQ', detail: 'Fri Jun 5 · 11AM–6:30PM', date: '2026-06-05', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>11AM–6:30PM.' }
+        {
+          id: 'task-dteq-support-jun4',
+          title: 'Support Session for Non-Design Backgrounds',
+          detail: 'Thu Jun 4 · 10AM · Room 115 · Regular DTEQ starts 11AM',
+          date: '2026-06-04',
+          dueTime: '10:00',
+          bodyHtml: '<strong>DTEQ Support Session</strong><br><ul><li>For students coming from interdisciplinary or non-design backgrounds.</li><li>Low-pressure space to ask questions, share concerns, and get guidance.</li><li>Software tools will be a big part of the conversation.</li><li><strong>Regular DTEQ class begins at 11AM as usual.</strong></li><li>No preparation needed, just come as you are.</li></ul>'
+        },
+        { title: 'DTEQ', detail: 'Thu Jun 4 · 11AM–6:30PM', date: '2026-06-04', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>11AM–6:30PM.' },
+        { title: 'DTEQ', detail: 'Fri Jun 5 · 11AM–6:30PM', date: '2026-06-05', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>11AM–6:30PM.' },
+        { title: 'DTEQ', detail: 'Tue Jun 2 · 2:30–6:30PM', date: '2026-06-02', dueTime: '18:30', bodyHtml: '<strong>DTEQ class</strong><br>2:30–6:30PM.' }
       ],
       materials: [
         { title: 'DTEQ Google Drive', detail: 'Main DTEQ resource folder.', link: 'https://drive.google.com/drive/folders/1bssi7A6QQ2xfnxZ-13VmvGECv9jtvVCK?usp=drive_link', linkLabel: 'Open DTEQ Drive' },
@@ -6193,15 +6235,12 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
-<!-- GSAPP27 PATCH v28: debug-stable hidden rows, icon only -->
-<style id="gsapp27-v28-stable-hidden-toggle-style">
+<!-- GSAPP27 PATCH v41: consolidated hardening layer -->
+<style id="gsapp27-v41-hardening-style">
   /*
-    Debug-stable rule:
-    - Remove "Show x more..." text entirely.
-    - Keep only the tongue-shaped + / − tab.
-    - No MutationObserver.
-    - No repeated DOM rewriting after click.
-    - Keeps top tabs clickable.
+    Consolidated final layer:
+    - One stable place for NEW badges, notice sorting, image height fix, tongue buttons, and debugging hooks.
+    - Course data for Studio/DTEQ/RNYU is now embedded in the unified course renderer, not inserted only by late scripts.
   */
 
   .task-name,
@@ -6209,8 +6248,26 @@ function getDaysLeft(dateStr, dueTime) {
     font-weight: 900 !important;
   }
 
+  .task-item .task-check {
+    border-color: #E2E8F4 !important;
+    color: var(--text) !important;
+    background: transparent !important;
+  }
+
+  .task-item.course-past-soft .task-check,
+  .task-item.past-soft .task-check {
+    border-color: #D1D9E8 !important;
+    color: #B0B8CC !important;
+    background: transparent !important;
+  }
+
   .course-more-toggle,
-  .udht-more-toggle {
+  .udht-more-toggle,
+  .studio-more-toggle,
+  .studio-past-toggle,
+  .studio-past-toggle-v31,
+  .studio-past-toggle-v32,
+  .past-collapse-toggle {
     width: 100% !important;
     height: 22px !important;
     min-height: 22px !important;
@@ -6223,24 +6280,28 @@ function getDaysLeft(dateStr, dueTime) {
     box-shadow: none !important;
     display: block !important;
     position: relative !important;
-    text-align: left !important;
     cursor: pointer !important;
     overflow: visible !important;
     color: transparent !important;
     font-size: 0 !important;
     line-height: 0 !important;
-  }
-
-  .course-more-toggle:hover,
-  .udht-more-toggle:hover {
-    background: transparent !important;
-    text-decoration: none !important;
+    text-align: left !important;
   }
 
   .course-more-toggle:focus,
   .udht-more-toggle:focus,
+  .studio-more-toggle:focus,
+  .studio-past-toggle:focus,
+  .studio-past-toggle-v31:focus,
+  .studio-past-toggle-v32:focus,
+  .past-collapse-toggle:focus,
   .course-more-toggle:focus-visible,
-  .udht-more-toggle:focus-visible {
+  .udht-more-toggle:focus-visible,
+  .studio-more-toggle:focus-visible,
+  .studio-past-toggle:focus-visible,
+  .studio-past-toggle-v31:focus-visible,
+  .studio-past-toggle-v32:focus-visible,
+  .past-collapse-toggle:focus-visible {
     outline: none !important;
     box-shadow: none !important;
   }
@@ -6251,7 +6312,12 @@ function getDaysLeft(dateStr, dueTime) {
   }
 
   .course-more-toggle .plus,
-  .udht-more-toggle .plus {
+  .udht-more-toggle .plus,
+  .studio-more-toggle .plus,
+  .studio-past-toggle .plus,
+  .studio-past-toggle-v31 .plus,
+  .studio-past-toggle-v32 .plus,
+  .past-collapse-toggle .plus {
     position: absolute !important;
     top: -1px !important;
     right: 18px !important;
@@ -6273,579 +6339,56 @@ function getDaysLeft(dateStr, dueTime) {
   }
 
   .course-more-toggle .plus::before,
-  .udht-more-toggle .plus::before {
+  .udht-more-toggle .plus::before,
+  .studio-more-toggle .plus::before,
+  .studio-past-toggle .plus::before,
+  .studio-past-toggle-v31 .plus::before,
+  .studio-past-toggle-v32 .plus::before,
+  .past-collapse-toggle .plus::before {
     content: "+" !important;
     color: #fff !important;
     font-size: 17px !important;
     font-weight: 900 !important;
     line-height: 1 !important;
-    transform: translateY(-1px) !important;
+    transform: translateY(1px) !important;
   }
 
   .course-more-toggle.open .plus,
-  .udht-more-toggle.open .plus {
-    width: 42px !important;
+  .udht-more-toggle.open .plus,
+  .studio-more-toggle.open .plus,
+  .studio-past-toggle.open .plus,
+  .studio-past-toggle-v31.open .plus,
+  .studio-past-toggle-v32.open .plus,
+  .past-collapse-toggle.open .plus {
     height: 26px !important;
     border-radius: 0 0 12px 12px !important;
     background: #9AA3BF !important;
-    transform: none !important;
     box-shadow: 0 3px 7px rgba(80, 90, 120, 0.16) !important;
   }
 
   .course-more-toggle.open .plus::before,
-  .udht-more-toggle.open .plus::before {
+  .udht-more-toggle.open .plus::before,
+  .studio-more-toggle.open .plus::before,
+  .studio-past-toggle.open .plus::before,
+  .studio-past-toggle-v31.open .plus::before,
+  .studio-past-toggle-v32.open .plus::before,
+  .past-collapse-toggle.open .plus::before {
     content: "−" !important;
-    color: #fff !important;
-    font-size: 17px !important;
-    font-weight: 900 !important;
-    line-height: 1 !important;
-    transform: translateY(-1px) !important;
   }
 
-  .course-more-toggle:hover .plus,
-  .udht-more-toggle:hover .plus {
-    background: var(--blue-hover) !important;
+  #notice-designing-action .notice-expand.open {
+    max-height: 2600px !important;
+    overflow: hidden !important;
   }
 
-  .course-more-toggle.open:hover .plus,
-  .udht-more-toggle.open:hover .plus {
-    background: #8791AC !important;
-  }
-
-  @media (max-width: 520px) {
-    .course-more-toggle,
-    .udht-more-toggle {
-      height: 20px !important;
-      min-height: 20px !important;
-    }
-
-    .course-more-toggle .plus,
-    .udht-more-toggle .plus {
-      right: 16px !important;
-      width: 38px !important;
-      height: 16px !important;
-      border-radius: 0 0 9px 9px !important;
-    }
-
-    .course-more-toggle.open .plus,
-    .udht-more-toggle.open .plus {
-      width: 38px !important;
-      height: 24px !important;
-      border-radius: 0 0 11px 11px !important;
-    }
-
-    .course-more-toggle .plus::before,
-    .udht-more-toggle .plus::before,
-    .course-more-toggle.open .plus::before,
-    .udht-more-toggle.open .plus::before {
-      font-size: 15px !important;
-    }
-  }
-</style>
-
-<script id="gsapp27-v28-stable-hidden-toggle-script">
-(function () {
-  'use strict';
-
-  function simplifyToggleButtons() {
-    document.querySelectorAll('.course-more-toggle, .udht-more-toggle').forEach(function (btn) {
-      if (btn.dataset.v28Stable === 'true') return;
-
-      const countMatch = (btn.textContent || '').match(/(\d+)/);
-      const count = countMatch ? countMatch[1] : '';
-
-      let label = 'Show hidden items';
-      const text = btn.textContent || '';
-      if (/assignment/i.test(text)) label = count ? 'Show ' + count + ' more assignments' : 'Show more assignments';
-      if (/class/i.test(text)) label = count ? 'Show ' + count + ' more classes' : 'Show more classes';
-
-      btn.dataset.v28Stable = 'true';
-      btn.setAttribute('aria-label', label);
-      btn.setAttribute('title', label);
-      btn.innerHTML = '<span class="plus" aria-hidden="true">+</span>';
-    });
-  }
-
-  function runPatch() {
-    simplifyToggleButtons();
-    setTimeout(simplifyToggleButtons, 500);
-    setTimeout(simplifyToggleButtons, 1400);
-    setTimeout(simplifyToggleButtons, 2600);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runPatch);
-  } else {
-    runPatch();
-  }
-})();
-</script>
-
-<!-- GSAPP27 PATCH v29: add Studio June 15 notice -->
-<style id="gsapp27-v29-studio-notice-style">
-  .studio-june15-note {
-    margin-top: 8px;
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: var(--text-2);
-  }
-
-  .studio-june15-note strong {
-    color: var(--blue);
-    font-weight: 900;
-  }
-</style>
-
-<script id="gsapp27-v29-studio-notice-script">
-(function () {
-  'use strict';
-
-  const STUDIO_NOTICE_TEXT = "By June 15, we only need to prepare ideas, possible directions, and research questions. The final transect drawing starts after the detailed instructions on June 15.";
-
-  function makeStudioNotice() {
-    return '<div class="notice-card card" id="notice-studio-june15">' +
-      '<button class="notice-card-main" type="button">' +
-        '<span class="notice-dot" style="background:var(--orange);"></span>' +
-        '<span class="notice-copy">' +
-          '<span class="notice-type">STUDIO NOTICE</span>' +
-          '<span class="notice-title">June 15 Preparation Scope</span>' +
-          '<span class="notice-subtitle">Ideas, possible directions, and research questions only.</span>' +
-          '<span class="studio-june15-note"><strong>Note:</strong> ' + STUDIO_NOTICE_TEXT + '</span>' +
-        '</span>' +
-        '<span class="notice-date">' +
-          '<span>Jun 15</span>' +
-          '<span class="due-days soon">Prepare</span>' +
-        '</span>' +
-      '</button>' +
-    '</div>';
-  }
-
-  function installStudioNotice() {
-    const list = document.getElementById('notice-list');
-    if (!list) return;
-
-    const existing = document.getElementById('notice-studio-june15');
-    if (existing) existing.remove();
-
-    const actionNotice = document.getElementById('notice-designing-action');
-    const ops = document.getElementById('notice-ops');
-
-    if (actionNotice) {
-      actionNotice.insertAdjacentHTML('beforebegin', makeStudioNotice());
-    } else if (ops) {
-      ops.insertAdjacentHTML('beforebegin', makeStudioNotice());
-    } else {
-      list.insertAdjacentHTML('beforeend', makeStudioNotice());
-    }
-  }
-
-  function runPatch() {
-    setTimeout(installStudioNotice, 700);
-    setTimeout(installStudioNotice, 1600);
-    setTimeout(installStudioNotice, 2800);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runPatch);
-  } else {
-    runPatch();
-  }
-})();
-</script>
-
-<!-- GSAPP27 PATCH v32: clean Studio assignments rebuild, strict date order, no duplicate tongues -->
-<style id="gsapp27-v32-studio-clean-style">
-  .studio-prep-card .task-check {
-    border-color: var(--orange) !important;
-    color: var(--orange) !important;
-  }
-
-  .studio-prep-note {
-    font-size: 12.5px;
-    line-height: 1.55;
-    color: var(--text-2);
-  }
-
-  .studio-prep-note strong {
-    color: var(--blue);
-    font-weight: 900;
-  }
-
-  .studio-past-list-v32 {
-    display: none;
-  }
-
-  .studio-past-list-v32.open {
-    display: block;
-  }
-
-  .studio-past-toggle-v32 {
+  #notice-designing-action .action-notice-image {
     width: 100% !important;
-    height: 22px !important;
-    min-height: 22px !important;
-    margin: -1px 0 6px !important;
-    padding: 0 !important;
-    border: none !important;
-    border-top: 1px solid var(--border) !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
     display: block !important;
-    position: relative !important;
-    cursor: pointer !important;
-    overflow: visible !important;
-    color: transparent !important;
-    font-size: 0 !important;
-    line-height: 0 !important;
   }
 
-  .studio-past-toggle-v32:focus,
-  .studio-past-toggle-v32:focus-visible {
-    outline: none !important;
-    box-shadow: none !important;
-  }
-
-  .studio-past-toggle-v32 .plus {
-    position: absolute !important;
-    top: -1px !important;
-    right: 18px !important;
-    width: 42px !important;
-    height: 18px !important;
-    border-radius: 0 0 11px 11px !important;
-    background: #9AA3BF !important;
-    color: transparent !important;
-    font-size: 0 !important;
-    line-height: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 3px 7px rgba(80, 90, 120, 0.16) !important;
-    transition: height var(--transition), background var(--transition), border-radius var(--transition) !important;
-  }
-
-  .studio-past-toggle-v32 .plus::before {
-    content: "+" !important;
-    color: #fff !important;
-    font-size: 17px !important;
-    font-weight: 900 !important;
-    line-height: 1 !important;
-    transform: translateY(-1px) !important;
-  }
-
-  .studio-past-toggle-v32.open .plus {
-    height: 26px !important;
-    border-radius: 0 0 12px 12px !important;
-  }
-
-  .studio-past-toggle-v32.open .plus::before {
-    content: "−" !important;
-  }
-
-  @media (max-width: 520px) {
-    .studio-past-toggle-v32 .plus {
-      right: 16px !important;
-      width: 38px !important;
-      height: 16px !important;
-      border-radius: 0 0 9px 9px !important;
-    }
-
-    .studio-past-toggle-v32.open .plus {
-      height: 24px !important;
-      border-radius: 0 0 11px 11px !important;
-    }
-
-    .studio-past-toggle-v32 .plus::before {
-      font-size: 15px !important;
-    }
-  }
-</style>
-
-<script id="gsapp27-v32-studio-clean-script">
-(function () {
-  'use strict';
-
-  const STUDIO_PREP_TEXT = "By June 15, we only need to prepare ideas, possible directions, and research questions. The final transect drawing starts after the detailed instructions on June 15.";
-
-  const STUDIO_ASSIGNMENTS = [
-    {
-      id: 'task-studio-archive-submission',
-      title: 'Archive Submission',
-      detail: 'PDF/JPEG 300dpi · max 25MB · due 4PM',
-      date: '2026-06-05',
-      time: '16:00',
-      kind: 'normal',
-      body: '<ul><li>Export PDF/JPEG at 300dpi.</li><li>Maximum 25MB.</li><li>Submit before 4PM.</li></ul>'
-    },
-    {
-      id: 'task-studio-june15-prep',
-      title: 'June 15 Preparation Scope',
-      detail: 'Prepare ideas, possible directions, and research questions only',
-      date: '2026-06-15',
-      time: '18:00',
-      kind: 'prep',
-      body: '<div class="studio-prep-note"><strong>Studio Notice:</strong> ' + STUDIO_PREP_TEXT + '</div>'
-    },
-    {
-      id: 'task-studio-urban-fabric',
-      title: 'Urban Fabric Drawing',
-      detail: '20x20" panel + 11x17" + 2-min presentation',
-      date: '2026-06-01',
-      time: '18:00',
-      kind: 'past',
-      body: '<ul><li>20x20 inch panel.</li><li>11x17 inch supporting sheet.</li><li>2-minute presentation.</li></ul>'
-    }
-  ];
-
-  function dueDate(item) {
-    const d = new Date(item.date + 'T00:00:00');
-    const parts = String(item.time || '18:00').split(':');
-    d.setHours(Number(parts[0] || 18), Number(parts[1] || 0), 0, 0);
-    return d;
-  }
-
-  function daysLeft(item) {
-    const due = dueDate(item);
-    if (new Date() >= due) return -1;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const dueDay = new Date(item.date + 'T00:00:00');
-    dueDay.setHours(0, 0, 0, 0);
-
-    return Math.round((dueDay - today) / 86400000);
-  }
-
-  function dueLabel(item) {
-    const d = daysLeft(item);
-    if (d < 0) return 'passed';
-    if (d === 0) return 'TODAY';
-    if (d === 1) return '1d left';
-    return d + 'd left';
-  }
-
-  function dueClass(item) {
-    const d = daysLeft(item);
-    if (d < 0) return 'done-label';
-    if (d <= 3) return 'urgent';
-    if (d <= 10) return 'soon';
-    return 'ok';
-  }
-
-  function dateLabel(item) {
-    return new Date(item.date + 'T00:00:00').toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric'
-    });
-  }
-
-  function taskHtml(item, past) {
-    const classes = ['task-item'];
-    if (item.kind === 'prep') classes.push('studio-prep-card');
-    if (past) classes.push('course-past-soft');
-
-    return '<div class="' + classes.join(' ') + '" id="' + item.id + '" data-date="' + item.date + '" data-due-time="' + item.time + '" onclick="toggleTask(this)">' +
-      '<div class="task-check">✓</div>' +
-      '<div class="task-body">' +
-        '<div class="task-name">' + item.title + '</div>' +
-        '<div class="task-detail">' + item.detail + '</div>' +
-      '</div>' +
-      '<div class="task-due">' +
-        '<div class="due-date">' + dateLabel(item) + '</div>' +
-        '<div class="due-days ' + dueClass(item) + '">' + dueLabel(item) + '</div>' +
-      '</div>' +
-    '</div>' +
-    '<div class="task-expand">' +
-      '<div class="task-expand-inner">' + item.body + '</div>' +
-    '</div>';
-  }
-
-  function getStudioPanel() {
-    return document.getElementById('sub-as-studio');
-  }
-
-  function getAssignmentsHead(panel) {
-    return Array.from(panel.querySelectorAll('.course-section-head')).find(function (head) {
-      return /Assignments/i.test(head.textContent || '');
-    });
-  }
-
-  function clearAssignmentsSection(head) {
-    let node = head.nextElementSibling;
-
-    while (node && !(node.classList && node.classList.contains('course-section-head'))) {
-      const next = node.nextElementSibling;
-      node.remove();
-      node = next;
-    }
-  }
-
-  function updateCount(head, count) {
-    const countEl = head.querySelector('.course-section-count');
-    if (countEl) {
-      countEl.textContent = count + ' item' + (count > 1 ? 's' : '');
-    }
-  }
-
-  function makePastToggle(target) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'studio-past-toggle-v32';
-    btn.setAttribute('aria-label', 'Show past studio assignments');
-    btn.innerHTML = '<span class="plus" aria-hidden="true">+</span>';
-
-    btn.addEventListener('click', function () {
-      const open = target.classList.toggle('open');
-      btn.classList.toggle('open', open);
-    });
-
-    return btn;
-  }
-
-  function rebuildStudioAssignments() {
-    const panel = getStudioPanel();
-    if (!panel) return;
-
-    const head = getAssignmentsHead(panel);
-    if (!head) return;
-
-    clearAssignmentsSection(head);
-
-    const upcoming = STUDIO_ASSIGNMENTS
-      .filter(function (item) { return daysLeft(item) >= 0; })
-      .sort(function (a, b) { return dueDate(a) - dueDate(b); });
-
-    const past = STUDIO_ASSIGNMENTS
-      .filter(function (item) { return daysLeft(item) < 0; })
-      .sort(function (a, b) { return dueDate(b) - dueDate(a); });
-
-    updateCount(head, upcoming.length);
-
-    const insertBefore = head.nextElementSibling;
-
-    upcoming.forEach(function (item) {
-      head.insertAdjacentHTML('afterend', '');
-    });
-
-    /* Insert in reverse because afterend places each item right after the header. */
-    upcoming.slice().reverse().forEach(function (item) {
-      head.insertAdjacentHTML('afterend', taskHtml(item, false));
-    });
-
-    if (past.length) {
-      const pastList = document.createElement('div');
-      pastList.className = 'studio-past-list-v32';
-      pastList.innerHTML = past.map(function (item) {
-        return taskHtml(item, true);
-      }).join('');
-
-      const toggle = makePastToggle(pastList);
-
-      const afterUpcoming = head.nextElementSibling;
-      let lastNode = head;
-      while (lastNode.nextElementSibling && !(lastNode.nextElementSibling.classList && lastNode.nextElementSibling.classList.contains('course-section-head'))) {
-        lastNode = lastNode.nextElementSibling;
-      }
-
-      head.parentNode.insertBefore(toggle, lastNode.nextElementSibling);
-      head.parentNode.insertBefore(pastList, toggle.nextElementSibling);
-    }
-  }
-
-  function runPatch() {
-    setTimeout(rebuildStudioAssignments, 700);
-    setTimeout(rebuildStudioAssignments, 1700);
-    setTimeout(rebuildStudioAssignments, 3200);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runPatch);
-  } else {
-    runPatch();
-  }
-})();
-</script>
-
-<!-- GSAPP27 PATCH v33: restore main-blue plus tongues and neutral check icons -->
-<style id="gsapp27-v33-blue-plus-neutral-check-style">
-  /*
-    Global fixed rule:
-    - Every collapsed + tongue uses the main blue color.
-    - Opened − tongue may stay gray.
-    - All task check circles use the same neutral style.
-    - No special orange check for Studio June 15.
-  */
-
-  .course-more-toggle:not(.open) .plus,
-  .udht-more-toggle:not(.open) .plus,
-  .studio-more-toggle:not(.open) .plus,
-  .studio-past-toggle-v31:not(.open) .plus,
-  .studio-past-toggle-v32:not(.open) .plus,
-  .past-collapse-toggle:not(.open) .plus,
-  .upcoming-past-toggle:not(.open) .plus {
-    background: var(--blue) !important;
-    box-shadow: 0 3px 7px rgba(26, 53, 197, 0.16) !important;
-  }
-
-  .course-more-toggle:not(.open):hover .plus,
-  .udht-more-toggle:not(.open):hover .plus,
-  .studio-more-toggle:not(.open):hover .plus,
-  .studio-past-toggle-v31:not(.open):hover .plus,
-  .studio-past-toggle-v32:not(.open):hover .plus {
-    background: var(--blue-hover) !important;
-  }
-
-  .studio-prep-card .task-check,
-  .task-item .task-check {
-    border-color: #E2E8F4 !important;
-    color: var(--text) !important;
-    background: transparent !important;
-  }
-
-  .task-item.course-past-soft .task-check,
-  .task-item.past-soft .task-check {
-    border-color: #D1D9E8 !important;
-    color: #B0B8CC !important;
-    background: transparent !important;
-  }
-
-  /* remove browser tooltip caused by old show-more title text */
-  .course-more-toggle,
-  .udht-more-toggle,
-  .studio-more-toggle,
-  .studio-past-toggle-v31,
-  .studio-past-toggle-v32 {
-    -webkit-tap-highlight-color: transparent;
-  }
-</style>
-
-<script id="gsapp27-v33-blue-plus-neutral-check-script">
-(function () {
-  'use strict';
-
-  function cleanInteractiveTitles() {
-    document.querySelectorAll('.course-more-toggle, .udht-more-toggle, .studio-more-toggle, .studio-past-toggle-v31, .studio-past-toggle-v32').forEach(function (btn) {
-      btn.removeAttribute('title');
-    });
-  }
-
-  function runPatch() {
-    cleanInteractiveTitles();
-    setTimeout(cleanInteractiveTitles, 500);
-    setTimeout(cleanInteractiveTitles, 1500);
-    setTimeout(cleanInteractiveTitles, 3000);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runPatch);
-  } else {
-    runPatch();
-  }
-})();
-</script>
-
-<!-- GSAPP27 PATCH v34: add latest email-derived cards, excluding duplicates -->
-<style id="gsapp27-v34-email-cards-style">
   .email-card-list {
     margin: 8px 0 0;
     padding-left: 18px;
@@ -6878,15 +6421,127 @@ function getDaysLeft(dateStr, dueTime) {
     color: var(--text-3);
     line-height: 1.45;
   }
+
+  .notice-card,
+  .task-item {
+    position: relative !important;
+  }
+
+  .card-new-badge {
+    position: absolute;
+    top: 7px;
+    left: 8px;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 16px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: var(--orange);
+    color: #fff;
+    font-size: 8.5px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+    box-shadow: 0 3px 8px rgba(245, 101, 0, .22);
+    pointer-events: none;
+  }
+
+  .notice-card.has-new-badge .notice-dot {
+    opacity: 0;
+  }
+
+  .task-item.has-new-badge .task-check {
+    opacity: .18;
+  }
+
+  @media (max-width: 520px) {
+    .course-more-toggle .plus,
+    .udht-more-toggle .plus,
+    .studio-more-toggle .plus,
+    .studio-past-toggle .plus,
+    .studio-past-toggle-v31 .plus,
+    .studio-past-toggle-v32 .plus,
+    .past-collapse-toggle .plus {
+      right: 16px !important;
+      width: 38px !important;
+      height: 16px !important;
+      border-radius: 0 0 9px 9px !important;
+    }
+
+    .course-more-toggle.open .plus,
+    .udht-more-toggle.open .plus,
+    .studio-more-toggle.open .plus,
+    .studio-past-toggle.open .plus,
+    .studio-past-toggle-v31.open .plus,
+    .studio-past-toggle-v32.open .plus,
+    .past-collapse-toggle.open .plus {
+      height: 24px !important;
+      border-radius: 0 0 11px 11px !important;
+    }
+
+    .course-more-toggle .plus::before,
+    .udht-more-toggle .plus::before,
+    .studio-more-toggle .plus::before,
+    .studio-past-toggle .plus::before,
+    .studio-past-toggle-v31 .plus::before,
+    .studio-past-toggle-v32 .plus::before,
+    .past-collapse-toggle .plus::before {
+      font-size: 15px !important;
+      transform: translateY(1px) !important;
+    }
+  }
 </style>
 
-<script id="gsapp27-v34-email-cards-script">
+<script id="gsapp27-v41-hardening-script">
 (function () {
   'use strict';
 
-  function once(id) {
-    const existing = document.getElementById(id);
-    if (existing) existing.remove();
+  const STORAGE_KEY = 'gsapp27_seen_new_cards_v41';
+
+  const NEW_CARD_VERSIONS = {
+    'notice-dteq-support-jun4': 'v41',
+    'notice-rnyu-followup-jun2': 'v41',
+    'notice-studio-june15': 'v41',
+    'notice-designing-action': 'v41',
+    'task-dteq-support-jun4': 'v41',
+    'task-studio-archive-submission': 'v41',
+    'task-studio-june15-prep': 'v41'
+  };
+
+  const NOTICE_DATE_OVERRIDES = {
+    'notice-dteq-support-jun4': '2026-06-04T10:00:00',
+    'notice-rnyu-followup-jun2': '2026-06-02T18:00:00',
+    'notice-studio-june15': '2026-06-15T18:00:00',
+    'notice-designing-action': '2026-06-18T14:00:00',
+    'notice-ops': '2999-12-31T23:59:59'
+  };
+
+  function $(selector, root) {
+    return (root || document).querySelector(selector);
+  }
+
+  function $all(selector, root) {
+    return Array.from((root || document).querySelectorAll(selector));
+  }
+
+  function readSeenMap() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function writeSeenMap(map) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+    } catch (error) {
+      /* localStorage may be unavailable in some preview contexts. */
+    }
   }
 
   function noticeCardHtml(config) {
@@ -6910,54 +6565,42 @@ function getDaysLeft(dateStr, dueTime) {
   }
 
   function installNoticeToggle(card) {
-    if (!card || card.dataset.v34Toggle === 'true') return;
+    if (!card || card.dataset.v41Toggle === 'true') return;
 
-    const btn = card.querySelector('.notice-card-main');
-    const panel = card.querySelector('.notice-expand');
-    const status = card.querySelector('.notice-date .due-days');
-
+    const btn = $('.notice-card-main', card);
+    const panel = $('.notice-expand', card);
     if (!btn || !panel) return;
 
-    card.dataset.v34Toggle = 'true';
-    btn.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
+    card.dataset.v41Toggle = 'true';
 
-      const open = panel.classList.toggle('open');
-      if (status) {
-        status.textContent = open ? 'Open' : (card.dataset.statusClosed || status.textContent);
-        status.className = open ? 'due-days ok' : (card.dataset.statusClass || status.className);
-      }
+    btn.addEventListener('click', function () {
+      panel.classList.toggle('open');
+      dismissNewBadge(card);
     });
   }
 
-  function insertNoticeBeforeBottom(list, htmlText) {
-    const ops = document.getElementById('notice-ops');
-    const action = document.getElementById('notice-designing-action');
-
-    if (ops) {
-      ops.insertAdjacentHTML('beforebegin', htmlText);
-    } else if (action) {
-      action.insertAdjacentHTML('beforebegin', htmlText);
-    } else {
-      list.insertAdjacentHTML('beforeend', htmlText);
-    }
-  }
-
-  function addEmailNotices() {
-    const list = document.getElementById('notice-list');
+  function ensureNotice(config) {
+    const list = $('#notice-list');
     if (!list) return;
 
-    once('notice-dteq-support-jun4');
-    once('notice-rnyu-followup-jun2');
+    let card = document.getElementById(config.id);
+    if (!card) {
+      list.insertAdjacentHTML('beforeend', noticeCardHtml(config));
+      card = document.getElementById(config.id);
+    }
 
+    installNoticeToggle(card);
+  }
+
+  function installMissingNotices() {
     const dteqBody =
       '<div class="email-card-note"><strong>Support session:</strong> Thursday, June 4 at 10 AM in Room 115.</div>' +
       '<ul class="email-card-list">' +
         '<li>Especially designed for students coming from interdisciplinary or non-design backgrounds.</li>' +
         '<li>Low-pressure space to ask questions, share concerns, and get guidance on the course and the UD program.</li>' +
         '<li>Software tools will be a big part of the conversation.</li>' +
-        '<li><strong>Regular DTEQ class begins at 11 AM as usual</strong>, so the support session wraps up before class.</li>' +
+        '<li><strong>Regular DTEQ class begins at 11 AM as usual.</strong></li>' +
+        '<li>No preparation needed, just come as you are.</li>' +
       '</ul>' +
       '<div class="email-card-source">Source: Adriana Chavez Sanchez email · 7:01 AM</div>';
 
@@ -6971,19 +6614,22 @@ function getDaysLeft(dateStr, dueTime) {
       '</ul>' +
       '<div class="email-card-source">Source: Justin Davidson email · Jun 2</div>';
 
-    insertNoticeBeforeBottom(list, noticeCardHtml({
+    const studioBody =
+      '<div class="email-card-note"><strong>Studio Notice:</strong> By June 15, we only need to prepare ideas, possible directions, and research questions. The final transect drawing starts after the detailed instructions on June 15.</div>';
+
+    ensureNotice({
       id: 'notice-dteq-support-jun4',
       dot: 'var(--orange)',
       type: 'DTEQ SUPPORT',
       title: 'Support Session for Non-Design Backgrounds',
       subtitle: 'Thu Jun 4 · 10AM · Room 115 · Regular DTEQ starts 11AM',
       date: 'Jun 4',
-      status: 'Class day',
+      status: '10AM',
       statusClass: 'soon',
       body: dteqBody
-    }));
+    });
 
-    insertNoticeBeforeBottom(list, noticeCardHtml({
+    ensureNotice({
       id: 'notice-rnyu-followup-jun2',
       dot: 'var(--blue)',
       type: 'RNYU FOLLOW-UP',
@@ -6993,126 +6639,171 @@ function getDaysLeft(dateStr, dueTime) {
       status: 'Info',
       statusClass: 'ok',
       body: rnyuBody
-    }));
+    });
 
-    ['notice-dteq-support-jun4', 'notice-rnyu-followup-jun2'].forEach(function (id) {
+    ensureNotice({
+      id: 'notice-studio-june15',
+      dot: 'var(--orange)',
+      type: 'STUDIO NOTICE',
+      title: 'June 15 Preparation Scope',
+      subtitle: 'Ideas, possible directions, and research questions only.',
+      date: 'Jun 15',
+      status: 'Prepare',
+      statusClass: 'soon',
+      body: studioBody
+    });
+  }
+
+  function parseNoticeDate(card) {
+    if (!card) return new Date('2999-12-30T23:59:59');
+
+    if (NOTICE_DATE_OVERRIDES[card.id]) {
+      return new Date(NOTICE_DATE_OVERRIDES[card.id]);
+    }
+
+    const text = card.textContent || '';
+    const match = text.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})/i);
+    if (!match) return new Date('2999-12-30T23:59:59');
+
+    const months = { jan:'01', feb:'02', mar:'03', apr:'04', may:'05', jun:'06', jul:'07', aug:'08', sep:'09', oct:'10', nov:'11', dec:'12' };
+    const month = months[match[1].slice(0, 3).toLowerCase()];
+    const day = String(match[2]).padStart(2, '0');
+
+    return new Date('2026-' + month + '-' + day + 'T18:00:00');
+  }
+
+  function sortNotices() {
+    const list = $('#notice-list');
+    if (!list) return;
+
+    const cards = $all(':scope > .notice-card', list);
+    if (!cards.length) return;
+
+    const ops = cards.find(card => card.id === 'notice-ops');
+    const sortable = cards.filter(card => card.id !== 'notice-ops');
+
+    const now = new Date();
+
+    sortable.sort(function (a, b) {
+      const ad = parseNoticeDate(a);
+      const bd = parseNoticeDate(b);
+
+      const ap = ad < now;
+      const bp = bd < now;
+
+      if (ap !== bp) return ap ? 1 : -1;
+      if (ap && bp) return bd - ad;
+      return ad - bd;
+    });
+
+    sortable.forEach(card => list.appendChild(card));
+    if (ops) list.appendChild(ops);
+  }
+
+  function dismissNewBadge(card) {
+    if (!card || !card.id) return;
+
+    const badge = $('.card-new-badge', card);
+    if (badge) badge.remove();
+
+    card.classList.remove('has-new-badge');
+
+    const version = NEW_CARD_VERSIONS[card.id];
+    if (!version) return;
+
+    const seen = readSeenMap();
+    seen[card.id] = version;
+    writeSeenMap(seen);
+  }
+
+  function installNewBadges() {
+    const seen = readSeenMap();
+
+    Object.keys(NEW_CARD_VERSIONS).forEach(function (id) {
       const card = document.getElementById(id);
       if (!card) return;
-      const status = card.querySelector('.notice-date .due-days');
-      card.dataset.statusClosed = status ? status.textContent : 'Info';
-      card.dataset.statusClass = status ? status.className : 'due-days ok';
-      installNoticeToggle(card);
+
+      const version = NEW_CARD_VERSIONS[id];
+      if (seen[id] === version) {
+        dismissNewBadge(card);
+        return;
+      }
+
+      if (!$('.card-new-badge', card)) {
+        const badge = document.createElement('span');
+        badge.className = 'card-new-badge';
+        badge.textContent = 'NEW';
+        card.appendChild(badge);
+      }
+
+      card.classList.add('has-new-badge');
+
+      if (card.dataset.v41NewInstalled === 'true') return;
+      card.dataset.v41NewInstalled = 'true';
+
+      card.addEventListener('click', function () {
+        dismissNewBadge(card);
+      }, { passive: true });
     });
   }
 
-  function updateRNYUAssignment1() {
-    const panel = document.getElementById('sub-as-rny');
-    if (!panel) return;
-
-    const item = Array.from(panel.querySelectorAll('.task-item')).find(function (node) {
-      return /Assignment\s*1/i.test(node.textContent || '');
-    });
-
-    if (!item) return;
-
-    const name = item.querySelector('.task-name');
-    const detail = item.querySelector('.task-detail');
-
-    if (name) name.textContent = 'Assignment 1';
-    if (detail) detail.textContent = '1st borough visit · exported PDF due 5PM · use ASSIGNMENTS template';
-
-    const dueDate = item.querySelector('.due-date');
-    const dueDays = item.querySelector('.due-days');
-    if (dueDate) dueDate.textContent = 'Jun 8';
-
-    const expand = item.nextElementSibling && item.nextElementSibling.classList.contains('task-expand')
-      ? item.nextElementSibling
-      : null;
-
-    if (expand) {
-      const inner = expand.querySelector('.task-expand-inner');
-      if (inner) {
-        inner.innerHTML =
-          '<strong>RNYU Assignment 1</strong><br>' +
-          '<ul>' +
-            '<li>Due before the next class: Monday, June 8 at 5PM.</li>' +
-            '<li>Review the syllabus for instructions.</li>' +
-            '<li>In the readings folder on Google Drive, use the folder titled <strong>ASSIGNMENTS</strong>.</li>' +
-            '<li>Use the InDesign template file for the assignment submission.</li>' +
-            '<li>The PDF also includes instructions.</li>' +
-            '<li>Submit exported PDFs in the appropriate Google Drive assignment folders.</li>' +
-          '</ul>' +
-          '<div class="email-card-source">Source: Jesse H. Hirakawa email · RNYU Assignment 1</div>';
+  function removeDuplicateDomIds() {
+    const seen = new Set();
+    $all('[id]').forEach(function (node) {
+      if (!node.id) return;
+      if (seen.has(node.id)) {
+        node.remove();
+      } else {
+        seen.add(node.id);
       }
-    }
+    });
   }
 
-  function addDTEQSupportScheduleCard() {
-    const panel = document.getElementById('sub-as-dteq');
-    if (!panel) return;
+  function validateApp() {
+    const required = [
+      'notice-list',
+      'notice-dteq-support-jun4',
+      'notice-rnyu-followup-jun2',
+      'notice-studio-june15',
+      'notice-designing-action',
+      'sub-as-dteq',
+      'task-dteq-support-jun4'
+    ];
 
-    const scheduleHead = Array.from(panel.querySelectorAll('.course-section-head')).find(function (head) {
-      return /Class Schedule/i.test(head.textContent || '');
+    const missing = required.filter(id => !document.getElementById(id));
+
+    const duplicateIds = [];
+    const seen = new Set();
+    $all('[id]').forEach(function (node) {
+      if (seen.has(node.id)) duplicateIds.push(node.id);
+      seen.add(node.id);
     });
 
-    if (!scheduleHead) return;
+    return {
+      missing: missing,
+      duplicateIds: duplicateIds,
+      notices: $all('#notice-list > .notice-card').map(card => card.id || card.textContent.trim().slice(0, 40)),
+      timestamp: new Date().toISOString()
+    };
+  }
 
-    if (panel.querySelector('#task-dteq-support-jun4')) return;
+  window.GSAPP_DEBUG = {
+    run: validateApp
+  };
 
-    /* Update the existing Jun 4 regular class if it exists, so the support session is not confused with the regular DTEQ start. */
-    Array.from(panel.querySelectorAll('.task-item')).forEach(function (item) {
-      const text = item.textContent || '';
-      if (/Thu\s+Jun\s+4|Jun\s+4/i.test(text) && /DTEQ/i.test(text) && !/Support Session/i.test(text)) {
-        const detail = item.querySelector('.task-detail');
-        if (detail && /10AM/i.test(detail.textContent || '')) {
-          detail.textContent = 'Regular DTEQ · 11AM–6:30PM';
-        }
-      }
-    });
-
-    const card =
-      '<div class="task-item" id="task-dteq-support-jun4" data-date="2026-06-04" data-due-time="10:00" onclick="toggleTask(this)">' +
-        '<div class="task-check">✓</div>' +
-        '<div class="task-body">' +
-          '<div class="task-name">Support Session for Non-Design Backgrounds</div>' +
-          '<div class="task-detail">Thu Jun 4 · 10AM · Room 115 · Regular DTEQ starts 11AM</div>' +
-        '</div>' +
-        '<div class="task-due">' +
-          '<div class="due-date">Jun 4</div>' +
-          '<div class="due-days soon">10AM</div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="task-expand">' +
-        '<div class="task-expand-inner">' +
-          '<strong>DTEQ Support Session</strong><br>' +
-          '<ul>' +
-            '<li>Open to students who would like to join.</li>' +
-            '<li>Especially useful for interdisciplinary or non-design backgrounds.</li>' +
-            '<li>Room 115, Thursday June 4, 10 AM.</li>' +
-            '<li>Regular DTEQ class begins at 11 AM as usual.</li>' +
-          '</ul>' +
-        '</div>' +
-      '</div>';
-
-    scheduleHead.insertAdjacentHTML('afterend', card);
+  function stabilize() {
+    removeDuplicateDomIds();
+    installMissingNotices();
+    sortNotices();
+    installNewBadges();
   }
 
   function runPatch() {
-    addEmailNotices();
-    updateRNYUAssignment1();
-    addDTEQSupportScheduleCard();
-
-    setTimeout(function () {
-      addEmailNotices();
-      updateRNYUAssignment1();
-      addDTEQSupportScheduleCard();
-    }, 900);
-
-    setTimeout(function () {
-      addEmailNotices();
-      updateRNYUAssignment1();
-      addDTEQSupportScheduleCard();
-    }, 2200);
+    stabilize();
+    setTimeout(stabilize, 350);
+    setTimeout(stabilize, 900);
+    setTimeout(stabilize, 1800);
+    setTimeout(stabilize, 3200);
   }
 
   if (document.readyState === 'loading') {
@@ -7123,40 +6814,554 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
-<!-- GSAPP27 PATCH v35: prevent Designing for Action poster image from being clipped -->
-<style id="gsapp27-v35-action-image-full-style">
+<!-- GSAPP27 PATCH v42: unified assignment structure + N badge rule -->
+<style id="gsapp27-v42-assignment-system-style">
   /*
-    Fix:
-    The general notice expand panel had max-height: 420px.
-    That clipped the Designing for Action poster.
-    This notice needs a taller open area because it contains an embedded image.
+    Assignment tab system rule:
+    1) Every course tab follows the same visual structure:
+       Course header → section header → task rows → hidden/past toggle.
+    2) Typography hierarchy is unified across Studio / UDHT / RNYU / DTEQ.
+    3) NEW indicator is no longer a word badge. It is a small circular "N" mark.
+       It sits in the left status column and does not cover card text.
   */
 
-  #notice-designing-action .notice-expand.open {
-    max-height: 2400px !important;
+  /* Course card structure */
+  #tab-assignments .course-card {
     overflow: hidden !important;
   }
 
-  #notice-designing-action .notice-expand-inner {
-    padding-bottom: 18px !important;
+  #tab-assignments .course-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 18px 18px !important;
+    min-height: 84px !important;
   }
 
-  #notice-designing-action .action-notice-image {
-    width: 100% !important;
-    height: auto !important;
-    max-height: none !important;
-    object-fit: contain !important;
+  #tab-assignments .course-title {
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    line-height: 1.15 !important;
+    letter-spacing: .01em !important;
+    color: var(--text) !important;
+  }
+
+  #tab-assignments .course-sub {
     display: block !important;
-    margin-top: 12px !important;
-    margin-bottom: 6px !important;
+    margin-top: 5px !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
+    line-height: 1.45 !important;
+    letter-spacing: .01em !important;
+    color: var(--text-3) !important;
+  }
+
+  /* Section headers */
+  #tab-assignments .course-section-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 44px !important;
+    padding: 12px 18px !important;
+    background: var(--bg) !important;
+    border-top: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  #tab-assignments .course-section-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    font-size: 11.5px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+    color: var(--text-3) !important;
+  }
+
+  #tab-assignments .course-section-count {
+    min-width: 50px !important;
+    height: 24px !important;
+    padding: 0 10px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 999px !important;
+    background: var(--surface) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: var(--text-3) !important;
+    white-space: nowrap !important;
+  }
+
+  /* Task rows */
+  #tab-assignments .task-item {
+    display: grid !important;
+    grid-template-columns: 32px minmax(0, 1fr) auto !important;
+    column-gap: 14px !important;
+    align-items: center !important;
+    min-height: 74px !important;
+    padding: 14px 18px !important;
+    border-bottom: 1px solid var(--border) !important;
+    position: relative !important;
+    background: var(--surface) !important;
+  }
+
+  #tab-assignments .task-check {
+    grid-column: 1 !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 999px !important;
+    border: 2px solid #E2E8F4 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: var(--text) !important;
+    background: transparent !important;
+  }
+
+  #tab-assignments .task-body {
+    grid-column: 2 !important;
+    min-width: 0 !important;
+    text-align: left !important;
+  }
+
+  #tab-assignments .task-name {
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    line-height: 1.25 !important;
+    letter-spacing: .01em !important;
+    color: var(--text) !important;
+    text-align: left !important;
+  }
+
+  #tab-assignments .task-detail {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1.45 !important;
+    letter-spacing: .01em !important;
+    color: var(--text-3) !important;
+    text-align: left !important;
+  }
+
+  #tab-assignments .task-due {
+    grid-column: 3 !important;
+    min-width: 54px !important;
+    text-align: right !important;
+    align-self: center !important;
+  }
+
+  #tab-assignments .due-date {
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 1.1 !important;
+    color: var(--text-2) !important;
+    white-space: nowrap !important;
+  }
+
+  #tab-assignments .due-days {
+    margin-top: 5px !important;
+    font-size: 10.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+  }
+
+  #tab-assignments .task-expand-inner {
+    padding: 13px 18px 15px 64px !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+    color: var(--text-2) !important;
+  }
+
+  #tab-assignments .task-expand-inner strong {
+    color: var(--text) !important;
+    font-weight: 900 !important;
+  }
+
+  /* Past rows */
+  #tab-assignments .task-item.course-past-soft,
+  #tab-assignments .task-item.past-soft,
+  #tab-assignments .task-item.past {
+    background: #F8F9FA !important;
+  }
+
+  #tab-assignments .task-item.course-past-soft .task-name,
+  #tab-assignments .task-item.past-soft .task-name,
+  #tab-assignments .task-item.past .task-name,
+  #tab-assignments .task-item.course-past-soft .task-detail,
+  #tab-assignments .task-item.past-soft .task-detail,
+  #tab-assignments .task-item.past .task-detail {
+    color: #9AA3BF !important;
+  }
+
+  /* N badge replaces previous word badge. It does not cover text. */
+  .card-new-badge {
+    position: absolute !important;
+    z-index: 8 !important;
+    width: 18px !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    background: var(--orange) !important;
+    color: #fff !important;
+    font-size: 9px !important;
+    font-weight: 950 !important;
+    line-height: 18px !important;
+    letter-spacing: 0 !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+    box-shadow: 0 3px 8px rgba(245, 101, 0, .22) !important;
+    pointer-events: none !important;
+  }
+
+  .card-new-badge::before {
+    content: "N" !important;
+  }
+
+  .card-new-badge {
+    font-size: 0 !important;
+  }
+
+  .notice-card .card-new-badge {
+    top: 20px !important;
+    left: 18px !important;
+  }
+
+  #tab-assignments .task-item .card-new-badge,
+  .task-item .card-new-badge {
+    top: 50% !important;
+    left: 20px !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .notice-card.has-new-badge .notice-dot {
+    opacity: 0 !important;
+  }
+
+  .task-item.has-new-badge .task-check {
+    opacity: 0 !important;
   }
 
   @media (max-width: 520px) {
-    #notice-designing-action .notice-expand.open {
-      max-height: 2600px !important;
+    #tab-assignments .course-header {
+      padding: 16px 16px !important;
+      min-height: 78px !important;
+    }
+
+    #tab-assignments .course-title {
+      font-size: 17px !important;
+    }
+
+    #tab-assignments .course-sub {
+      font-size: 12px !important;
+    }
+
+    #tab-assignments .course-section-head {
+      min-height: 42px !important;
+      padding: 11px 16px !important;
+    }
+
+    #tab-assignments .course-section-title {
+      font-size: 11px !important;
+      letter-spacing: 2.7px !important;
+    }
+
+    #tab-assignments .task-item {
+      grid-template-columns: 30px minmax(0, 1fr) auto !important;
+      column-gap: 12px !important;
+      min-height: 72px !important;
+      padding: 13px 16px !important;
+    }
+
+    #tab-assignments .task-name {
+      font-size: 13.5px !important;
+    }
+
+    #tab-assignments .task-detail {
+      font-size: 11.5px !important;
+    }
+
+    #tab-assignments .task-due {
+      min-width: 50px !important;
+    }
+
+    .notice-card .card-new-badge {
+      top: 19px !important;
+      left: 16px !important;
+    }
+
+    #tab-assignments .task-item .card-new-badge,
+    .task-item .card-new-badge {
+      left: 18px !important;
     }
   }
 </style>
+
+<script id="gsapp27-v42-assignment-system-script">
+(function () {
+  'use strict';
+
+  /*
+    Structural rule for future updates:
+    - Add course cards through the unified course data object whenever possible.
+    - Every task item should have a stable id if it needs NEW, sorting, or future updates.
+    - NEW_CARD_VERSIONS controls which cards get the N badge. Change the version when that card is updated.
+  */
+
+  const NEW_CARD_VERSIONS_V42 = {
+    'notice-dteq-support-jun4': 'v42',
+    'notice-rnyu-followup-jun2': 'v42',
+    'notice-studio-june15': 'v42',
+    'notice-designing-action': 'v42',
+    'task-dteq-support-jun4': 'v42',
+    'task-studio-archive-submission': 'v42',
+    'task-studio-june15-prep': 'v42'
+  };
+
+  const STORAGE_KEY_V42 = 'gsapp27_seen_new_cards_v42';
+
+  function readSeenMap() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY_V42) || '{}');
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function writeSeenMap(map) {
+    try {
+      localStorage.setItem(STORAGE_KEY_V42, JSON.stringify(map));
+    } catch (error) {
+      /* preview/local storage may be blocked */
+    }
+  }
+
+  function dismissNewBadge(card) {
+    if (!card || !card.id) return;
+
+    const badge = card.querySelector('.card-new-badge');
+    if (badge) badge.remove();
+
+    card.classList.remove('has-new-badge');
+
+    const version = NEW_CARD_VERSIONS_V42[card.id];
+    if (!version) return;
+
+    const seen = readSeenMap();
+    seen[card.id] = version;
+    writeSeenMap(seen);
+  }
+
+  function applyNewBadges() {
+    const seen = readSeenMap();
+
+    Object.keys(NEW_CARD_VERSIONS_V42).forEach(function (id) {
+      const card = document.getElementById(id);
+      if (!card) return;
+
+      const version = NEW_CARD_VERSIONS_V42[id];
+
+      if (seen[id] === version) {
+        dismissNewBadge(card);
+        return;
+      }
+
+      let badge = card.querySelector('.card-new-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'card-new-badge';
+        badge.setAttribute('aria-label', 'New');
+        card.appendChild(badge);
+      }
+
+      badge.textContent = '';
+      card.classList.add('has-new-badge');
+
+      if (card.dataset.v42NewInstalled === 'true') return;
+      card.dataset.v42NewInstalled = 'true';
+
+      card.addEventListener('click', function () {
+        dismissNewBadge(card);
+      }, { passive: true });
+    });
+  }
+
+  function normalizeAssignmentRows() {
+    document.querySelectorAll('#tab-assignments .task-item').forEach(function (item) {
+      const body = item.querySelector('.task-body');
+      const due = item.querySelector('.task-due');
+      const check = item.querySelector('.task-check');
+
+      if (check && check.parentElement !== item) item.insertBefore(check, item.firstChild);
+      if (body && due && body.nextElementSibling !== due) item.appendChild(due);
+    });
+  }
+
+  function debugAssignmentStructure() {
+    const result = {};
+    document.querySelectorAll('#tab-assignments .course-panel').forEach(function (panel) {
+      const id = panel.id || 'unknown';
+      result[id] = {
+        sections: Array.from(panel.querySelectorAll('.course-section-head')).map(function (head) {
+          return head.textContent.trim().replace(/\s+/g, ' ');
+        }),
+        tasks: Array.from(panel.querySelectorAll('.task-item')).map(function (task) {
+          return {
+            id: task.id || null,
+            title: (task.querySelector('.task-name') || {}).textContent || null,
+            date: task.getAttribute('data-date') || null
+          };
+        })
+      };
+    });
+    return result;
+  }
+
+  window.GSAPP_ASSIGNMENTS_DEBUG = debugAssignmentStructure;
+
+  function runPatch() {
+    normalizeAssignmentRows();
+    applyNewBadges();
+    setTimeout(function () {
+      normalizeAssignmentRows();
+      applyNewBadges();
+    }, 600);
+    setTimeout(function () {
+      normalizeAssignmentRows();
+      applyNewBadges();
+    }, 1800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v43: NEW badge moved to date area, left circles unified -->
+<style id="gsapp27-v43-new-badge-style">
+  /*
+    Rule update:
+    1) Left dots / check circles remain unified for all cards.
+    2) NEW badge moves to the right date column.
+    3) Badge becomes a rounded rectangle below the date area.
+    4) Badge width hugs text and never becomes oversized.
+  */
+
+  /* Keep left indicators unified */
+  .notice-card.has-new-badge .notice-dot,
+  .task-item.has-new-badge .task-check {
+    opacity: 1 !important;
+  }
+
+  /* Reset badge appearance */
+  .card-new-badge {
+    position: static !important;
+    transform: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    width: auto !important;
+    height: 18px !important;
+    padding: 0 8px !important;
+    margin-top: 6px !important;
+    border-radius: 999px !important;
+    background: #EEF2FF !important;
+    border: 1px solid #D8DFF7 !important;
+    color: var(--blue) !important;
+    box-shadow: none !important;
+    font-size: 9.5px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    letter-spacing: .5px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+  }
+
+  .card-new-badge::before {
+    content: none !important;
+  }
+
+  .card-new-badge::after {
+    content: "NEW" !important;
+  }
+
+  /* Right date column container */
+  .notice-date,
+  .task-due {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+  }
+
+  .notice-date .card-new-badge,
+  .task-due .card-new-badge {
+    align-self: flex-end !important;
+  }
+
+  @media (max-width: 520px) {
+    .card-new-badge {
+      height: 17px !important;
+      padding: 0 7px !important;
+      font-size: 9px !important;
+      margin-top: 5px !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v43-new-badge-script">
+(function () {
+  'use strict';
+
+  function moveBadgeToDateArea(card) {
+    if (!card) return;
+    const badge = card.querySelector('.card-new-badge');
+    if (!badge) return;
+
+    const target = card.classList.contains('notice-card')
+      ? card.querySelector('.notice-date')
+      : card.querySelector('.task-due');
+
+    if (!target) return;
+
+    if (badge.parentElement !== target) {
+      target.appendChild(badge);
+    }
+
+    badge.textContent = '';
+    badge.setAttribute('aria-label', 'New');
+  }
+
+  function normalizeAllBadges() {
+    document.querySelectorAll('.notice-card.has-new-badge, .task-item.has-new-badge').forEach(moveBadgeToDateArea);
+  }
+
+  function runPatch() {
+    normalizeAllBadges();
+    setTimeout(normalizeAllBadges, 300);
+    setTimeout(normalizeAllBadges, 900);
+    setTimeout(normalizeAllBadges, 1800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
 
 </body>
 </html>
