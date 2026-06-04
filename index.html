@@ -8411,5 +8411,388 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v51: accurate school-day D-day calculation -->
+<style id="gsapp27-v51-dday-style">
+  /*
+    D-day rule:
+    - Count remaining school/business days, not raw calendar days.
+    - Weekends are excluded.
+    - Today is not counted unless the deadline is today, which shows TODAY.
+    - Example: Thu Jun 4 → Mon Jun 8 = 2d left
+      because only Fri Jun 5 and Mon Jun 8 are counted.
+  */
+  .due-days.done-label,
+  .due-days.passed {
+    color: #9AA3BF !important;
+  }
+
+  .due-days.today-label {
+    color: var(--orange) !important;
+  }
+</style>
+
+<script id="gsapp27-v51-dday-script">
+(function () {
+  'use strict';
+
+  const YEAR = 2026;
+
+  const NOTICE_DATE_OVERRIDES = {
+    'notice-dteq-support-jun4': { date: '2026-06-04', time: '10:00' },
+    'notice-rnyu-followup-jun2': { date: '2026-06-02', time: '18:00' },
+    'notice-studio-june15': { date: '2026-06-15', time: '18:00' },
+    'notice-designing-action': { date: '2026-06-18', time: '14:00' },
+    'notice-ops': null
+  };
+
+  function monthNumber(mon) {
+    const map = {
+      jan: '01',
+      feb: '02',
+      mar: '03',
+      apr: '04',
+      may: '05',
+      jun: '06',
+      jul: '07',
+      aug: '08',
+      sep: '09',
+      oct: '10',
+      nov: '11',
+      dec: '12'
+    };
+    return map[String(mon || '').slice(0, 3).toLowerCase()] || null;
+  }
+
+  function parseDateText(text) {
+    const match = String(text || '').match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})/i);
+    if (!match) return null;
+
+    const month = monthNumber(match[1]);
+    if (!month) return null;
+
+    return YEAR + '-' + month + '-' + String(match[2]).padStart(2, '0');
+  }
+
+  function parseTimeText(text, fallback) {
+    const raw = String(text || '');
+    const match = raw.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+
+    if (!match) return fallback || '18:00';
+
+    let hour = Number(match[1]);
+    const minute = Number(match[2] || 0);
+    const ampm = match[3].toUpperCase();
+
+    if (ampm === 'PM' && hour !== 12) hour += 12;
+    if (ampm === 'AM' && hour === 12) hour = 0;
+
+    return String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
+  }
+
+  function dueDate(dateStr, timeStr) {
+    if (!dateStr) return null;
+
+    const d = new Date(dateStr + 'T00:00:00');
+    const parts = String(timeStr || '18:00').split(':');
+
+    d.setHours(Number(parts[0] || 18), Number(parts[1] || 0), 0, 0);
+    return d;
+  }
+
+  function isWeekday(date) {
+    const day = date.getDay();
+    return day >= 1 && day <= 5;
+  }
+
+  function startOfDay(date) {
+    const d = new Date(date);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function schoolDaysLeft(dateStr, timeStr) {
+    const now = new Date();
+    const due = dueDate(dateStr, timeStr);
+
+    if (!due) return null;
+    if (now >= due) return -1;
+
+    const today = startOfDay(now);
+    const dueDay = startOfDay(due);
+
+    if (today.getTime() === dueDay.getTime()) return 0;
+
+    let count = 0;
+    const d = new Date(today);
+    d.setDate(d.getDate() + 1);
+
+    while (d <= dueDay) {
+      if (isWeekday(d)) count += 1;
+      d.setDate(d.getDate() + 1);
+    }
+
+    return count;
+  }
+
+  function labelFor(diff) {
+    if (diff === null) return null;
+    if (diff < 0) return 'passed';
+    if (diff === 0) return 'TODAY';
+    if (diff === 1) return '1d left';
+    return diff + 'd left';
+  }
+
+  function classFor(diff) {
+    if (diff === null) return '';
+    if (diff < 0) return 'done-label';
+    if (diff === 0) return 'today-label';
+    if (diff <= 2) return 'urgent';
+    if (diff <= 5) return 'soon';
+    return 'ok';
+  }
+
+  function updateDueElement(el, diff) {
+    if (!el || diff === null) return;
+
+    const label = labelFor(diff);
+    const cls = classFor(diff);
+
+    el.textContent = label;
+    el.classList.remove('done-label', 'passed', 'today-label', 'urgent', 'soon', 'ok');
+    if (cls) el.classList.add(cls);
+  }
+
+  function getTaskDateInfo(task) {
+    if (!task) return null;
+
+    const dateStr = task.getAttribute('data-date') ||
+      parseDateText((task.querySelector('.due-date') || {}).textContent || '') ||
+      parseDateText(task.textContent || '');
+
+    if (!dateStr) return null;
+
+    const text = task.textContent || '';
+    const timeStr = task.getAttribute('data-due-time') || parseTimeText(text, '18:00');
+
+    return { date: dateStr, time: timeStr };
+  }
+
+  function getNoticeDateInfo(card) {
+    if (!card) return null;
+
+    if (Object.prototype.hasOwnProperty.call(NOTICE_DATE_OVERRIDES, card.id)) {
+      return NOTICE_DATE_OVERRIDES[card.id];
+    }
+
+    const dateText = (card.querySelector('.notice-date span:first-child') || {}).textContent || '';
+    const dateStr = parseDateText(dateText) || parseDateText(card.textContent || '');
+
+    if (!dateStr) return null;
+
+    const timeStr = parseTimeText(card.textContent || '', '18:00');
+    return { date: dateStr, time: timeStr };
+  }
+
+  function shouldSkipNotice(card) {
+    if (!card) return true;
+    if (card.id === 'notice-ops') return true;
+
+    const statusEl = card.querySelector('.notice-date .due-days');
+    if (!statusEl) return true;
+
+    /*
+      Keep non-deadline labels if they are clearly not D-day labels,
+      except known dated notices that should use D-day.
+    */
+    const text = statusEl.textContent.trim();
+
+    const knownDated = [
+      'notice-dteq-support-jun4',
+      'notice-studio-june15',
+      'notice-designing-action',
+      'notice-rnyu-followup-jun2'
+    ].includes(card.id);
+
+    if (knownDated) return false;
+
+    if (/^\d+d left$|^1d left$|^TODAY$|^passed$/i.test(text)) return false;
+
+    return true;
+  }
+
+  function updateTaskDdays() {
+    document.querySelectorAll('.task-item').forEach(function (task) {
+      const info = getTaskDateInfo(task);
+      if (!info) return;
+
+      const dueDays = task.querySelector('.due-days');
+      if (!dueDays) return;
+
+      const diff = schoolDaysLeft(info.date, info.time);
+      updateDueElement(dueDays, diff);
+    });
+  }
+
+  function updateNoticeDdays() {
+    document.querySelectorAll('.notice-card').forEach(function (card) {
+      if (shouldSkipNotice(card)) return;
+
+      const info = getNoticeDateInfo(card);
+      if (!info) return;
+
+      const dueDays = card.querySelector('.notice-date .due-days');
+      if (!dueDays) return;
+
+      const diff = schoolDaysLeft(info.date, info.time);
+      updateDueElement(dueDays, diff);
+    });
+  }
+
+  function runDdayPatch() {
+    updateTaskDdays();
+    updateNoticeDdays();
+  }
+
+  function runPatch() {
+    runDdayPatch();
+    setTimeout(runDdayPatch, 300);
+    setTimeout(runDdayPatch, 900);
+    setTimeout(runDdayPatch, 1800);
+    setTimeout(runDdayPatch, 3200);
+  }
+
+  window.GSAPP_DDAY_DEBUG = {
+    schoolDaysLeft: schoolDaysLeft,
+    run: runDdayPatch
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v52: correct DTEQ detailed time blocks -->
+<style id="gsapp27-v52-dteq-time-correction-style">
+  /*
+    Corrected DTEQ detail rule:
+    - Support Session remains Thu 10–11AM · Room 115.
+    - Regular DTEQ blocks are:
+      11AM–12PM · 114 Avery
+      1–4PM · Fayerweather 206
+      5–6:30PM · 114 Avery
+  */
+</style>
+
+<script id="gsapp27-v52-dteq-time-correction-script">
+(function () {
+  'use strict';
+
+  const THU_EVENTS = [
+    { title: 'DTEQ Support Session', loc: 'Room 115', time: '10–11AM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: '114 Avery', time: '11AM–12PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: 'Fayerweather 206', time: '1–4PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: '114 Avery', time: '5–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+  ];
+
+  const FRI_EVENTS = [
+    { title: 'DTEQ', loc: '114 Avery', time: '11AM–12PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'DTEQ', loc: 'Fayerweather 206', time: '1–4PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' },
+    { title: 'Archive Submission Due', loc: 'PDF/JPEG 300dpi · max 25MB', time: '4PM deadline', course: 'Studio', color: '#3B82F6', bg: '#EFF6FF' },
+    { title: 'DTEQ', loc: '114 Avery', time: '5–6:30PM', course: 'DTEQ', color: '#10B981', bg: '#ECFDF5' }
+  ];
+
+  function normalizeDate(date) {
+    return date instanceof Date ? date : new Date(date);
+  }
+
+  function sameDay(date, monthIndex, day) {
+    const d = normalizeDate(date);
+    return d.getMonth() === monthIndex && d.getDate() === day;
+  }
+
+  function updateWeekScheduleData() {
+    if (!window.GSAPP_DATA || !Array.isArray(window.GSAPP_DATA.weekSchedule)) return;
+
+    window.GSAPP_DATA.weekSchedule.forEach(function (day) {
+      if (sameDay(day.date, 5, 4)) day.events = THU_EVENTS.slice();
+      if (sameDay(day.date, 5, 5)) day.events = FRI_EVENTS.slice();
+    });
+  }
+
+  function updateDteqAssignmentTab() {
+    const panel = document.getElementById('sub-as-dteq');
+    if (!panel) return;
+
+    const replacements = [
+      [/2[–-]3PM\s*·\s*Fayerweather 206/g, '1–4PM · Fayerweather 206'],
+      [/2[–-]4PM\s*·\s*Fayerweather 206/g, '1–4PM · Fayerweather 206'],
+      [/5[–-]6PM\s*·\s*114 Avery/g, '5–6:30PM · 114 Avery'],
+      [/5[–-]6:00PM\s*·\s*114 Avery/g, '5–6:30PM · 114 Avery']
+    ];
+
+    panel.querySelectorAll('.task-detail, .task-expand-inner').forEach(function (node) {
+      let text = node.innerHTML;
+      replacements.forEach(function (pair) {
+        text = text.replace(pair[0], pair[1]);
+      });
+      node.innerHTML = text;
+    });
+  }
+
+  function rerenderScheduleIfPossible() {
+    updateWeekScheduleData();
+
+    if (typeof window.GSAPP_RENDER_WEEK_GLOBAL_SUBJECT_RULE === 'function') {
+      window.GSAPP_RENDER_WEEK_GLOBAL_SUBJECT_RULE();
+      return;
+    }
+
+    if (typeof window.GSAPP_RENDER_WEEK_GROUPED_DETAILS === 'function') {
+      window.GSAPP_RENDER_WEEK_GROUPED_DETAILS();
+      return;
+    }
+
+    if (typeof window.GSAPP_RENDER_WEEK_ONE_SUBJECT === 'function') {
+      window.GSAPP_RENDER_WEEK_ONE_SUBJECT();
+      return;
+    }
+  }
+
+  function runPatch() {
+    rerenderScheduleIfPossible();
+    updateDteqAssignmentTab();
+
+    setTimeout(function () {
+      rerenderScheduleIfPossible();
+      updateDteqAssignmentTab();
+    }, 300);
+
+    setTimeout(function () {
+      rerenderScheduleIfPossible();
+      updateDteqAssignmentTab();
+    }, 900);
+
+    setTimeout(function () {
+      rerenderScheduleIfPossible();
+      updateDteqAssignmentTab();
+    }, 1800);
+  }
+
+  window.GSAPP_DTEQ_TIME_DEBUG = function () {
+    updateWeekScheduleData();
+    return { thu: THU_EVENTS, fri: FRI_EVENTS };
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
