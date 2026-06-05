@@ -10304,5 +10304,742 @@ function getDaysLeft(dateStr, dueTime) {
 })();
 </script>
 
+<!-- GSAPP27 PATCH v60: café search icon fix + restore DTEQ course tab -->
+<style id="gsapp27-v60-cafe-dteq-style">
+  /*
+    v60 rules:
+    1) Café search must show only one magnifying glass.
+       Keep the custom icon, remove the browser/native search icon.
+    2) DTEQ is restored as a course tab with the same structure as Studio / UDHT / RNYU:
+       Course header → DTEQ Site Links → Assignments → Class Schedule → Reading Materials.
+    3) Older DTEQ removal styles are neutralized.
+  */
+
+  /* Café search icon fix */
+  #cafe-search {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-image: none !important;
+  }
+
+  #cafe-search::-webkit-search-decoration,
+  #cafe-search::-webkit-search-cancel-button,
+  #cafe-search::-webkit-search-results-button,
+  #cafe-search::-webkit-search-results-decoration {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    display: none !important;
+  }
+
+  #tab-cafes .search-wrap .search-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+  }
+
+  /* Neutralize old DTEQ removal state */
+  #sub-as-dteq,
+  #dteq-resource-panel,
+  #dteq-resource-panel-static,
+  #dteq-resource-panel-v57,
+  #dteq-resource-panel-v60 {
+    display: block !important;
+  }
+
+  .sub-tab-btn[data-remove-dteq="true"] {
+    display: inline-flex !important;
+  }
+
+  /* DTEQ site links, same compact course-card hierarchy */
+  #sub-as-dteq .dteq-resource-panel {
+    padding: 13px 18px 14px !important;
+    border-top: 1px solid var(--border) !important;
+    border-bottom: 1px solid var(--border) !important;
+    background: #F8FAFF !important;
+  }
+
+  #sub-as-dteq .dteq-resource-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    margin-bottom: 9px !important;
+    font-size: 10.5px !important;
+    font-weight: 900 !important;
+    letter-spacing: 2.4px !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
+    color: var(--text-3) !important;
+  }
+
+  #sub-as-dteq .dteq-resource-list {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+  }
+
+  #sub-as-dteq .dteq-resource-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 9px !important;
+    min-height: 32px !important;
+    padding: 8px 10px !important;
+    border: 1px solid #DDE6F7 !important;
+    border-radius: 12px !important;
+    background: var(--surface) !important;
+    color: var(--blue) !important;
+    text-decoration: none !important;
+    font-size: 11px !important;
+    font-weight: 850 !important;
+    line-height: 1.25 !important;
+  }
+
+  #sub-as-dteq .dteq-resource-link span:first-child {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #sub-as-dteq .dteq-resource-arrow {
+    flex: 0 0 auto !important;
+    color: var(--text-3) !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+  }
+
+  @media (max-width: 520px) {
+    #sub-as-dteq .dteq-resource-panel {
+      padding: 11px 16px 13px !important;
+    }
+
+    #sub-as-dteq .dteq-resource-link {
+      min-height: 30px !important;
+      padding: 7px 10px !important;
+      font-size: 10.8px !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v60-cafe-dteq-script">
+(function () {
+  'use strict';
+
+  const DTEQ_LINKS = [
+    {
+      label: 'Miro Board 1',
+      url: 'https://miro.com/app/board/uXjVHXzRmuY=/?share_link_id=112138952334'
+    },
+    {
+      label: 'Miro Board 2',
+      url: 'https://miro.com/app/board/uXjVHXzEtSA=/?share_link_id=334796866024'
+    },
+    {
+      label: 'DTEQ Drive Folder',
+      url: 'https://drive.google.com/drive/folders/1bssi7A6QQ2xfnxZ-13VmvGECv9jtvVCK'
+    },
+    {
+      label: 'YouTube Playlist',
+      url: 'https://www.youtube.com/playlist?list=PLS2lh8-sV_YIffpYxq8TvmFtJnnvEoTok'
+    }
+  ];
+
+  function fixCafeSearchIcon() {
+    const search = document.getElementById('cafe-search');
+    if (!search) return;
+
+    /*
+      iOS/Safari can show its own native search icon for type="search".
+      We already have a custom icon, so switch to text to guarantee one icon only.
+    */
+    if (search.getAttribute('type') !== 'text') {
+      search.setAttribute('type', 'text');
+    }
+
+    search.style.webkitAppearance = 'none';
+    search.style.appearance = 'none';
+    search.style.backgroundImage = 'none';
+  }
+
+  function resourcePanelHtml() {
+    return '' +
+      '<div class="dteq-resource-panel" id="dteq-resource-panel-v60">' +
+        '<div class="dteq-resource-title">🔗 DTEQ SITE LINKS</div>' +
+        '<div class="dteq-resource-list">' +
+          DTEQ_LINKS.map(function (link) {
+            return '<a class="dteq-resource-link" href="' + link.url + '" target="_blank" rel="noopener">' +
+              '<span>' + link.label + '</span>' +
+              '<span class="dteq-resource-arrow">↗</span>' +
+            '</a>';
+          }).join('') +
+        '</div>' +
+      '</div>';
+  }
+
+  function addDteqButtonIfMissing() {
+    const studioWrap = document.querySelector('#tab-assignments .studio-wrap');
+    if (!studioWrap) return;
+
+    const buttons = Array.from(studioWrap.querySelectorAll('.sub-tab-btn'));
+    const hasDteq = buttons.some(function (btn) {
+      return btn.textContent.trim().toLowerCase() === 'dteq';
+    });
+
+    if (hasDteq) {
+      buttons.forEach(function (btn) {
+        if (btn.textContent.trim().toLowerCase() === 'dteq') {
+          btn.removeAttribute('data-remove-dteq');
+          btn.style.display = 'inline-flex';
+        }
+      });
+      return;
+    }
+
+    const rnyuBtn = buttons.find(function (btn) {
+      return btn.textContent.trim().toLowerCase() === 'rnyu';
+    });
+
+    const dteqBtn = document.createElement('button');
+    dteqBtn.className = 'sub-tab-btn';
+    dteqBtn.type = 'button';
+    dteqBtn.textContent = 'DTEQ';
+    dteqBtn.setAttribute('onclick', "switchSubTab('as-dteq', this)");
+
+    if (rnyuBtn && rnyuBtn.parentElement) {
+      rnyuBtn.insertAdjacentElement('afterend', dteqBtn);
+    } else {
+      const btnRow = buttons[0] ? buttons[0].parentElement : null;
+      if (btnRow) btnRow.appendChild(dteqBtn);
+    }
+  }
+
+  function buildDteqPanelHtml() {
+    return '' +
+      '<div style="padding:12px 0 60px;">' +
+        '<div class="course-block">' +
+          '<div class="course-header">' +
+            '<div class="course-color" style="background:#10B981;min-height:40px;"></div>' +
+            '<div style="flex:1">' +
+              '<div class="course-title">DTEQ</div>' +
+              '<span class="course-sub">Design Techniques · 114 Avery &amp; Fayerweather 206</span>' +
+            '</div>' +
+          '</div>' +
+          resourcePanelHtml() +
+          '<div class="course-section-head">' +
+            '<span class="course-section-label">📋 ASSIGNMENTS</span>' +
+            '<span class="course-section-count">4 items</span>' +
+          '</div>' +
+
+          '<div class="task-item" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">Assignment 01</div><div class="task-detail">Submit to Drive folder</div></div>' +
+            '<div class="task-due"><div class="due-date"></div><div class="due-days"></div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><a class="drive-btn" href="https://drive.google.com/drive/folders/1RJWOE_aI-MDAxDxabfULJZiSxrqpFS2n" target="_blank" rel="noopener">Assignment 01 Folder</a></div></div>' +
+
+          '<div class="task-item" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">Assignment 02</div><div class="task-detail">Submit to Drive folder</div></div>' +
+            '<div class="task-due"><div class="due-date"></div><div class="due-days"></div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><a class="drive-btn" href="https://drive.google.com/drive/folders/18J-LVyKx5ah8JTmCGylM_PVIzU1j3314" target="_blank" rel="noopener">Assignment 02 Folder</a></div></div>' +
+
+          '<div class="task-item" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">Assignment 03</div><div class="task-detail">Submit to Drive folder</div></div>' +
+            '<div class="task-due"><div class="due-date"></div><div class="due-days"></div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><a class="drive-btn" href="https://drive.google.com/drive/folders/1RH7VHM5yC9dmr36nnKXkCV1T6iQHeFFX" target="_blank" rel="noopener">Assignment 03 Folder</a></div></div>' +
+
+          '<div class="task-item" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">Final Assignment</div><div class="task-detail">Slides on Google Drive</div></div>' +
+            '<div class="task-due"><div class="due-date"></div><div class="due-days"></div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><a class="drive-btn" href="https://docs.google.com/presentation/d/1BHfaGjAq52onWJgPYkjUgcI6cvWa0LSf/edit?usp=drive_link" target="_blank" rel="noopener">Final Assignment Slides</a></div></div>' +
+
+          '<div class="course-section-head">' +
+            '<span class="course-section-label">🗓 CLASS SCHEDULE</span>' +
+            '<span class="course-section-count">7 items</span>' +
+          '</div>' +
+
+          '<div class="task-item" id="task-dteq-support-jun4" data-date="2026-06-04" data-due-time="10:00" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">Support Session for Non-Design Backgrounds</div><div class="task-detail">Thu Jun 4 · 10–11AM · Room 115 · Regular DTEQ starts 11AM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 4</div><div class="due-days soon">10AM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ Support Session</strong><br><ul><li>For students coming from interdisciplinary or non-design backgrounds.</li><li>Low-pressure space to ask questions, share concerns, and get guidance.</li><li>Regular DTEQ class begins at 11AM as usual.</li></ul></div></div>' +
+
+          '<div class="task-item" data-date="2026-06-04" data-due-time="12:00" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">DTEQ · 114 Avery</div><div class="task-detail">Thu Jun 4 · 11AM–12PM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 4</div><div class="due-days soon">11AM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ</strong><br>Thursday, June 4 · 11AM–12PM · 114 Avery.</div></div>' +
+
+          '<div class="task-item" data-date="2026-06-04" data-due-time="16:00" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">DTEQ · Fayerweather 206</div><div class="task-detail">Thu Jun 4 · 1–4PM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 4</div><div class="due-days soon">1PM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ</strong><br>Thursday, June 4 · 1–4PM · Fayerweather 206.</div></div>' +
+
+          '<div class="task-item" data-date="2026-06-04" data-due-time="18:30" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">DTEQ · 114 Avery</div><div class="task-detail">Thu Jun 4 · 5–6:30PM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 4</div><div class="due-days soon">5PM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ</strong><br>Thursday, June 4 · 5–6:30PM · 114 Avery.</div></div>' +
+
+          '<div class="task-item" data-date="2026-06-05" data-due-time="12:00" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">DTEQ · 114 Avery</div><div class="task-detail">Fri Jun 5 · 11AM–12PM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 5</div><div class="due-days soon">11AM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ</strong><br>Friday, June 5 · 11AM–12PM · 114 Avery.</div></div>' +
+
+          '<div class="task-item" data-date="2026-06-05" data-due-time="16:00" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">DTEQ · Fayerweather 206</div><div class="task-detail">Fri Jun 5 · 1–4PM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 5</div><div class="due-days soon">1PM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ</strong><br>Friday, June 5 · 1–4PM · Fayerweather 206.</div></div>' +
+
+          '<div class="task-item" data-date="2026-06-05" data-due-time="18:30" onclick="toggleTask(this)">' +
+            '<div class="task-check">✓</div>' +
+            '<div class="task-body"><div class="task-name">DTEQ · 114 Avery</div><div class="task-detail">Fri Jun 5 · 5–6:30PM</div></div>' +
+            '<div class="task-due"><div class="due-date">Jun 5</div><div class="due-days soon">5PM</div></div>' +
+          '</div>' +
+          '<div class="task-expand"><div class="task-expand-inner"><strong>DTEQ</strong><br>Friday, June 5 · 5–6:30PM · 114 Avery.</div></div>' +
+
+          '<div class="course-section-head">' +
+            '<span class="course-section-label">📚 READING MATERIALS</span>' +
+            '<span class="course-section-count">4 links</span>' +
+          '</div>' +
+          '<div class="material-card"><div class="material-title">DTEQ Site Links</div><div class="material-detail">Use the top DTEQ Site Links panel for Miro, Drive, and YouTube playlist.</div></div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function ensureDteqPanel() {
+    let panel = document.getElementById('sub-as-dteq');
+
+    if (!panel) {
+      const studioWrap = document.querySelector('#tab-assignments .studio-wrap');
+      if (!studioWrap) return false;
+
+      panel = document.createElement('div');
+      panel.id = 'sub-as-dteq';
+      panel.className = 'sub-panel';
+      studioWrap.appendChild(panel);
+    }
+
+    panel.style.display = panel.classList.contains('active') ? 'block' : 'none';
+
+    const broken =
+      !panel.querySelector('.course-block') ||
+      !panel.querySelector('.dteq-resource-panel') ||
+      !panel.querySelector('.task-item') ||
+      panel.textContent.trim().length < 500;
+
+    if (broken) {
+      panel.innerHTML = buildDteqPanelHtml();
+    }
+
+    return true;
+  }
+
+  function activateSubTab(id, btn) {
+    const targetId = id.indexOf('sub-') === 0 ? id : 'sub-' + id;
+
+    document.querySelectorAll('.sub-panel').forEach(function (panel) {
+      panel.classList.remove('active');
+      panel.style.display = 'none';
+    });
+
+    document.querySelectorAll('.sub-tab-btn').forEach(function (button) {
+      button.classList.remove('active');
+    });
+
+    if (targetId === 'sub-as-dteq') {
+      ensureDteqPanel();
+    }
+
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.classList.add('active');
+      target.style.display = 'block';
+    }
+
+    if (btn) {
+      btn.classList.add('active');
+    } else {
+      document.querySelectorAll('.sub-tab-btn').forEach(function (button) {
+        const label = button.textContent.trim().toLowerCase();
+        if (
+          (targetId === 'sub-as-dteq' && label === 'dteq') ||
+          (targetId === 'sub-as-rny' && label === 'rnyu') ||
+          (targetId === 'sub-as-udht' && label === 'udht') ||
+          (targetId === 'sub-as-studio' && label === 'studio') ||
+          (targetId === 'sub-upcoming' && label === 'upcoming')
+        ) {
+          button.classList.add('active');
+        }
+      });
+    }
+
+    if (typeof window.GSAPP_DDAY_DEBUG === 'object' && typeof window.GSAPP_DDAY_DEBUG.run === 'function') {
+      window.GSAPP_DDAY_DEBUG.run();
+    }
+  }
+
+  function bindSubTabButtons() {
+    const map = {
+      'upcoming': 'upcoming',
+      'studio': 'as-studio',
+      'udht': 'as-udht',
+      'rnyu': 'as-rny',
+      'dteq': 'as-dteq'
+    };
+
+    document.querySelectorAll('.sub-tab-btn').forEach(function (button) {
+      const key = button.textContent.trim().toLowerCase();
+      const id = map[key];
+      if (!id || button.dataset.v60Bound === 'true') return;
+
+      button.dataset.v60Bound = 'true';
+      button.removeAttribute('data-remove-dteq');
+
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        activateSubTab(id, button);
+      }, true);
+    });
+  }
+
+  function runPatch() {
+    fixCafeSearchIcon();
+    addDteqButtonIfMissing();
+    ensureDteqPanel();
+    bindSubTabButtons();
+
+    setTimeout(function () {
+      fixCafeSearchIcon();
+      addDteqButtonIfMissing();
+      ensureDteqPanel();
+      bindSubTabButtons();
+    }, 350);
+
+    setTimeout(function () {
+      fixCafeSearchIcon();
+      addDteqButtonIfMissing();
+      ensureDteqPanel();
+      bindSubTabButtons();
+    }, 1200);
+
+    setTimeout(function () {
+      fixCafeSearchIcon();
+      addDteqButtonIfMissing();
+      ensureDteqPanel();
+      bindSubTabButtons();
+    }, 2600);
+  }
+
+  window.switchSubTab = activateSubTab;
+
+  window.GSAPP_V60_DEBUG = {
+    fixCafeSearchIcon: fixCafeSearchIcon,
+    ensureDteqPanel: ensureDteqPanel,
+    activateDteq: function () { activateSubTab('as-dteq'); }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v61: add DTEQ notice for Miro board -->
+<style id="gsapp27-v61-dteq-notice-style">
+  /*
+    DTEQ notice rule:
+    - DTEQ-specific notices live inside the DTEQ course tab.
+    - They appear near the top of the DTEQ card, directly under DTEQ Site Links.
+    - The notice uses the same course-card row hierarchy as Assignments / Class Schedule.
+  */
+
+  #sub-as-dteq .dteq-notice-block {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  #sub-as-dteq .dteq-notice-card {
+    display: grid !important;
+    grid-template-columns: 32px minmax(0, 1fr) auto !important;
+    column-gap: 14px !important;
+    align-items: center !important;
+    min-height: 76px !important;
+    padding: 14px 18px !important;
+    border-bottom: 1px solid var(--border) !important;
+    background: var(--surface) !important;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  #sub-as-dteq .dteq-notice-dot {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 999px !important;
+    background: var(--orange) !important;
+    justify-self: center !important;
+  }
+
+  #sub-as-dteq .dteq-notice-body {
+    min-width: 0 !important;
+  }
+
+  #sub-as-dteq .dteq-notice-type {
+    display: block !important;
+    margin-bottom: 5px !important;
+    color: var(--orange) !important;
+    font-size: 10.5px !important;
+    font-weight: 900 !important;
+    letter-spacing: 2.4px !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
+  }
+
+  #sub-as-dteq .dteq-notice-title {
+    display: block !important;
+    color: var(--text) !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    line-height: 1.25 !important;
+  }
+
+  #sub-as-dteq .dteq-notice-detail {
+    display: block !important;
+    margin-top: 4px !important;
+    color: var(--text-3) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1.45 !important;
+  }
+
+  #sub-as-dteq .dteq-notice-action {
+    color: var(--blue) !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+
+  @media (max-width: 520px) {
+    #sub-as-dteq .dteq-notice-card {
+      grid-template-columns: 30px minmax(0, 1fr) auto !important;
+      column-gap: 12px !important;
+      padding: 13px 16px !important;
+      min-height: 74px !important;
+    }
+
+    #sub-as-dteq .dteq-notice-title {
+      font-size: 13.5px !important;
+    }
+
+    #sub-as-dteq .dteq-notice-detail {
+      font-size: 11.5px !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v61-dteq-notice-script">
+(function () {
+  'use strict';
+
+  const NOTICE_ID = 'dteq-notice-miro-board';
+  const MIRO_URL = 'https://miro.com/app/board/uXjVHXzRmuY=/?share_link_id=112138952334';
+
+  function noticeHtml() {
+    return '' +
+      '<div class="dteq-notice-block" id="' + NOTICE_ID + '">' +
+        '<div class="course-section-head">' +
+          '<span class="course-section-label">📣 DTEQ NOTICE</span>' +
+          '<span class="course-section-count">1 item</span>' +
+        '</div>' +
+        '<a class="dteq-notice-card" href="' + MIRO_URL + '" target="_blank" rel="noopener">' +
+          '<span class="dteq-notice-dot"></span>' +
+          '<span class="dteq-notice-body">' +
+            '<span class="dteq-notice-type">MIRO BOARD</span>' +
+            '<span class="dteq-notice-title">DTEQ Miro Board</span>' +
+            '<span class="dteq-notice-detail">Open shared DTEQ Miro board</span>' +
+          '</span>' +
+          '<span class="dteq-notice-action">Open ↗</span>' +
+        '</a>' +
+      '</div>';
+  }
+
+  function ensureDteqVisibleInfrastructure() {
+    if (window.GSAPP_V60_DEBUG && typeof window.GSAPP_V60_DEBUG.ensureDteqPanel === 'function') {
+      window.GSAPP_V60_DEBUG.ensureDteqPanel();
+    }
+
+    if (window.GSAPP_V57_DEBUG && typeof window.GSAPP_V57_DEBUG.renderDteq === 'function') {
+      window.GSAPP_V57_DEBUG.renderDteq();
+    }
+  }
+
+  function installDteqNotice() {
+    ensureDteqVisibleInfrastructure();
+
+    const panel = document.getElementById('sub-as-dteq');
+    if (!panel) return false;
+
+    if (document.getElementById(NOTICE_ID)) return true;
+
+    const resourcePanel =
+      panel.querySelector('#dteq-resource-panel-v60') ||
+      panel.querySelector('#dteq-resource-panel-v57') ||
+      panel.querySelector('#dteq-resource-panel-static') ||
+      panel.querySelector('#dteq-resource-panel') ||
+      panel.querySelector('.dteq-resource-panel');
+
+    if (resourcePanel) {
+      resourcePanel.insertAdjacentHTML('afterend', noticeHtml());
+      return true;
+    }
+
+    const courseHeader = panel.querySelector('.course-header');
+    if (courseHeader) {
+      courseHeader.insertAdjacentHTML('afterend', noticeHtml());
+      return true;
+    }
+
+    return false;
+  }
+
+  function runPatch() {
+    installDteqNotice();
+    setTimeout(installDteqNotice, 350);
+    setTimeout(installDteqNotice, 1000);
+    setTimeout(installDteqNotice, 2200);
+    setTimeout(installDteqNotice, 4000);
+  }
+
+  window.GSAPP_V61_DEBUG = {
+    installDteqNotice: installDteqNotice,
+    url: MIRO_URL
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
+<!-- GSAPP27 PATCH v62: remove oversized café search magnifier -->
+<style id="gsapp27-v62-cafe-search-big-icon-style">
+  /*
+    Café search icon rule:
+    - Keep only one small search indicator.
+    - Remove the oversized custom magnifying-glass icon that overlaps the input text.
+    - Add safe left padding so placeholder text never collides with the remaining small icon.
+  */
+
+  #tab-cafes .search-wrap .search-icon,
+  #tab-cafes .search-icon,
+  #cafes .search-icon,
+  .cafe-search-icon {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+
+  #cafe-search {
+    -webkit-appearance: searchfield !important;
+    appearance: auto !important;
+    background-image: none !important;
+    padding-left: 34px !important;
+  }
+
+  #cafe-search::-webkit-search-decoration {
+    -webkit-appearance: searchfield-decoration !important;
+    display: block !important;
+  }
+
+  #cafe-search::-webkit-search-cancel-button,
+  #cafe-search::-webkit-search-results-button,
+  #cafe-search::-webkit-search-results-decoration {
+    -webkit-appearance: none !important;
+    display: none !important;
+  }
+
+  @media (max-width: 520px) {
+    #cafe-search {
+      padding-left: 32px !important;
+    }
+  }
+</style>
+
+<script id="gsapp27-v62-cafe-search-big-icon-script">
+(function () {
+  'use strict';
+
+  function removeBigCafeSearchIcon() {
+    const search = document.getElementById('cafe-search');
+    if (search) {
+      /*
+        Use native searchfield again so Safari keeps the small built-in icon.
+        The separate custom icon is hidden by CSS because it was the oversized one.
+      */
+      search.setAttribute('type', 'search');
+      search.style.backgroundImage = 'none';
+      search.style.paddingLeft = '34px';
+      search.style.webkitAppearance = 'searchfield';
+      search.style.appearance = 'auto';
+    }
+
+    document.querySelectorAll('#tab-cafes .search-wrap .search-icon, #tab-cafes .search-icon, #cafes .search-icon, .cafe-search-icon').forEach(function (icon) {
+      icon.style.display = 'none';
+      icon.style.visibility = 'hidden';
+      icon.style.opacity = '0';
+      icon.setAttribute('aria-hidden', 'true');
+    });
+  }
+
+  function runPatch() {
+    removeBigCafeSearchIcon();
+    setTimeout(removeBigCafeSearchIcon, 250);
+    setTimeout(removeBigCafeSearchIcon, 900);
+    setTimeout(removeBigCafeSearchIcon, 1800);
+    setTimeout(removeBigCafeSearchIcon, 3200);
+  }
+
+  window.GSAPP_V62_DEBUG = {
+    removeBigCafeSearchIcon: removeBigCafeSearchIcon
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runPatch);
+  } else {
+    runPatch();
+  }
+})();
+</script>
+
 </body>
 </html>
