@@ -447,13 +447,7 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 .notice-type { display: block; font-size: 10px; line-height: 1; font-weight: 900; letter-spacing: .8px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
 .notice-title { display: block; font-size: 14px; font-weight: 800; line-height: 1.28; color: var(--text); }
 .notice-subtitle { display: block; font-size: 11.5px; line-height: 1.45; color: var(--text-3); margin-top: 3px; }
-.notice-date { text-align: center; display: flex; flex-direction: column; gap: 2px; font-size: 11px; font-weight: 800; color: var(--text-2); }
-.notice-right {
-  flex: 0 0 auto;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 6px; white-space: nowrap;
-}
+.notice-date { flex: 0 0 auto; text-align: right; display: flex; flex-direction: column; gap: 2px; font-size: 11px; font-weight: 800; color: var(--text-2); }
 .notice-expand { max-height: 0; overflow: hidden; transition: max-height .26s ease; background: var(--bg); border-top: 1px solid var(--border); }
 .notice-expand.open { max-height: 420px; }
 .notice-expand-inner { padding: 13px 16px 16px 38px; font-size: 12.5px; line-height: 1.65; color: var(--text-2); }
@@ -464,7 +458,6 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 .notice-card.past-notice .notice-title,
 .notice-card.past-notice .notice-subtitle,
 .notice-card.past-notice .notice-date,
-.notice-card.past-notice .notice-right,
 .notice-card.past-notice .due-days { color: #9AA3BF !important; }
 .empty-state { padding: 38px 18px; text-align: center; color: var(--text-3); font-size: 13px; }
 
@@ -567,23 +560,6 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 .course-more-toggle.open .plus::before,
 .week-past-toggle.open .plus::before,
 .past-collapse-toggle.open .plus::before { content: "−" !important; }
-
-/* ─── CALENDAR BUTTON ─────────────────────────────────── */
-.cal-btn {
-  flex-shrink: 0;
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--blue-tint);
-  border: 1.5px solid var(--blue);
-  color: var(--blue);
-  font-size: 11px; font-weight: 900;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; text-decoration: none;
-  transition: background var(--transition), color var(--transition);
-  flex-shrink: 0;
-}
-.cal-btn:hover { background: var(--blue); color: #fff; }
-.notice-card.past-notice .cal-btn { border-color: #C8CEDF; color: #9AA3BF; background: #F0F2F8; pointer-events: none; }
 
 
 .course-more-list,
@@ -1130,42 +1106,6 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
     </div>`;
   }
 
-  /* ── Google Calendar Event URL builder ── */
-  function gcalUrl(title, date, dueTime, detail){
-    // format: YYYYMMDDTHHmmSS
-    function toGcalDate(dateStr, timeStr){
-      const d = dateObj(dateStr);
-      if(!timeStr) return `${dateStr.replace(/-/g,'')}`;
-      const t = parseTime(timeStr);
-      const pad = n => String(n).padStart(2,'0');
-      return `${dateStr.replace(/-/g,'')}T${pad(t.h)}${pad(t.min)}00`;
-    }
-    const start = toGcalDate(date, dueTime);
-    // end = start + 1 hour if timed, else allday
-    let end;
-    if(dueTime){
-      const t = parseTime(dueTime);
-      const d = dateObj(date);
-      d.setHours(t.h + 1, t.min, 0, 0);
-      const pad = n => String(n).padStart(2,'0');
-      end = `${date.replace(/-/g,'')}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
-    } else {
-      // all-day: next day
-      const d = dateObj(date);
-      d.setDate(d.getDate() + 1);
-      end = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-    }
-    const dates = dueTime ? `${start}/${end}` : `${start}/${end}`;
-    const params = new URLSearchParams({
-      action: 'TEMPLATE',
-      text: title,
-      dates: dates,
-      details: detail || '',
-      sf: 'true',
-    });
-    return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  }
-
   /* ── NOTICES ── */
   function renderNotices(){
     const list = document.getElementById('notice-list'); if (!list) return;
@@ -1187,9 +1127,6 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
       const days  = hasDate ? dueText(n.date, n.dueTime) : 'Tap to open';
       const cls   = hasDate ? dueClass(n.date, n.dueTime) : 'soon';
       const cta   = n.ctaUrl ? `<a class="drive-btn" href="${n.ctaUrl}" target="_blank" rel="noopener">${esc(n.ctaText||'Open Link')}</a>` : '';
-      const calBtn = hasDate
-        ? `<a class="cal-btn" href="${gcalUrl(n.title, n.date, n.dueTime, n.subtitle||'')}" target="_blank" rel="noopener" title="Add to Google Calendar" onclick="event.stopPropagation()">C</a>`
-        : '';
       return `<div class="notice-card${past?' past-notice':''}" id="${n.id}">
         <button class="notice-card-main" type="button">
           <span class="notice-dot" style="background:${n.color||'var(--blue)'};"></span>
@@ -1198,9 +1135,9 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
             <span class="notice-title">${esc(n.title)}</span>
             <span class="notice-subtitle">${esc(n.subtitle||'')}</span>
           </span>
-          <span class="notice-right">
-            <span class="notice-date"><span>${esc(label)}</span> <span class="due-days ${cls}">${esc(days)}</span></span>
-            ${calBtn}
+          <span class="notice-date">
+            <span>${esc(label)}</span>
+            <span class="due-days ${cls}">${esc(days)}</span>
           </span>
         </button>
         <div class="notice-expand">
