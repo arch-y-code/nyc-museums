@@ -1067,6 +1067,12 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
     if (!expand || !expand.classList.contains('task-expand')) return;
     const open = expand.classList.toggle('open');
     item.classList.toggle('done', open);
+    // sync state across tabs via localStorage
+    const key = item.id;
+    if (key) {
+      if (open) localStorage.setItem('task-open:' + key, '1');
+      else localStorage.removeItem('task-open:' + key);
+    }
   };
 
   window.toggleArch = function(btn){
@@ -1250,7 +1256,9 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
       ? `<span class="new-badge" data-seen-key="${esc(item.id||item.title)}">N</span>`
       : '';
 
-    return `<div class="task-item${past?' course-past-soft':''}${isPrepCard?' studio-prep-card':''}"
+    const isOpen = item.id && localStorage.getItem('task-open:' + item.id);
+
+    return `<div class="task-item${past?' course-past-soft':''}${isPrepCard?' studio-prep-card':''}${isOpen?' done':''}"
               id="${item.id||''}" onclick="toggleTask(this)">
       <div class="task-check">✓</div>
       <div class="task-body">
@@ -1259,7 +1267,7 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
       </div>
       ${due}
     </div>
-    <div class="task-expand"><div class="task-expand-inner">${body}</div></div>`;
+    <div class="task-expand${isOpen?' open':''}"><div class="task-expand-inner">${body}</div></div>`;
   }
 
   function renderGroupedItems(id, label, items, isAssignment){
