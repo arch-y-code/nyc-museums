@@ -67,7 +67,7 @@ header {
   background: var(--blue);
   position: relative;
   overflow: hidden;
-  padding: calc(52px + env(safe-area-inset-top)) 24px 40px;
+  padding: calc(36px + env(safe-area-inset-top)) 24px 22px;
 }
 header::before {
   content: '';
@@ -94,7 +94,7 @@ header::after {
   color: var(--orange); margin-bottom: 10px; opacity: .95;
 }
 header h1 {
-  font-size: clamp(28px, 6vw, 42px);
+  font-size: clamp(26px, 5.5vw, 34px);
   font-weight: 900; color: #fff;
   line-height: 1.1; letter-spacing: -1px;
 }
@@ -653,7 +653,7 @@ footer p { font-size: 11px; color: var(--text-3); line-height: 1.6; margin-botto
   .course-more-toggle .plus::before, .week-past-toggle .plus::before, .past-collapse-toggle .plus::before { font-size: 15px !important; }
 }
 @media (max-width: 480px) {
-  header { padding: 40px 18px 34px; }
+  header { padding: 28px 18px 18px; }
   main { padding: 16px 12px 48px; }
   .card-top { padding: 12px 13px 9px; }
   .card-body { padding: 9px 13px 12px; }
