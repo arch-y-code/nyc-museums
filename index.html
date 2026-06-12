@@ -1201,7 +1201,7 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
       return dateObj(a.date) - dateObj(b.date);
     });
 
-    list.innerHTML = sorted.map(n => {
+    const makeNoticeCard = n => {
       const hasDate = !!n.date;
       const d    = hasDate ? daysLeft(n.date, n.dueTime) : null;
       const past = hasDate && d < 0;
@@ -1232,13 +1232,31 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
           <div class="notice-expand-inner">${n.bodyHtml||''}${cta}</div>
         </div>
       </div>`;
-    }).join('') || '<div class="empty-state">No current notices.</div>';
+    };
+
+    const activeNotices = sorted.filter(n => !n.date || daysLeft(n.date, n.dueTime) >= 0);
+    const passedNotices = sorted.filter(n => n.date && daysLeft(n.date, n.dueTime) < 0);
+
+    let html = activeNotices.map(makeNoticeCard).join('');
+    if (passedNotices.length) {
+      html += `<button type="button" class="notice-past-toggle past-collapse-toggle" data-target="notices-past-list"><span class="plus" aria-hidden="true">+</span></button>
+               <div class="past-collapse-list" id="notices-past-list">${passedNotices.map(makeNoticeCard).join('')}</div>`;
+    }
+    list.innerHTML = html || '<div class="empty-state">No current notices.</div>';
 
     list.querySelectorAll('.notice-card-main').forEach(btn => {
       btn.addEventListener('click', () => {
         btn.closest('.notice-card').querySelector('.notice-expand').classList.toggle('open');
       });
     });
+    const noticeToggle = list.querySelector('.past-collapse-toggle');
+    const noticesPast  = list.querySelector('#notices-past-list');
+    if (noticeToggle && noticesPast) {
+      noticeToggle.addEventListener('click', () => {
+        const open = noticesPast.classList.toggle('open');
+        noticeToggle.classList.toggle('open', open);
+      });
+    }
   }
 
   /* ── ASSIGNMENTS ── */
@@ -1413,7 +1431,7 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/08 · June 8–14, 2026", "weekSch
     (DATA.courses||[]).forEach(renderCourse);
     renderUpcoming();
     /* wire up all tongue toggles (course-more and past-collapse) */
-    document.querySelectorAll('.course-more-toggle,.past-collapse-toggle').forEach(btn => {
+    document.querySelectorAll('.course-more-toggle,.past-collapse-toggle:not(.notice-past-toggle)').forEach(btn => {
       const target = document.getElementById(btn.dataset.target);
       if (!target) return;
       btn.addEventListener('click', () => {
