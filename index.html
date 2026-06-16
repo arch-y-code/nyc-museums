@@ -77,7 +77,7 @@ header {
   background: var(--blue);
   position: relative;
   overflow: hidden;
-  padding: calc(36px + env(safe-area-inset-top)) 24px 24px;
+  padding: calc(48px + env(safe-area-inset-top)) 24px 24px;
 }
 header::before {
   content: '';
@@ -87,6 +87,7 @@ header::before {
   background: var(--orange);
   border-radius: 50%;
   opacity: .85;
+  top: auto;
 }
 header::after {
   content: '';
@@ -490,13 +491,36 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 .week-head-dot { width: 12px; height: 12px; background: var(--orange); border-radius: 3px; display: inline-block; flex-shrink: 0; }
 .week-head-title { font-size: 15px; font-weight: 900; color: var(--text); }
 .week-head-sub { font-size: 10px; color: var(--text-3); font-weight: 600; }
-.week-compact { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.week-compact { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; }
 .week-compact-row {
   display: grid; grid-template-columns: 54px 1fr; gap: 10px;
   padding: 10px; border-bottom: 1px solid var(--bg); min-height: 74px;
+  transition: transform 0.15s cubic-bezier(.4,0,.2,1), box-shadow 0.15s cubic-bezier(.4,0,.2,1);
+  cursor: pointer;
+}
+.week-compact-row:active {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(26,53,197,.13);
+  z-index: 1;
+  position: relative;
 }
 .week-compact-row:last-child { border-bottom: none; }
-.week-compact-row.today:not(.past) { background: #FFF7F0; border-left: 4px solid var(--orange); padding-left: 6px; }
+@keyframes float-today {
+  0%, 100% { transform: scaleY(1.12) translateY(0); }
+  50%       { transform: scaleY(1.12) translateY(-3px); }
+}
+.week-compact-row.today:not(.past) {
+  background: #FFF7F0;
+  border-left: 4px solid var(--orange);
+  padding-left: 6px;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(245,101,0,.18), 0 2px 8px rgba(15,25,80,.08);
+  z-index: 2;
+  position: relative;
+  margin: 10px -2px;
+  animation: float-today 3.5s ease-in-out infinite;
+  transform-origin: center center;
+}
 .week-compact-row.past { background: #F8F9FA; }
 .week-date { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
 .week-dow { font-size: 8px; font-weight: 900; letter-spacing: .5px; text-transform: uppercase; color: #fff; background: var(--blue); border-radius: 5px; padding: 2px 0; line-height: 1; display: block; width: 36px; text-align: center; }
@@ -1107,7 +1131,34 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/15 · June 15–21, 2026", "weekSc
 
   /* ── helpers that check if an event/day is past ── */
   function eventPast(day, ev){ return new Date() >= dueDateTime(day.date, ev.time||'18:00'); }
-  function dayPast(day){ return (day.events||[]).length && (day.events||[]).every(ev => eventPast(day, ev)); }
+  function dayPast(day){
+    // today row turns grey at 6PM even if events have no explicit end time
+    if (sameDate(day.date, new Date())) {
+      const sixPM = dateObj(day.date);
+      sixPM.setHours(18, 0, 0, 0);
+      if (new Date() >= sixPM) return true;
+    }
+    return (day.events||[]).length && (day.events||[]).every(ev => eventPast(day, ev));
+  }
+
+  // Auto-refresh at 6PM and midnight so today row updates without manual reload
+  function scheduleAutoRefresh(){
+    const now  = new Date();
+    const next = new Date(now);
+    // find next trigger: 18:00 or 00:00
+    const h = now.getHours();
+    if (h < 18) {
+      next.setHours(18, 0, 5, 0); // 6PM today
+    } else {
+      next.setDate(next.getDate() + 1);
+      next.setHours(0, 0, 5, 0);  // midnight tomorrow
+    }
+    const ms = next - now;
+    setTimeout(() => {
+      renderWeekSchedule();
+      scheduleAutoRefresh(); // reschedule for next trigger
+    }, ms);
+  }
 
   /* ── SCHEDULE ── */
   function renderWeekSchedule(){
@@ -1545,6 +1596,7 @@ window.GSAPP_DATA = {"weekLabel": "Week of 06/15 · June 15–21, 2026", "weekSc
     initCafeFilters();
     initMuseumFilters();
     initNewBadges();
+    scheduleAutoRefresh();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
