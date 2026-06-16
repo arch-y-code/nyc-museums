@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#1A35C5" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="GSAPP27" />
   <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzFBMzVDNSIvPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzQwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsSW50ZXIsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyODAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HPC90ZXh0Pgo8L3N2Zz4=" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEwMCIgZmlsbD0iIzFBMzVDNSIvPgogIDx0ZXh0IHg9IjI1NiIgeT0iMzQwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSxCbGlua01hY1N5c3RlbUZvbnQsSW50ZXIsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyODAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5HPC90ZXh0Pgo8L3N2Zz4=" />
@@ -56,10 +56,12 @@ a { color: inherit; text-decoration: none; }
   position: fixed; inset: 0; z-index: 99999;
   background: var(--blue);
   display: flex; flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 28px calc(56px + env(safe-area-inset-bottom));
-  padding-top: env(safe-area-inset-top);
+  justify-content: flex-start;
+  padding-top: calc(40% + env(safe-area-inset-top));
+  padding-left: 28px; padding-right: 28px;
+  padding-bottom: 0;
   transition: opacity .5s cubic-bezier(.4,0,.2,1), transform .5s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
 }
 #splash-screen.hide {
   opacity: 0; transform: scale(1.03); pointer-events: none;
@@ -67,18 +69,28 @@ a { color: inherit; text-decoration: none; }
 .splash-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: 3px;
   text-transform: uppercase; color: rgba(255,255,255,.35);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  opacity: 0; transform: translateY(-16px);
+  animation: splash-up .6s cubic-bezier(.4,0,.2,1) .8s forwards;
 }
 .splash-title {
-  font-size: 52px; font-weight: 900; letter-spacing: -2.5px;
-  line-height: .9; color: #fff; margin-bottom: 14px;
+  font-size: 54px; font-weight: 800; letter-spacing: -3px;
+  line-height: .88; color: #fff;
+  opacity: 0; transform: translateY(10px);
+  animation: splash-in .5s cubic-bezier(.4,0,.2,1) .1s forwards;
 }
 .splash-tag {
-  font-size: 9px; font-weight: 800; letter-spacing: 2.5px;
-  text-transform: uppercase; color: rgba(255,255,255,.28);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 4px; padding: 3px 9px;
-  display: inline-block;
+  margin-top: 18px;
+  font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,.4);
+  opacity: 0; transform: translateY(12px);
+  animation: splash-in .5s cubic-bezier(.4,0,.2,1) .45s forwards;
+}
+@keyframes splash-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes splash-up {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ─── iOS SAFE AREA ───────────────────────────────────── */
@@ -106,7 +118,7 @@ header {
   background: var(--blue);
   position: sticky;
   top: 0;
-  z-index: 200;
+  z-index: 10;
   overflow: hidden;
   padding: calc(48px + env(safe-area-inset-top)) 24px 24px;
 }
@@ -133,7 +145,7 @@ header::after {
 .header-label {
   font-size: 11px; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
-  color: var(--orange); margin-bottom: 10px; opacity: .95;
+  color: var(--orange); margin-bottom: 6px; opacity: .95;
 }
 header h1 {
   font-size: clamp(28px, 6vw, 38px);
@@ -142,13 +154,10 @@ header h1 {
 }
 .header-unofficial {
   display: inline-block;
-  font-size: 9px; font-weight: 800;
+  font-size: 10px; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
   color: rgba(255,255,255,.5);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 4px;
-  padding: 2px 7px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .header-sub { margin-top: 10px; font-size: 13px; color: rgba(255,255,255,.65); font-weight: 500; }
 
@@ -408,13 +417,13 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 
 /* ─── COURSE BLOCK ────────────────────────────────────── */
 .course-block { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; }
-.course-header { padding: 14px 16px 12px; border-bottom: 1px solid var(--bg); display: flex; align-items: center; gap: 10px; }
+.course-header { padding: 14px 16px 12px; display: flex; align-items: center; gap: 10px; background: transparent; }
 .course-color { width: 4px; border-radius: 99px; align-self: stretch; flex-shrink: 0; }
 .course-title { font-size: 14px; font-weight: 800; color: var(--text); flex: 1; }
 .course-sub { font-size: 11px; color: var(--text-3); display: block; margin-top: 1px; font-weight: 400; }
 .course-section-head {
   padding: 10px 16px 8px; background: var(--bg);
-  border-bottom: 1px solid var(--border); margin-top: 4px;
+  border-bottom: 1px solid var(--border); margin-top: 0;
   display: flex; align-items: center; justify-content: space-between;
 }
 .course-section-label { font-size: 10px; font-weight: 900; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; }
@@ -720,6 +729,16 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
 .task-item.urgent-2d    .task-check { border-color: rgba(245,101,0,.5) !important; color: var(--orange) !important; }
 .task-item.urgent-new   .task-check { border-color: rgba(245,101,0,.75) !important; color: var(--orange) !important; animation: check-pulse 2.8s ease-in-out infinite; }
 
+/* ─── COURSE CARD WRAP ────────────────────────────────── */
+.course-card-wrap {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin: 0 0 12px;
+  overflow: hidden;
+}
+
 .course-more-list,
 .past-collapse-list { display: none; }
 .course-more-list.open,
@@ -814,16 +833,15 @@ footer p { font-size: 11px; color: var(--text-3); line-height: 1.6; margin-botto
 </head>
 <body>
 <div id="splash-screen">
-  <div class="splash-eyebrow">Columbia GSAPP · 2027</div>
+  <div class="splash-eyebrow">Columbia</div>
   <div class="splash-title">GSAPP<br>MSAUD27</div>
   <div class="splash-tag">unofficial guide</div>
 </div>
 <header>
   <div class="header-inner">
-    <div class="header-label">Columbia GSAPP · 2027</div>
+    <div class="header-label">Columbia</div>
     <span class="header-unofficial">unofficial</span>
     <h1>GSAPP MSAUD27<br/>Guide</h1>
-    <div class="header-sub">Museums · Cafés · Assignments · Live map links</div>
   </div>
 </header>
 
@@ -1494,11 +1512,11 @@ window.GSAPP_DATA = {"weekLabel":"Week of 06/15 · June 15–21, 2026","weekSche
 
   function renderGroupedItems(id, label, items, isAssignment){
     const count = items.length;
-    let html = `<div class="course-section-head">
+    let inner = `<div class="course-section-head">
       <span class="course-section-label">${label}</span>
       <span class="course-section-count">${count} item${count===1?'':'s'}</span>
     </div>`;
-    if (!count) return html + '<div class="course-empty">No items added yet.</div>';
+    if (!count) return `<div class="course-card-wrap">${inner}<div class="course-empty">No items added yet.</div></div>`;
 
     const upcoming = items
       .filter(i => !i.date || daysLeft(i.date,i.time) >= 0)
@@ -1509,39 +1527,37 @@ window.GSAPP_DATA = {"weekLabel":"Week of 06/15 · June 15–21, 2026","weekSche
       .sort((a,b) => dueDateTime(b.date,b.time) - dueDateTime(a.date,a.time));
 
     if (isAssignment) {
-      // assignments: show only 1st upcoming (or 1st past if none), rest under tongue
       const first   = upcoming.length ? [upcoming[0]] : past.slice(0,1);
       const hidden  = upcoming.length
         ? [...upcoming.slice(1), ...past]
         : past.slice(1);
-      html += first.map(taskCard).join('');
+      inner += first.map(taskCard).join('');
       if (hidden.length) {
         const moreId = id+'-more';
-        html += `<button type="button" class="course-more-toggle" data-target="${moreId}" aria-label="Show more"><span class="plus" aria-hidden="true">+</span></button>
+        inner += `<button type="button" class="course-more-toggle" data-target="${moreId}" aria-label="Show more"><span class="plus" aria-hidden="true">+</span></button>
                  <div id="${moreId}" class="course-more-list">${hidden.map(taskCard).join('')}</div>`;
       }
     } else {
-      // schedule / materials: show upcoming, past under tongue (original behaviour)
-      const visible = upcoming.length ? upcoming : past.slice(0,1);
-      html += visible.map(taskCard).join('');
-      const hidden = upcoming.length ? past : past.slice(1);
+      const first  = upcoming.length ? [upcoming[0]] : past.slice(0,1);
+      const hidden = upcoming.length ? [...upcoming.slice(1), ...past] : past.slice(1);
+      inner += first.map(taskCard).join('');
       if (hidden.length) {
         const moreId = id+'-more';
-        html += `<button type="button" class="course-more-toggle" data-target="${moreId}" aria-label="Show more"><span class="plus" aria-hidden="true">+</span></button>
+        inner += `<button type="button" class="course-more-toggle" data-target="${moreId}" aria-label="Show more"><span class="plus" aria-hidden="true">+</span></button>
                  <div id="${moreId}" class="course-more-list">${hidden.map(taskCard).join('')}</div>`;
       }
     }
-    return html;
+    return `<div class="course-card-wrap">${inner}</div>`;
   }
 
   function renderMaterials(id, materials){
     const count = materials.length;
-    let html = `<div class="course-section-head">
-      <span class="course-section-label">📚 Reading Materials</span>
+    let inner = `<div class="course-section-head">
+      <span class="course-section-label">Reading Materials</span>
       <span class="course-section-count">${count} item${count===1?'':'s'}</span>
     </div>`;
-    if (!count) return html + '<div class="course-empty">No material links added yet.</div>';
-    html += materials.map(m => {
+    if (!count) return `<div class="course-card-wrap">${inner}<div class="course-empty">No material links added yet.</div></div>`;
+    inner += materials.map(m => {
       const due = m.date
         ? `<div class="material-date">
              <div class="due-date">${dateLabel(m.date)}</div>
@@ -1560,13 +1576,12 @@ window.GSAPP_DATA = {"weekLabel":"Week of 06/15 · June 15–21, 2026","weekSche
         ${due}
       </div>`;
     }).join('');
-    return html;
+    return `<div class="course-card-wrap">${inner}</div>`;
   }
 
   function renderCourse(course){
     const panel = document.getElementById('sub-as-'+course.id); if (!panel) return;
     panel.innerHTML = `<div style="padding:12px 0 60px;">
-      <div class="course-block">
         <div class="course-header">
           <div class="course-color" style="background:${course.color};min-height:40px;"></div>
           <div style="flex:1">
@@ -1574,10 +1589,9 @@ window.GSAPP_DATA = {"weekLabel":"Week of 06/15 · June 15–21, 2026","weekSche
             <span class="course-sub">${esc(clean(course.sub))}</span>
           </div>
         </div>
-        ${renderGroupedItems(course.id+'-assignments','📋 Assignments', course.assignments||[], true)}
-        ${renderGroupedItems(course.id+'-schedule',   '🗓 Class Schedule', course.schedule||[], false)}
+        ${renderGroupedItems(course.id+'-assignments','Assignments', course.assignments||[], true)}
+        ${renderGroupedItems(course.id+'-schedule',   'Class Schedule', course.schedule||[], false)}
         ${renderMaterials(course.id+'-materials', course.materials||[])}
-      </div>
     </div>`;
   }
 
@@ -1731,7 +1745,7 @@ window.GSAPP_DATA = {"weekLabel":"Week of 06/15 · June 15–21, 2026","weekSche
         s.classList.add('hide');
         setTimeout(() => s.remove(), 600);
       }
-    }, 1600);
+    }, 1800);
 
     renderWeekSchedule();
     renderNotices();
