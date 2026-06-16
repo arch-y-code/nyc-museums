@@ -532,7 +532,7 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 14px 60px; }
 .week-head-dot { width: 12px; height: 12px; background: var(--orange); border-radius: 3px; display: inline-block; flex-shrink: 0; }
 .week-head-title { font-size: 15px; font-weight: 900; color: var(--text); }
 .week-head-sub { font-size: 10px; color: var(--text-3); font-weight: 600; }
-.week-compact { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; }
+.week-compact { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 .week-compact-row {
   display: grid; grid-template-columns: 54px 1fr; gap: 10px;
   padding: 10px; border-bottom: 1px solid var(--bg); min-height: 74px;
@@ -554,11 +554,11 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 14px 60px; }
   background: #FFF7F0;
   border-left: 4px solid var(--orange);
   padding-left: 6px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   box-shadow: 0 8px 28px rgba(245,101,0,.18), 0 2px 8px rgba(15,25,80,.08);
   z-index: 2;
   position: relative;
-  margin: 10px -2px;
+  margin: 8px 0;
   animation: float-today 3.5s ease-in-out infinite;
   transform-origin: center center;
 }
