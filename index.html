@@ -122,25 +122,8 @@ header {
   overflow: hidden;
   padding: calc(48px + env(safe-area-inset-top)) 24px 24px;
 }
-header::before {
-  content: '';
-  position: absolute;
-  right: -48px; bottom: -64px;
-  width: 260px; height: 260px;
-  background: var(--orange);
-  border-radius: 50%;
-  opacity: .85;
-  top: auto;
-}
-header::after {
-  content: '';
-  position: absolute;
-  right: 100px; bottom: -100px;
-  width: 180px; height: 180px;
-  background: #C8D8FF;
-  border-radius: 50%;
-  opacity: .18;
-}
+header::before { display: none; }
+header::after { display: none; }
 .header-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
 .header-label {
   font-size: 11px; font-weight: 700;
@@ -350,11 +333,7 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 14px 60px; }
   padding: 20px; margin-top: 32px;
   position: relative; overflow: hidden;
 }
-.quick-ref::before {
-  content: ''; position: absolute; right: -30px; top: -30px;
-  width: 140px; height: 140px; background: var(--orange);
-  border-radius: 50%; opacity: .15;
-}
+.quick-ref::before { display: none; }
 .quick-ref h3 {
   font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
   color: var(--orange); margin-bottom: 14px; padding-bottom: 10px;
@@ -378,11 +357,7 @@ main { max-width: 680px; margin: 0 auto; padding: 20px 14px 60px; }
   height: 140px;
 }
 .studio-hero { margin-bottom: 20px; }
-.studio-hero::after, .notice-hero::after {
-  content: ''; position: absolute; right: -20px; bottom: -30px;
-  width: 120px; height: 120px; background: var(--orange);
-  border-radius: 50%; opacity: .2;
-}
+.studio-hero::after, .notice-hero::after { display: none; }
 .studio-hero-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
 .studio-hero h2, .notice-hero h2 { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 4px; position: relative; z-index: 1; }
 .notice-hero h2 { font-size: 22px; }
@@ -916,7 +891,13 @@ footer p { font-size: 11px; color: var(--text-3); line-height: 1.6; margin-botto
 
 <!-- ═══════════════ CAFÉS TAB ═══════════════ -->
 <div class="tab-panel" id="tab-cafes">
-  <div class="alert" style="margin-top:20px;">
+  <div class="notice-wrap">
+    <div class="notice-hero">
+      <div class="studio-hero-label">Cafés</div>
+      <h2>Campus Coffee Guide</h2>
+      <p>15 spots near Columbia — work, social, and inspiration.</p>
+    </div>
+  <div class="alert" style="margin-top:0;">
     <div class="alert-title">☕ How to use this guide</div>
     <p>Hours, discounts & WiFi change often. <strong>Always check Google Maps before visiting.</strong> Ask at the counter — many places offer student discounts even when it's not advertised.</p>
   </div>
@@ -1038,10 +1019,17 @@ footer p { font-size: 11px; color: var(--text-3); line-height: 1.6; margin-botto
     <div class="qr-item"><strong>Cash-only spots:</strong> Hungarian Pastry Shop, Absolute Bagels.</div>
     <div class="qr-foot">Based on Reddit r/columbia, Columbia Spectator, and Bwog reviews · May 2026</div>
   </div>
+  </div><!-- /notice-wrap -->
 </div>
 
 <!-- ═══════════════ MUSEUMS TAB ═══════════════ -->
 <div class="tab-panel" id="tab-museums">
+  <div class="notice-wrap">
+    <div class="notice-hero">
+      <div class="studio-hero-label">Museums</div>
+      <h2>NYC Museum Guide</h2>
+      <p>32 venues — free, passport, and discounted access for GSAPP students.</p>
+    </div>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input autocomplete="off" id="search" placeholder="Search museum, neighborhood, or keyword…" type="search"/>
@@ -1115,6 +1103,7 @@ footer p { font-size: 11px; color: var(--text-3); line-height: 1.6; margin-botto
     <div class="qr-item"><strong>Urban Systems & Macro:</strong> Queens Museum (NYC Panorama), Intrepid, Brooklyn Museum, AMNH (Studio Gang)</div>
     <div class="qr-foot">Unofficial student-made guide · Columbia GSAPP Mobile Edition · May 2026</div>
   </div>
+  </div><!-- /notice-wrap -->
 </div>
 </main>
 
